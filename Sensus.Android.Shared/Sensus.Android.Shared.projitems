@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Concurrent\MainConcurrent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Context\AndroidSensusContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\AndroidImageFileObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\AndroidImageJobService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\AndroidImageMetadataProbe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\AndroidKeystrokeProbe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\AndroidKeystrokeService.cs" />
