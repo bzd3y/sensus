@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,23 +20,9 @@ namespace Sensus.Android.Probes.User.Health
 {
     public abstract class GoogleFitSamplingProbe : GoogleFitProbe
     {
-        private int _queryAnchor;
-
-        public int QueryAnchor
-        {
-            get
-            {
-                return _queryAnchor;
-            }
-            set
-            {
-                _queryAnchor = value;
-            }
-        }
-
         public GoogleFitSamplingProbe() : base()
         {
-            _queryAnchor = 0;
+
         }
 
         protected override Task<List<Datum>> PollAsync(CancellationToken cancellationToken)

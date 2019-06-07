@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Newtonsoft.Json;
 using Sensus.Probes;
 using System.Threading.Tasks;
-using System;
 
 namespace Sensus.Android.Probes.User.Health
 {
