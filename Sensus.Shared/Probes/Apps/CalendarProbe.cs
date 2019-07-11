@@ -1,41 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Sensus.UI.UiProperties;
 using Syncfusion.SfChart.XForms;
 
 namespace Sensus.Probes.Apps
 {
-    public abstract class CalendarProbe : PollingProbe
+    public abstract class CalendarProbe : ListeningProbe // PollingProbe
     {
-        private int _readDurationMS;
-        public override string DisplayName => "Calendar Events";
-        public sealed override Type DatumType => typeof(CalendarDatum);
+		protected override bool DefaultKeepDeviceAwake => false;
 
-        [EntryIntegerUiProperty("Read Duration (MS):", true, 5, true)]
+		public override Type DatumType => typeof(CalendarDatum);
 
-        public int ReadDurationMS
-        {
-            get
-            {
-                return _readDurationMS;
+		public override string DisplayName => "Calendar Events";
 
-            }
-            set
-            {
-                if (value < 5000)
-                {
-                    value = 5000;
-                }
+		protected override string DeviceAwakeWarning => "";
 
-                _readDurationMS = value;
-            }
+		protected override string DeviceAsleepWarning => "";
 
-        }
+		//[EntryIntegerUiProperty("Read Duration (MS):", true, 5, true)]
+		//public int ReadDurationMS
+		//{
+		//    get
+		//    {
+		//        return _readDurationMS;
+		//    }
+		//    set
+		//    {
+		//        if (value < 5000)
+		//        {
+		//            value = 5000;
+		//        }
 
-        protected override ChartDataPoint GetChartDataPointFromDatum(Datum datum)
+		//        _readDurationMS = value;
+		//    }
+
+		//}
+
+		protected override ChartDataPoint GetChartDataPointFromDatum(Datum datum)
         {
             throw new NotImplementedException();
         }
@@ -55,19 +57,19 @@ namespace Sensus.Probes.Apps
             throw new NotImplementedException();
         }
 
-        protected async override Task<List<Datum>> PollAsync(CancellationToken cancellationToken)
-        {
-            List<Datum> calendarMetaData = new List<Datum>();
+        //protected async override Task<List<Datum>> PollAsync(CancellationToken cancellationToken)
+        //{
+        //    List<Datum> calendarMetaData = new List<Datum>();
 
-            foreach (Datum calendarDatum in await GetCalendarEventsAsync())
-            {
-                calendarMetaData.Add(calendarDatum);
-            }
+        //    foreach (Datum calendarDatum in await GetCalendarEventsAsync())
+        //    {
+        //        calendarMetaData.Add(calendarDatum);
+        //    }
 
-            return calendarMetaData;
+        //    return calendarMetaData;
 
-        }
+        //}
 
-        protected abstract Task<List<CalendarDatum>> GetCalendarEventsAsync();
+        //protected abstract Task<List<CalendarDatum>> GetCalendarEventsAsync();
     }
 }
