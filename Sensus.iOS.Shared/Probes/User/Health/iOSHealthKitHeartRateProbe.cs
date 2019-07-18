@@ -27,7 +27,7 @@ namespace Sensus.iOS.Probes.User.Health
         {
             get
             {
-                return "HealthKit Heart Rate";
+                return "Heart Rate";
             }
         }
 

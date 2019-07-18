@@ -27,7 +27,7 @@ namespace Sensus.iOS.Probes.User.Health
         {
             get
             {
-                return "HealthKit Number of Times Fallen";
+                return "Number of Times Fallen";
             }
         }
 

@@ -27,7 +27,7 @@ namespace Sensus.iOS.Probes.User.Health
         {
             get
             {
-                return "HealthKit Body Mass Index";
+                return "Body Mass Index";
             }
         }
 

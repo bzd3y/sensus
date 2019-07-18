@@ -30,7 +30,7 @@ namespace Sensus.iOS.Probes.User.Health
         {
             get
             {
-                return "HealthKit Biological Sex";
+                return "Biological Sex";
             }
         }
 

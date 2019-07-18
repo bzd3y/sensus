@@ -29,7 +29,7 @@ namespace Sensus.iOS.Probes.User.Health
         {
             get
             {
-                return "HealthKit Wheelchair Use";
+                return "Wheelchair Use";
             }
         }
 
