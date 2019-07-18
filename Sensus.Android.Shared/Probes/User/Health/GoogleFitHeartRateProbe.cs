@@ -20,31 +20,31 @@ namespace Sensus.Android.Probes.User.Health
 {
     public class GoogleFitHeartRateProbe : GoogleFitSamplingProbe
     {
-        public sealed override string DisplayName
-        {
-            get
-            {
-                return "Google Fit Heart Rate";
-            }
-        }
+		public sealed override string DisplayName
+		{
+			get
+			{
+				return "Heart Rate";
+			}
+		}
 
-        public override Type DatumType
-        {
-            get
-            {
-                return typeof(HeartRateDatum);
-            }
-        }
+		public override Type DatumType
+		{
+			get
+			{
+				return typeof(HeartRateDatum);
+			}
+		}
 
-        public override int DefaultPollingSleepDurationMS
-        {
-            get
-            {
-                return (int)TimeSpan.FromDays(1).TotalMilliseconds;
-            }
-        }
+		public override int DefaultPollingSleepDurationMS
+		{
+			get
+			{
+				return (int)TimeSpan.FromDays(1).TotalMilliseconds;
+			}
+		}
 
-        public GoogleFitHeartRateProbe() : base()
+		public GoogleFitHeartRateProbe() : base()
         {
         }
 

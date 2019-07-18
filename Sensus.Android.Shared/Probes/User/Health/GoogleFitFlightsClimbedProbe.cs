@@ -20,11 +20,29 @@ namespace Sensus.Android.Probes.User.Health
 {
 	public class GoogleFitFlightsClimbedProbe : GoogleFitSamplingProbe
 	{
-		public sealed override string DisplayName => "Google Fit Flights Climbed";
+		public sealed override string DisplayName
+		{
+			get
+			{
+				return "Flights Climbed";
+			}
+		}
 
-		public override Type DatumType => typeof(FlightsClimbedDatum);
+		public override Type DatumType
+		{
+			get
+			{
+				return typeof(FlightsClimbedDatum);
+			}
+		}
 
-		public override int DefaultPollingSleepDurationMS => (int)TimeSpan.FromDays(1).TotalMilliseconds;
+		public override int DefaultPollingSleepDurationMS
+		{
+			get
+			{
+				return (int)TimeSpan.FromDays(1).TotalMilliseconds;
+			}
+		}
 
 		public GoogleFitFlightsClimbedProbe() : base()
 		{

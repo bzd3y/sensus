@@ -24,7 +24,7 @@ namespace Sensus.Android.Probes.User.Health
         {
             get
             {
-                return "HealthKit Step Count";
+                return "Step Count";
             }
         }
 

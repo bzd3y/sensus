@@ -23,11 +23,29 @@ namespace Sensus.Android.Probes.User.Health
 {
 	public class GoogleFitFitzpatrickSkinTypeProbe : GoogleFitProbe
 	{
-		public sealed override string DisplayName => "Google Fit Fitzpatrick Skin Type";
+		public sealed override string DisplayName
+		{
+			get
+			{
+				return "Fitzpatrick Skin Type";
+			}
+		}
 
-		public override Type DatumType => typeof(FitzpatrickSkinTypeDatum);
+		public override Type DatumType
+		{
+			get
+			{
+				return typeof(FitzpatrickSkinTypeDatum);
+			}
+		}
 
-		public override int DefaultPollingSleepDurationMS => int.MaxValue;
+		public override int DefaultPollingSleepDurationMS
+		{
+			get
+			{
+				return int.MaxValue;
+			}
+		}
 
 		public GoogleFitFitzpatrickSkinTypeProbe() : base()
 		{

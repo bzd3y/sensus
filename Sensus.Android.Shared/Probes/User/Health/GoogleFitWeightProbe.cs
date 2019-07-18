@@ -20,11 +20,29 @@ namespace Sensus.Android.Probes.User.Health
 {
 	public class GoogleFitWeightProbe : GoogleFitSamplingProbe
 	{
-		public sealed override string DisplayName => "Google Fit Weight";
+		public sealed override string DisplayName
+		{
+			get
+			{
+				return "Weight";
+			}
+		}
 
-		public override Type DatumType => typeof(WeightDatum);
+		public override Type DatumType
+		{
+			get
+			{
+				return typeof(WeightDatum);
+			}
+		}
 
-		public override int DefaultPollingSleepDurationMS => (int)TimeSpan.FromDays(5).TotalMilliseconds;
+		public override int DefaultPollingSleepDurationMS
+		{
+			get
+			{
+				return (int)TimeSpan.FromDays(5).TotalMilliseconds;
+			}
+		}
 
 		public GoogleFitWeightProbe() : base()
 		{

@@ -24,7 +24,7 @@ namespace Sensus.Android.Probes.User.Health
         {
             get
             {
-                return "Google Fit Number of Times Fallen";
+                return "Number of Times Fallen";
             }
         }
 

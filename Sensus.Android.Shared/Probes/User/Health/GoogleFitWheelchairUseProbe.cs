@@ -27,7 +27,7 @@ namespace Sensus.Android.Probes.User.Health
         {
             get
             {
-                return "HealthKit Wheelchair Use";
+                return "Wheelchair Use";
             }
         }
 

@@ -23,11 +23,29 @@ namespace Sensus.Android.Probes.User.Health
 {
 	public class GoogleFitBiologicalSexProbe : GoogleFitProbe
 	{
-		public sealed override string DisplayName => "Google Fit Biological Sex";
+		public sealed override string DisplayName
+		{
+			get
+			{
+				return "Biological Sex";
+			}
+		}
 
-		public override Type DatumType => typeof(BiologicalSexDatum);
+		public override Type DatumType
+		{
+			get
+			{
+				return typeof(BiologicalSexDatum);
+			}
+		}
 
-		public override int DefaultPollingSleepDurationMS => int.MaxValue;
+		public override int DefaultPollingSleepDurationMS
+		{
+			get
+			{
+				return int.MaxValue;
+			}
+		}
 
 		public GoogleFitBiologicalSexProbe() : base()
 		{

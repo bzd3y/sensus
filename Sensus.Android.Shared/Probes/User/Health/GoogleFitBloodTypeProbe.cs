@@ -23,11 +23,29 @@ namespace Sensus.Android.Probes.User.Health
 {
 	public class GoogleFitBloodTypeProbe : GoogleFitProbe
 	{
-		public sealed override string DisplayName => "Google Fit Blood Type";
+		public sealed override string DisplayName
+		{
+			get
+			{
+				return "Blood Type";
+			}
+		}
 
-		public override Type DatumType => typeof(BloodTypeDatum);
+		public override Type DatumType
+		{
+			get
+			{
+				return typeof(BloodTypeDatum);
+			}
+		}
 
-		public override int DefaultPollingSleepDurationMS => int.MaxValue;
+		public override int DefaultPollingSleepDurationMS
+		{
+			get
+			{
+				return int.MaxValue;
+			}
+		}
 
 		public GoogleFitBloodTypeProbe() : base()
 		{
