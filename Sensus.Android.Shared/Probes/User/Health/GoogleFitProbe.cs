@@ -19,14 +19,18 @@ namespace Sensus.Android.Probes.User.Health
 {
     public abstract class GoogleFitProbe : PollingProbe
     {
+		protected GoogleFitClient _client;
+
         protected GoogleFitProbe()
         {
-
+			_client = new GoogleFitClient();
         }
 
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
+
+			await _client.SignInAsync();
 
             //if (HKHealthStore.IsHealthDataAvailable)
             //{

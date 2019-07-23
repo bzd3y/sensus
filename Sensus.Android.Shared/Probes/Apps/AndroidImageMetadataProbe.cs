@@ -142,7 +142,5 @@ namespace Sensus.Android.Probes.Apps
 
 			_fileObservers.ForEach(x => x.StopWatching());
 		}
-
-
 	}
 }
