@@ -2211,8 +2211,9 @@ namespace Sensus
                         // we don't want the scheduled callback to be silent, as such callbacks are cancelled on ios when the app
                         // is backgrounded. in any case, we want them to grab the user's attention. this is not needed on android,
                         // as the scheduled callback will be run regardless of app/device state.
-                        UserNotificationMessage = "Sensus would like to measure your environment. Please open this notification.",
-                        NotificationUserResponseMessage = "Measuring environment. You may close this alert."
+                        //UserNotificationMessage = "Sensus would like to measure your environment. Please open this notification.",
+						UserNotificationMessage = null,
+						NotificationUserResponseMessage = "Measuring environment. You may close this alert."
 #endif
                     };
 

@@ -78,7 +78,7 @@ namespace Sensus.iOS.Callbacks
                 {
                     await ReissueSilentNotificationAsync(callback.Id);
                 }
-                else
+                else //if (callback.Silent == false)
                 {
                     SensusServiceHelper.Get().Logger.Log("Non-silent callback notification " + callback.Id + " has upcoming trigger time of " + callback.NextExecution, LoggingLevel.Normal, GetType());
                 }

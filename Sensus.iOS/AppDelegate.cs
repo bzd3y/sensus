@@ -33,6 +33,9 @@ using Sensus.Encryption;
 using System.Threading;
 using Sensus.iOS.Notifications;
 using Sensus.Notifications;
+using System.Threading.Tasks;
+using System.Linq;
+using Sensus.Probes.Location;
 
 namespace Sensus.iOS
 {
@@ -42,6 +45,8 @@ namespace Sensus.iOS
     [Register("AppDelegate")]
     public class AppDelegate : FormsApplicationDelegate
     {
+		private NSTimer _backgroundTimer;
+
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             DateTime finishLaunchStartTime = DateTime.Now;
@@ -195,6 +200,12 @@ namespace Sensus.iOS
 
             try
             {
+				if (_backgroundTimer != null)
+				{
+					_backgroundTimer.Invalidate();
+					_backgroundTimer = null;
+				}
+
                 await SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(async () =>
                 {
                     // request authorization to show notifications to the user for data/survey requests.
@@ -384,12 +395,28 @@ namespace Sensus.iOS
             // cancel all silent notifications, which should never be presented to the user. if these notifications
             // are not cancelled and the app enters the background, then they will appear in the notification 
             // tray and confuse the user.
-            (SensusContext.Current.CallbackScheduler as iOSCallbackScheduler).CancelSilentNotifications();
+            //(SensusContext.Current.CallbackScheduler as iOSCallbackScheduler).CancelSilentNotifications();
 
             // save app state
             await serviceHelper.SaveAsync();
 
             uiApplication.EndBackgroundTask(enterBackgroundTaskId);
+
+			if (SensusServiceHelper.Get().GetRunningProtocols().SelectMany(x => x.Probes).OfType<ListeningLocationProbe>().Any(x => x.Enabled))
+			{
+				int pollingDuration = SensusServiceHelper.Get().GetRunningProtocols().SelectMany(x => x.Probes).OfType<PollingProbe>().Where(x => x.Enabled).Min(x => x.PollingSleepDurationMS);
+
+				_backgroundTimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(pollingDuration), async t =>
+				{
+					await SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(async () =>
+					{
+						SensusServiceHelper.Get().Logger.Log("Firing callbacks in the background.", LoggingLevel.Normal, GetType());
+
+					// update/run all callbacks
+					await (SensusContext.Current.CallbackScheduler as iOSCallbackScheduler).UpdateCallbacksOnActivationAsync();
+					});
+				});
+			}
         }
 
         // This method is called when the application is about to terminate. Save data, if needed.
