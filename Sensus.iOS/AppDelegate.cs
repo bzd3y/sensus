@@ -45,8 +45,6 @@ namespace Sensus.iOS
     [Register("AppDelegate")]
     public class AppDelegate : FormsApplicationDelegate
     {
-		private NSTimer _backgroundTimer;
-
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             DateTime finishLaunchStartTime = DateTime.Now;
@@ -104,14 +102,14 @@ namespace Sensus.iOS
             // an initialized service helper, so we should be fine.
             SensusServiceHelper.Initialize(() => new iOSSensusServiceHelper());
 
-            // register for push notifications. must come after service helper initialization as we use
-            // the serivce helper below to submit the remote notification token to the backends. if the 
-            // user subsequently denies authorization to display notifications, then all remote notifications 
-            // will simply be delivered to the app silently, per the following:
-            //
-            // https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications
-            //
-            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+			// register for push notifications. must come after service helper initialization as we use
+			// the serivce helper below to submit the remote notification token to the backends. if the 
+			// user subsequently denies authorization to display notifications, then all remote notifications 
+			// will simply be delivered to the app silently, per the following:
+			//
+			// https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications
+			//
+			UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
 #if UI_TESTING
             Forms.ViewInitialized += (sender, e) =>
@@ -125,7 +123,7 @@ namespace Sensus.iOS
             Calabash.Start();
 #endif
 
-            uiApplication.EndBackgroundTask(finishLaunchingTaskId);
+			uiApplication.EndBackgroundTask(finishLaunchingTaskId);
 
             // must come after app load
             base.FinishedLaunching(uiApplication, launchOptions);
@@ -200,10 +198,9 @@ namespace Sensus.iOS
 
             try
             {
-				if (_backgroundTimer != null)
+				if (SensusContext.Current.CallbackScheduler is iOSCallbackScheduler scheduler)
 				{
-					_backgroundTimer.Invalidate();
-					_backgroundTimer = null;
+					scheduler.StopRunningInBackground();
 				}
 
                 await SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(async () =>
@@ -395,29 +392,18 @@ namespace Sensus.iOS
             // cancel all silent notifications, which should never be presented to the user. if these notifications
             // are not cancelled and the app enters the background, then they will appear in the notification 
             // tray and confuse the user.
-            //(SensusContext.Current.CallbackScheduler as iOSCallbackScheduler).CancelSilentNotifications();
+            (SensusContext.Current.CallbackScheduler as iOSCallbackScheduler).CancelSilentNotifications();
 
             // save app state
             await serviceHelper.SaveAsync();
 
             uiApplication.EndBackgroundTask(enterBackgroundTaskId);
 
-			if (SensusServiceHelper.Get().GetRunningProtocols().SelectMany(x => x.Probes).OfType<ListeningLocationProbe>().Any(x => x.Enabled))
+			if (SensusContext.Current.CallbackScheduler is iOSCallbackScheduler scheduler)
 			{
-				int pollingDuration = SensusServiceHelper.Get().GetRunningProtocols().SelectMany(x => x.Probes).OfType<PollingProbe>().Where(x => x.Enabled).Min(x => x.PollingSleepDurationMS);
-
-				_backgroundTimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(pollingDuration), async t =>
-				{
-					await SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(async () =>
-					{
-						SensusServiceHelper.Get().Logger.Log("Firing callbacks in the background.", LoggingLevel.Normal, GetType());
-
-					// update/run all callbacks
-					await (SensusContext.Current.CallbackScheduler as iOSCallbackScheduler).UpdateCallbacksOnActivationAsync();
-					});
-				});
+				scheduler.StartRunningInBackground();
 			}
-        }
+		}
 
         // This method is called when the application is about to terminate. Save data, if needed.
         public override void WillTerminate(UIApplication uiApplication)
