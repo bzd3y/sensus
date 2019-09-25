@@ -43,7 +43,7 @@ namespace Sensus.Android.Probes.Apps
 			{
 				await SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(async () =>
 				{
-					await XamarinApplication.Current.MainPage.DisplayAlert("Sensus", "Sensus requires access to app usage data. It can be granted on the following screen.", "Close");
+					await XamarinApplication.Current.MainPage.DisplayAlert("Permission Request", "On the next screen, please enable the App Usage permission for Sensus", "OK");
 				});
 
 				Application.Context.StartActivity(new Intent(global::Android.Provider.Settings.ActionUsageAccessSettings));
