@@ -49,7 +49,7 @@ namespace Sensus.iOS.Callbacks
         /// have been canceled when the app went into the background.
         /// </summary>
         /// <returns>Async task.</returns>
-        public async Task UpdateCallbacksOnActivationAsync()
+        public virtual async Task UpdateCallbacksOnActivationAsync()
         {
 			IEnumerable<ScheduledCallback> callbacks = CallbackIds
 				.Select(x => TryGetCallback(x))

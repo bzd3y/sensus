@@ -59,7 +59,6 @@ namespace Sensus.iOS
                 PowerConnectionChangeListener = new iOSPowerConnectionChangeListener()
             };
 
-            SensusContext.Current.CallbackScheduler = new iOSTimerCallbackScheduler(); // new UNUserNotificationCallbackScheduler();
             SensusContext.Current.Notifier = new UNUserNotificationNotifier();
             UNUserNotificationCenter.Current.Delegate = new UNUserNotificationDelegate();
 
@@ -102,14 +101,17 @@ namespace Sensus.iOS
             // an initialized service helper, so we should be fine.
             SensusServiceHelper.Initialize(() => new iOSSensusServiceHelper());
 
-            // register for push notifications. must come after service helper initialization as we use
-            // the serivce helper below to submit the remote notification token to the backends. if the 
-            // user subsequently denies authorization to display notifications, then all remote notifications 
-            // will simply be delivered to the app silently, per the following:
-            //
-            // https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications
-            //
-            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+			// this is after initializing the service helper so that logging can be used.
+			SensusContext.Current.CallbackScheduler = new iOSTimerCallbackScheduler(); // new UNUserNotificationCallbackScheduler();
+
+			// register for push notifications. must come after service helper initialization as we use
+			// the serivce helper below to submit the remote notification token to the backends. if the 
+			// user subsequently denies authorization to display notifications, then all remote notifications 
+			// will simply be delivered to the app silently, per the following:
+			//
+			// https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications
+			//
+			UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
 #if UI_TESTING
             Forms.ViewInitialized += (sender, e) =>

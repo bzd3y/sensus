@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BackgroundTasks;
+using CoreFoundation;
 using Foundation;
 using Sensus.Callbacks;
 using Sensus.Context;
 using Sensus.iOS.Notifications.UNUserNotifications;
+using Sensus.Probes;
 using Sensus.Probes.User.Scripts;
+using UIKit;
 using UserNotifications;
 
 namespace Sensus.iOS.Callbacks
@@ -15,10 +19,22 @@ namespace Sensus.iOS.Callbacks
 	public class iOSTimerCallbackScheduler : iOSCallbackScheduler
 	{
 		private Dictionary<string, NSTimer> _timers;
+		private DispatchQueue _dispatchQueue;
+
+		public const string BACKGROUND_TASK_IDENTIFIER = "edu.virginia.sie.ptl.sensus.iostimercallbackscheduler";
 
 		public iOSTimerCallbackScheduler()
 		{
 			_timers = new Dictionary<string, NSTimer>();
+			_dispatchQueue = new DispatchQueue("edu.virginia.sie.ptl.sensus.iostimercallbackscheduler", true);
+			
+			if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+			{
+				if (BGTaskScheduler.Shared.Register(BACKGROUND_TASK_IDENTIFIER, _dispatchQueue, RaiseCallbacksInBackgroundAsync) == false)
+				{
+					SensusServiceHelper.Get().Logger.Log("Could not register the background process.", LoggingLevel.Normal, GetType());
+				}
+			}
 		}
 
 		public override List<string> CallbackIds
@@ -76,7 +92,6 @@ namespace Sensus.iOS.Callbacks
 						{
 							_timers[callback.Id] = timer;
 						}
-
 					});
 				}
 			}
@@ -87,6 +102,7 @@ namespace Sensus.iOS.Callbacks
 		public async Task RequestNotificationsAsync(bool gpsIsRunning)
 		{
 			UNUserNotificationNotifier notifier = SensusContext.Current.Notifier as UNUserNotificationNotifier;
+			DateTime earliestExecutionTime = DateTime.MaxValue;
 
 			foreach (string id in CallbackIds)
 			{
@@ -102,10 +118,86 @@ namespace Sensus.iOS.Callbacks
 							}
 
 							await RequestRemoteInvocationAsync(callback);
+
+							if (callback.NextExecution < earliestExecutionTime)
+							{
+								earliestExecutionTime = callback.NextExecution.Value;
+							}
 						}
 					}
 				}
 			}
+
+			ScheduleBackgroundProcess(earliestExecutionTime);
+		}
+
+		protected void ScheduleBackgroundProcess(DateTime earliestExecutionTime)
+		{
+			if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+			{
+				BGProcessingTaskRequest request = new BGProcessingTaskRequest(BACKGROUND_TASK_IDENTIFIER)
+				{
+					EarliestBeginDate = (NSDate)earliestExecutionTime,
+					// may need to allow these to be configurable?
+					RequiresExternalPower = false,
+					RequiresNetworkConnectivity = false
+				};
+
+				if (BGTaskScheduler.Shared.Submit(request, out NSError error) == false)
+				{
+					SensusServiceHelper.Get().Logger.Log(error.LocalizedDescription, LoggingLevel.Normal, GetType());
+
+					error.Dispose();
+				}
+			}
+		}
+
+		public void CancelBackgroundProcess()
+		{
+			BGTaskScheduler.Shared.Cancel(BACKGROUND_TASK_IDENTIFIER);
+		}
+
+		protected async void RaiseCallbacksInBackgroundAsync(BGTask task)
+		{
+			SensusServiceHelper.Get().Logger.Log("Starting to execute callbacks in the background.", LoggingLevel.Normal, GetType());
+
+			DateTime? earliestExecutionTime = DateTime.MaxValue;
+
+			// raise callbacks and update
+			await UpdateCallbacksOnActivationAsync();
+
+			// get the earliest next execution time
+			earliestExecutionTime = CallbackIds
+				.Select(x => TryGetCallback(x))
+				.Where(x => x != null)
+				.Min(x => x.NextExecution);
+
+			//IEnumerable<ScheduledCallback> callbacks = CallbackIds
+			//	.Select(x => TryGetCallback(x))
+			//	.Where(x => x != null)
+			//	.OrderBy(x => x.NextExecution);
+
+			//foreach (ScheduledCallback callback in callbacks)
+			//{
+			//	if (callback.NextExecution >= DateTime.Now)
+			//	{
+			//		await RaiseCallbackAsync(callback, callback.InvocationId);
+			//	}
+
+			//	if (callback.NextExecution < earliestExecutionTime)
+			//	{
+			//		earliestExecutionTime = callback.NextExecution.Value;
+			//	}
+			//}
+
+			if (earliestExecutionTime != null)
+			{
+				ScheduleBackgroundProcess(earliestExecutionTime.Value);
+			}
+
+			task.SetTaskCompleted(true);
+
+			SensusServiceHelper.Get().Logger.Log("Finished executing callbacks in the background.", LoggingLevel.Normal, GetType());
 		}
 
 		public async Task CancelNotificationsAsync()
