@@ -26,7 +26,7 @@ namespace Sensus.iOS.Callbacks
 		public iOSTimerCallbackScheduler()
 		{
 			_timers = new Dictionary<string, NSTimer>();
-			_dispatchQueue = new DispatchQueue("edu.virginia.sie.ptl.sensus.iostimercallbackscheduler", true);
+			_dispatchQueue = new DispatchQueue(BACKGROUND_TASK_IDENTIFIER, true);
 			
 			if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
 			{
