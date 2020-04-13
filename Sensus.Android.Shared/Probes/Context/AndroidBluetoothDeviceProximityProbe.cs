@@ -97,7 +97,7 @@ namespace Sensus.Android.Probes.Context
             _deviceIdCharacteristic = new BluetoothGattCharacteristic(UUID.FromString(DEVICE_ID_CHARACTERISTIC_UUID), GattProperty.Read, GattPermission.Read);
             _deviceIdCharacteristic.SetValue(Encoding.UTF8.GetBytes(SensusServiceHelper.Get().DeviceId));
 
-            _deviceIdService = new BluetoothGattService(UUID.FromString(Protocol.Id), GattServiceType.Primary);
+            _deviceIdService = new BluetoothGattService(UUID.FromString(DEVICE_ID_CHARACTERISTIC_UUID), GattServiceType.Primary);
             _deviceIdService.AddCharacteristic(_deviceIdCharacteristic);
 
             _bluetoothAdvertiserCallback = new AndroidBluetoothServerAdvertisingCallback(_deviceIdService, _deviceIdCharacteristic);
