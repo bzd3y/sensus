@@ -52,7 +52,14 @@ namespace Sensus.iOS.Probes.Context
             {
                 try
                 {
-                    central.ScanForPeripherals(_service.UUID);
+                    if (_probe.DiscoverAll)
+                    {
+                        central.ScanForPeripherals((CBUUID)null);
+                    }
+                    else
+                    {
+                        central.ScanForPeripherals(_service.UUID);
+                    }
                 }
                 catch (Exception ex)
                 {
