@@ -69,6 +69,12 @@ namespace Sensus.UI
 
             detailPageItems.Add(new SensusDetailPageItem
             {
+                Title = "MindTrails",
+                TargetType=typeof(ScenarioPage)
+            });
+
+            detailPageItems.Add(new SensusDetailPageItem
+            {
                 Title = "Authenticate",
                 IconSource = "account.png",
                 Action = () =>

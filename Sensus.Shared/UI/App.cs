@@ -34,8 +34,7 @@ namespace Sensus.UI
 
         public App()
         {
-            // MainPage = new SensusMasterDetailPage();
-            MainPage = new Reflection();
+            MainPage = new SensusMasterDetailPage();
 
         }
 

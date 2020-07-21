@@ -303,6 +303,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Reflection.xaml.cs">
       <DependentUpon>Reflection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
