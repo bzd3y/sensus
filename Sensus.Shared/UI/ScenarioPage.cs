@@ -57,8 +57,14 @@ namespace Sensus.UI
                 CornerRadius = 10,
                 Padding = 0,
                 HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
             };
 
+            _contentLayout.Children.Add(whiteFrame,
+                heightConstraint: Constraint.RelativeToParent(
+                    (parent) => { return parent.Height; }),
+                widthConstraint: Constraint.RelativeToParent(
+                    (parent) => { return parent.Width; }));
             _contentLayout.Children.Add(bannerFrame,
                 heightConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Height * 0.16; }),
@@ -67,11 +73,7 @@ namespace Sensus.UI
             // if this isn't working, try: 
             // widthConstraint:Constraint.RelativeToParent(parent => parent.Width));
 
-            _contentLayout.Children.Add(whiteFrame,
-                heightConstraint: Constraint.RelativeToParent(
-                    (parent) => { return parent.Height; }),
-                widthConstraint: Constraint.RelativeToView(bannerFrame,
-                    (parent, sibling) => { return parent.Width; }));
+
         }
 
     }
