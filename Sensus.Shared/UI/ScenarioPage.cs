@@ -11,22 +11,38 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+using Sensus.Notifications;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Sensus.UI
 {
-    public class ScenarioPage
+    public class ScenarioPage : ContentPage
     {
+        protected Grid _contentGrid;
+        protected RelativeLayout _contentLayout;
+        protected ListView _notificationList;
+
         public ScenarioPage()
         {
-            RelativeLayout relativeLayout = new RelativeLayout
-            {
-                BackgroundColor= Color.FromHex("E5E7ED"),
-                Padding= new Thickness(20,15),
+            Title = "Scenario 1";
 
+            NavigationPage.SetHasNavigationBar(this, false);
+
+            _contentLayout = new RelativeLayout
+            {
+                BackgroundColor = Color.FromHex("E5E7ED"),
+                Padding = new Thickness(20, 15),
             };
-            Frame bannerFrame = new Frame {
+
+            Content = _contentLayout;
+
+            Frame bannerFrame = new Frame
+            {
                 BackgroundColor = Color.FromHex("233367"),
                 HeightRequest = 90,
                 CornerRadius = 0
@@ -39,27 +55,24 @@ namespace Sensus.UI
                 HasShadow = false,
                 BorderColor = Color.Gray,
                 CornerRadius = 10,
-                Padding=0,
-                HorizontalOptions=LayoutOptions.Center,
+                Padding = 0,
+                HorizontalOptions = LayoutOptions.Center,
             };
 
-            relativeLayout.Children.Add(bannerFrame,
-                heightConstraint: Constraint.RelativeToParent ((parent) =>
-                    { return parent.Height * 0.16; }),
+            _contentLayout.Children.Add(bannerFrame,
+                heightConstraint: Constraint.RelativeToParent((parent) =>
+                { return parent.Height * 0.16; }),
                 widthConstraint: Constraint.RelativeToParent((parent) =>
-                    { return parent.Width; }));
+                { return parent.Width; }));
             // if this isn't working, try: 
             // widthConstraint:Constraint.RelativeToParent(parent => parent.Width));
 
-            relativeLayout.Children.Add(whiteFrame,
+            _contentLayout.Children.Add(whiteFrame,
                 heightConstraint: Constraint.RelativeToParent(
-                    (parent) => { return parent.Height * .75; }),
+                    (parent) => { return parent.Height; }),
                 widthConstraint: Constraint.RelativeToView(bannerFrame,
-                    (parent, sibling) => { return parent.Width * .8; }),
-                xConstraint: Constraint.RelativeToParent(
-                    (parent) => { return parent.Width * .1; }),
-                yConstraint: Constraint.RelativeToView(bannerFrame,
-                    (parent, sibling) => { return sibling.Height + 30; }));
+                    (parent, sibling) => { return parent.Width; }));
         }
+
     }
 }
