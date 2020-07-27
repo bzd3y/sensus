@@ -304,6 +304,9 @@
       <DependentUpon>Reflection.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DomainsScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\BannerAndToolbar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\BannerAndToolBarControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />

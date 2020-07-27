@@ -27,14 +27,13 @@ namespace Sensus.UI
 
         public ScenarioPage()
         {
-            Title = "Scenario 1";
 
             NavigationPage.SetHasNavigationBar(this, false);
 
             _contentLayout = new RelativeLayout
             {
                 BackgroundColor = Color.FromHex("E5E7ED"),
-                Padding = new Thickness(20, 15),
+                Padding = new Thickness(20,10), 
             };
 
             Content = _contentLayout;
@@ -42,9 +41,8 @@ namespace Sensus.UI
             Frame bannerFrame = new Frame
             {
                 BackgroundColor = Color.FromHex("233367"),
-                HeightRequest = 90,
+                HeightRequest = 80, 
                 CornerRadius = 0
-                // eventually add MTlogo + "Session 2" label 
             };
 
             RelativeLayout bannerLayout = new RelativeLayout();
@@ -64,7 +62,7 @@ namespace Sensus.UI
                 yConstraint: Constraint.RelativeToParent((parent) =>
                     { return parent.Height * .3; }),
                 widthConstraint: Constraint.RelativeToParent((parent) =>
-                    { return parent.Width *.2; }));
+                    { return parent.Width * .2; }));
 
             bannerLayout.Children.Add(sessionNum,
                 xConstraint: Constraint.RelativeToView(logoImage,
@@ -81,6 +79,7 @@ namespace Sensus.UI
                 BorderColor = Color.Gray,
                 CornerRadius = 10,
                 Padding = 0,
+                Margin = new Thickness(0,0,0,0), // LAST = 20 
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
             };
@@ -88,19 +87,19 @@ namespace Sensus.UI
 
             _contentLayout.Children.Add(bannerFrame,
                 heightConstraint: Constraint.RelativeToParent((parent) =>
-                { return parent.Height * 0.16; }),
+                { return parent.Height * 0.13; }), 
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width; }));
 
             _contentLayout.Children.Add(whiteFrame,
                 heightConstraint: Constraint.RelativeToParent(
-                    (parent) => { return parent.Height * .75; }),
+                    (parent) => { return parent.Height * .75; }), // CHANGED from .8 --> .78 --> .75
                 widthConstraint: Constraint.RelativeToView(bannerFrame,
                     (parent, sibling) => { return sibling.Width *.8; }),
                 xConstraint: Constraint.RelativeToParent(
                     (parent) => { return parent.Width * .1; }),
                 yConstraint: Constraint.RelativeToView(bannerFrame,
-                    (parent, sibling) => { return sibling.Height + 30; }));
+                    (parent, sibling) => { return sibling.Height + 10; }));  // CHANGED FROM +10 
 
             StackLayout frameLayout = new StackLayout
             {
@@ -127,7 +126,7 @@ namespace Sensus.UI
             };
             Label scenarioNum = new Label {
                 Text = "Scenario 1",
-                Margin = new Thickness(10),
+                //Margin = new Thickness(10), CHANGED 
                 TextColor = Color.FromHex("166DA3"),
                 FontSize = 22,
                 FontFamily = "Source Sans Pro",
@@ -166,7 +165,7 @@ namespace Sensus.UI
             Image scenarioImage = new Image {
                 Source = "Report.png",
                 HeightRequest=200,
-                Margin = new Thickness(0,20,0,0)};
+                Margin = new Thickness(0,0,0,0)}; // CHANGED from 0, 20, 0, 0 
 
             grayFrame.Content = scenarioName;
             frameLayout.Children.Add(grayFrame);
@@ -185,9 +184,15 @@ namespace Sensus.UI
                 WidthRequest = 150,
                 CornerRadius = 8,
                 FontSize = 20
+                
             };
 
+            nextButton.Clicked += onNextClicked;
 
+            async void onNextClicked(object sender, EventArgs args)
+            {
+                await Navigation.PushAsync(new DomainsScreen());
+            };
             frameLayout.Children.Add(nextButton);
 
             ProgressBar sessionProgress = new ProgressBar
@@ -197,6 +202,55 @@ namespace Sensus.UI
             };
 
             frameLayout.Children.Add(sessionProgress);
+
+            Frame toolbarFrame = new Frame
+            {
+                CornerRadius = 18,
+                HeightRequest = 70,
+                Padding = new Thickness(0,0,0,50),
+                Margin = new Thickness(0, 15, 0, 0),
+                BackgroundColor = Color.FromHex("D9FFFFF")
+
+
+            };
+            Grid toolbarGrid = new Grid
+            {
+                Margin = 0,
+                Padding = new Thickness(0,10,0,18),
+                RowDefinitions = {
+                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star) }
+                },
+                ColumnDefinitions = {
+                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star) },
+                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star) },
+                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star) }
+                }
+            };
+            ImageButton journalButton = new ImageButton
+            {
+                Source = "JournalGray.png",
+                BackgroundColor = Color.Transparent
+            };
+            ImageButton homeButton = new ImageButton
+            {
+                Source = "Home.png",
+                BackgroundColor = Color.Transparent
+            };
+            ImageButton profileButton = new ImageButton
+            {
+                Source = "ProfileGray.png",
+                BackgroundColor = Color.Transparent
+            };
+            toolbarGrid.Children.Add(journalButton, 0, 0); // column, row 
+            toolbarGrid.Children.Add(homeButton, 1, 0);
+            toolbarGrid.Children.Add(profileButton, 2, 0);
+
+            toolbarFrame.Content = toolbarGrid;
+            _contentLayout.Children.Add(toolbarFrame,
+                widthConstraint: Constraint.RelativeToParent(
+                    (parent) => { return parent.Width ; }),
+                yConstraint: Constraint.RelativeToParent(
+                    (parent) => { return parent.Height - 85 ; })); // CHANGED FROM 90
         }
 
     }
