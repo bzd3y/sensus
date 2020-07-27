@@ -13,14 +13,16 @@
 // limitations under the License.
 using System;
 using Xamarin.Forms;
-// does not do anything
+
 namespace Sensus.UI
 {
-    public class BannerAndToolBarControl : ContentPage
+    public class BannerFrameTool : ContentPage
     {
         protected RelativeLayout _contentLayout;
+        protected StackLayout _contentStack;
+        protected StackLayout _whiteframeLayout;
 
-        public BannerAndToolBarControl()
+        public BannerFrameTool()
         {
             NavigationPage.SetHasNavigationBar(this, false);
             _contentLayout = new RelativeLayout
@@ -52,7 +54,7 @@ namespace Sensus.UI
                 xConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width * .01; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
-                { return parent.Height * .3; }),
+                { return parent.Height * .13; }), // CHANGE from .15
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width * .2; }));
 
@@ -70,9 +72,47 @@ namespace Sensus.UI
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width; }));
 
+            _contentStack = new StackLayout
+            {
+
+            };
+
+            _contentLayout.Children.Add(_contentStack,
+                heightConstraint: Constraint.RelativeToParent((parent) =>
+                { return parent.Height; }),
+                yConstraint: Constraint.RelativeToParent((parent) =>
+                { return parent.Height * .15; }),
+                widthConstraint: Constraint.RelativeToParent((parent) =>
+                { return parent.Width; }));
+
+            Frame whiteFrame = new Frame
+            {
+                BackgroundColor = Color.White, 
+                HasShadow = true, // Change from true
+                //BorderColor = Color.Gray, // maybe change back 
+                CornerRadius = 10,
+                Padding = 0,
+                Margin = new Thickness(30, 0, 30, 40), // CHANGED from  0
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center, 
+                IsClippedToBounds = true,
+
+            };
+
+            _contentStack.Children.Add(whiteFrame);
+
+            _whiteframeLayout = new StackLayout // Compare with BannerAndToolBarControl
+            {
+                Padding = new Thickness(0), // add this to other ^
+                Margin = new Thickness(0)
+            };
+
+            whiteFrame.Content = _whiteframeLayout;
+
             Frame toolbarFrame = new Frame
             {
-                CornerRadius = 18,
+                //CornerRadius = 18, CHANGE
+                BorderColor = Color.FromHex("F0ECEC"),
                 HeightRequest = 70,
                 Padding = new Thickness(0, 0, 0, 50),
                 Margin = new Thickness(0, 15, 0, 0),
@@ -96,17 +136,20 @@ namespace Sensus.UI
             ImageButton journalButton = new ImageButton
             {
                 Source = "JournalGray.png",
-                BackgroundColor = Color.Transparent
+                BackgroundColor = Color.Transparent,
+                Margin = new Thickness(0, 0, 0, 10)
             };
             ImageButton homeButton = new ImageButton
             {
                 Source = "Home.png",
-                BackgroundColor = Color.Transparent
+                BackgroundColor = Color.Transparent,
+                Margin = new Thickness(0, 0, 0, 10)
             };
             ImageButton profileButton = new ImageButton
             {
                 Source = "ProfileGray.png",
-                BackgroundColor = Color.Transparent
+                BackgroundColor = Color.Transparent,
+                Margin = new Thickness(0, 0, 0, 10)
             };
             toolbarGrid.Children.Add(journalButton, 0, 0); // column, row 
             toolbarGrid.Children.Add(homeButton, 1, 0);
@@ -117,7 +160,7 @@ namespace Sensus.UI
                 widthConstraint: Constraint.RelativeToParent(
                     (parent) => { return parent.Width; }),
                 yConstraint: Constraint.RelativeToParent(
-                    (parent) => { return parent.Height - 85; })); // CHANGED FROM 90
+                    (parent) => { return parent.Height - 85; }));
         }
     }
 }

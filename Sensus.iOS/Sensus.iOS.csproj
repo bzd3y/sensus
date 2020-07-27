@@ -365,6 +365,7 @@ Store. It is possible to run and debug this project on physical and virtual iOS 
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="iOSSensusServiceHelper.cs" />
+    <Compile Include="iosButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

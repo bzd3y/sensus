@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace Sensus.UI
 {
-    public class DomainsScreen : BannerAndToolBarControl 
+    public class DomainsScreen : BannerFrameTool 
     {
         public DomainsScreen()
         {
@@ -34,7 +34,7 @@ namespace Sensus.UI
                 heightConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Height; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
-                { return parent.Height * .15 ; }), // CHANGE THIS 
+                { return parent.Height * .15 ; }),
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width; }));
 
@@ -87,6 +87,12 @@ namespace Sensus.UI
                 CornerRadius = 8,
                 Margin = new Thickness(3),
                 HeightRequest = 125
+            };
+            relationships.Clicked += onRelationshipsClicked;
+
+            async void onRelationshipsClicked(object sender, EventArgs args)
+            {
+                await Navigation.PushAsync(new RateDomain());
             };
 
             Button resilience = new Button

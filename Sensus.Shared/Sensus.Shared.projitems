@@ -306,7 +306,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\DomainsScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\BannerAndToolbar.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\BannerAndToolBarControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\RateDomain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\BannerFrameTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
