@@ -13,7 +13,7 @@
 // limitations under the License.
 using System;
 using Xamarin.Forms;
-// need some element for end and expand at the end for frame to fit
+
 namespace Sensus.UI
 {
     public class RateDomain : BannerFrameTool
@@ -174,6 +174,12 @@ namespace Sensus.UI
 
             };
 
+            next.Clicked += onNextClicked;
+
+            async void onNextClicked(object sender, EventArgs args)
+            {
+                await Navigation.PushAsync(new ScenarioPage());
+            };
             _whiteframeLayout.Children.Add(next);
 
             ProgressBar progress = new ProgressBar

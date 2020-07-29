@@ -13,6 +13,9 @@
 // limitations under the License.
 using System;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
+using Rg.Plugins.Popup.Animations;
 
 namespace Sensus.UI
 {
@@ -92,7 +95,15 @@ namespace Sensus.UI
 
             async void onRelationshipsClicked(object sender, EventArgs args)
             {
-                await Navigation.PushAsync(new RateDomain());
+                var popupProperties = new PopupPage();
+                var scaleAnimation = new ScaleAnimation
+                {
+                    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
+                    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
+                };
+                //scaleAnimation.HasBackgroundAnimation = scaleAnimation;
+                await PopupNavigation.Instance.PushAsync(new DomainPopUp());
+                
             };
 
             Button resilience = new Button

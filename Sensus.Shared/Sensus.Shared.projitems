@@ -300,14 +300,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Adaptation\AsplAggregation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\ProbeState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptation\SensingAgentStateDatum.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Reflection.xaml.cs">
-      <DependentUpon>Reflection.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\DomainsScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\BannerAndToolbar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\RateDomain.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\BannerFrameTool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DomainPopUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\HomePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ReflectionsPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
@@ -317,11 +317,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)UI\Reflection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

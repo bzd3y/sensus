@@ -27,8 +27,6 @@ namespace Sensus.UI
         public ScenarioPage()
         {
 
-            NavigationPage.SetHasNavigationBar(this, false);
-
             Content = _contentLayout;
 
             Grid headerGrid = new Grid

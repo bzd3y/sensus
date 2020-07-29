@@ -16,23 +16,32 @@ using Xamarin.Forms;
 
 namespace Sensus.UI
 {
-    public class BannerFrameTool : ContentPage
+    public class HomePage : ContentPage
     {
         protected RelativeLayout _contentLayout;
         protected StackLayout _contentStack;
         protected StackLayout _whiteframeLayout;
 
-        public BannerFrameTool()
+        public HomePage()
         {
             NavigationPage.SetHasNavigationBar(this, false);
+
             _contentLayout = new RelativeLayout
             {
 
                 BackgroundColor = Color.FromHex("E5E7ED"),
                 Padding = new Thickness(20, 15)
             };
+            Content = _contentLayout;
+            _contentLayout.Children.Add(new Image
+            {
+                Source = "Background.png",
+                Aspect = Aspect.Fill,
+            },
+            widthConstraint: Constraint.RelativeToParent((parent) =>
+            { return parent.Width * 1.1; })); // if this doesn't work, try getting rid of the background color for contentlayout and manually setting it 
 
-            Frame bannerFrame = new Frame 
+            Frame bannerFrame = new Frame
             {
                 BackgroundColor = Color.FromHex("233367"),
                 HeightRequest = 80,
@@ -87,14 +96,14 @@ namespace Sensus.UI
 
             Frame whiteFrame = new Frame
             {
-                BackgroundColor = Color.White, 
+                BackgroundColor = Color.White,
                 HasShadow = true, // Change from true
                 //BorderColor = Color.Gray, // maybe change back 
                 CornerRadius = 10,
                 Padding = 0,
                 Margin = new Thickness(30, 0, 30, 40), // CHANGED from  0
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center, 
+                VerticalOptions = LayoutOptions.Center,
                 IsClippedToBounds = true,
 
             };
@@ -161,6 +170,100 @@ namespace Sensus.UI
                     (parent) => { return parent.Width; }),
                 yConstraint: Constraint.RelativeToParent(
                     (parent) => { return parent.Height - 85; }));
+
+            Frame dateFrame = new Frame
+                {
+                    BackgroundColor = Color.White,
+                    HasShadow = false,
+                    Padding = 0,
+                    VerticalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.Center,
+                    WidthRequest = 250,
+                    HeightRequest = 140,
+                    CornerRadius = 10
+                };
+
+            _contentStack.Children.Add(dateFrame);
+
+            Grid dateGrid = new Grid
+            {
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition {
+                        Width = new GridLength(1, GridUnitType.Star)
+                    },
+                    new ColumnDefinition {
+                        Width = new GridLength(1.5, GridUnitType.Star)
+                    },
+                }
+            };
+
+            dateFrame.Content = dateGrid;
+
+            Button date = new Button
+            {
+                Text = "0",
+                Margin = new Thickness(20,30,20,50),
+                TextColor = Color.Black,
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 40,
+                BackgroundColor = Color.FromHex("CECECE")
+            };
+
+            dateGrid.Children.Add(date);
+
+            StackLayout daysStack = new StackLayout
+            {
+
+            };
+            dateGrid.Children.Add(daysStack, 1, 0);
+
+            Label days = new Label
+            {
+                Text = "Days",
+                HorizontalTextAlignment = TextAlignment.Start,
+                Margin = new Thickness(0,30,0,0),
+                FontSize = 25,
+                TextColor = Color.Black
+            };
+
+            daysStack.Children.Add(days);
+
+            Label untilNext = new Label
+            {
+                Text = "until next module",
+                HorizontalTextAlignment = TextAlignment.Start,
+                VerticalTextAlignment = TextAlignment.Center,
+                FontSize = 15,
+                TextColor = Color.Black
+            };
+
+            daysStack.Children.Add(untilNext);
+
+            Button startSession = new Button
+            {
+                Text = "Start my session!",
+                BackgroundColor = Color.FromHex("48AADF"),
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 20,
+                TextColor = Color.White,
+                FontFamily = "Source Sans Pro",
+                CornerRadius = 8,
+                HeightRequest = 70,
+                WidthRequest = 200,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center, // change  
+
+            };
+
+            startSession.Clicked += onSessionStart;
+
+            async void onSessionStart(object sender, EventArgs args)
+            {
+                await Navigation.PushAsync(new DomainsScreen());
+            };
+
+            _contentStack.Children.Add(startSession);
         }
     }
 }

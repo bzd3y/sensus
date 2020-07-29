@@ -70,7 +70,7 @@ namespace Sensus.UI
             detailPageItems.Add(new SensusDetailPageItem
             {
                 Title = "MindTrails",
-                TargetType=typeof(ScenarioPage)
+                TargetType=typeof(HomePage) //HomePage
             });
 
             detailPageItems.Add(new SensusDetailPageItem
