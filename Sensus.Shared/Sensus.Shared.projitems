@@ -308,6 +308,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\DomainPopUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\HomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ReflectionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioDetailPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />

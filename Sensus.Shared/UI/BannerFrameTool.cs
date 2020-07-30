@@ -92,7 +92,7 @@ namespace Sensus.UI
                 //BorderColor = Color.Gray, // maybe change back 
                 CornerRadius = 10,
                 Padding = 0,
-                Margin = new Thickness(30, 0, 30, 40), // CHANGED from  0
+                Margin = new Thickness(20, 0, 20, 40), // changed from 30 7/30
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center, 
                 IsClippedToBounds = true,
@@ -101,9 +101,9 @@ namespace Sensus.UI
 
             _contentStack.Children.Add(whiteFrame);
 
-            _whiteframeLayout = new StackLayout // Compare with BannerAndToolBarControl
+            _whiteframeLayout = new StackLayout 
             {
-                Padding = new Thickness(0), // add this to other ^
+                Padding = new Thickness(0), 
                 Margin = new Thickness(0)
             };
 

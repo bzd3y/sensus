@@ -118,7 +118,7 @@ namespace Sensus.UI
 
             async void onNextClicked(object sender, EventArgs args)
             {
-                await Navigation.PushAsync(new DomainsScreen());
+                await Navigation.PushAsync(new ScenarioDetailPage());
             };
             _whiteframeLayout.Children.Add(next);
 

@@ -116,7 +116,7 @@ namespace Sensus.UI
 
             async void selectDiff_Clicked(object sender, EventArgs args)
             {
-                await Navigation.PushAsync(new DomainsScreen());
+                await Navigation.PopAsync(true);
             };
 
             blueLayout.Children.Add(domainArea);

@@ -206,7 +206,8 @@ namespace Sensus.UI
                 Margin = new Thickness(20,30,20,50),
                 TextColor = Color.Black,
                 FontAttributes = FontAttributes.Bold,
-                FontSize = 40,
+                VerticalOptions = LayoutOptions.Center, // CHANGE 7/30
+                FontSize = 35,
                 BackgroundColor = Color.FromHex("CECECE")
             };
 
