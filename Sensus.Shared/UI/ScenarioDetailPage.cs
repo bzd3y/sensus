@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Sensus.UI
@@ -278,12 +279,14 @@ namespace Sensus.UI
 
             correctLetter.Clicked += onCorrectLetter;
 
-            void onCorrectLetter(object sender, EventArgs args) // removed async 
+            async void onCorrectLetter(object sender, EventArgs args) // removed async 
             {
                 wordGrid.Children.Add(correctLetterGreen, 4, 0);
                 lettersGrid.Children.Add(correctIcon, 5, 0);
                 lettersGrid.Children.Add(whiteButton, 2, 0);
-                // timer to next page 
+                //// timer to next page
+                await Task.Delay(500); // Task.Delay(500).Wait()
+                await Navigation.PushAsync(new ScenarioTestPage());
             };
 
             Button letterOption3 = new Button

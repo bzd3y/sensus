@@ -309,6 +309,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\HomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ReflectionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioDetailPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioTestPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
@@ -318,5 +319,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
+    <None Include="$(MSBuildThisFileDirectory)UI\XMark.png" />
   </ItemGroup>
 </Project>

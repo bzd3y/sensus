@@ -109,6 +109,9 @@ namespace Sensus.UI
 
             whiteFrame.Content = _whiteframeLayout;
 
+
+
+
             Frame toolbarFrame = new Frame
             {
                 //CornerRadius = 18, CHANGE
@@ -145,6 +148,7 @@ namespace Sensus.UI
                 BackgroundColor = Color.Transparent,
                 Margin = new Thickness(0, 0, 0, 10)
             };
+
             ImageButton profileButton = new ImageButton
             {
                 Source = "ProfileGray.png",
