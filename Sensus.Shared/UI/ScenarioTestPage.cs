@@ -13,6 +13,7 @@
 // limitations under the License.
 using System;
 using Xamarin.Forms;
+// try to do white frame layout w/ margin as 90 on the bottom
 
 namespace Sensus.UI
 {
@@ -54,7 +55,9 @@ namespace Sensus.UI
 
             headerGrid.Children.Add(scenarioNum, 1, 0); // column, row 
 
+            _whiteframeLayout.IsClippedToBounds = true;
             _whiteframeLayout.Children.Add(headerGrid);
+
 
 
             Frame grayFrame = new Frame
@@ -94,16 +97,37 @@ namespace Sensus.UI
                 },
                 RowDefinitions =
                 {
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)},
+                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)}
 
                 },
-                Margin = new Thickness(10,40,10,20)
+                Margin = new Thickness(10,40,10,0),
+                IsClippedToBounds = true
             };
 
             _whiteframeLayout.Children.Add(yesNo);
+
+            Grid bottomGrid = new Grid
+            {
+                RowSpacing = 0,
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = new GridLength(.5, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(.5, GridUnitType.Star) },
+
+                },
+                RowDefinitions =
+                {
+                    new RowDefinition { Height = new GridLength(.5, GridUnitType.Star) },
+                    new RowDefinition { Height = new GridLength(.5, GridUnitType.Star) }
+
+                },
+                Margin = new Thickness(10, 10, 10, 0), // change 8/3 from 10 to 0 
+                IsClippedToBounds = true,
+                VerticalOptions = LayoutOptions.EndAndExpand
+            };
+
+            _whiteframeLayout.Children.Add(bottomGrid);
 
             Button yes = new Button
             {
@@ -182,21 +206,26 @@ namespace Sensus.UI
                 HeightRequest = 40,
                 Margin = 0
             };
-            Label blankLabel = new Label
-            {
-                Text = " ",
-                BackgroundColor = Color.White,
-                HorizontalOptions = LayoutOptions.End // andexpand
-            };
+
+
             ProgressBar progressBarWhite = new ProgressBar
             {
-                ProgressColor = Color.White
+                ProgressColor = Color.White,
+                Progress = .5
             };
 
-            //Grid.SetColumnSpan(progressBarWhite, 3);
-            yesNo.Children.Add(progressBarWhite, 1, 1);
-            yesNo.Children.Add(progressBarWhite, 1, 2);
-            yesNo.Children.Add(progressBarWhite, 1, 3);
+            Label blankLabel = new Label
+            {
+                Text = ".                                                                 .",
+                BackgroundColor = Color.White,
+                TextColor = Color.White,
+                Margin = new Thickness(0),
+                VerticalOptions = LayoutOptions.EndAndExpand, // andexpand
+            };
+
+            bottomGrid.Children.Add(progressBarWhite, 1, 0);
+
+            bottomGrid.Children.Add(blankLabel, 1, 1);
 
             ProgressBar progressBar = new ProgressBar
             {
@@ -207,6 +236,10 @@ namespace Sensus.UI
             {
                 TextColor = Color.Black,
                 Text = "Whoops! That doesn’t look right. Please wait a moment and try again.",
+                Margin = new Thickness(0,0,0,50),
+                FontSize = 15,
+                VerticalOptions = LayoutOptions.EndAndExpand, // andexpand
+
             };
 
             yesNo.Children.Add(yes, 1, 0);
@@ -229,33 +262,32 @@ namespace Sensus.UI
                 yesNo.Children.Add(noRed, 2, 0);
                 yesNo.Children.Add(incorrectIcon, 3, 0);
                 yes.IsEnabled = false;
-                // span two columns
-                // FIX the column spans! 
-                //Grid.SetColumnSpan(whoops, 3);
-                //Grid.SetColumnSpan(progressBar, 3);
-                yesNo.Children.Add(whoops, 1, 2);
-                yesNo.Children.Add(progressBar, 1, 1);
+                bottomGrid.Children.Add(progressBar, 1, 0);
+                bottomGrid.Children.Add(whoops,1,1);
 
-                var updateRate = 10000 / 1f; // 30Hz added a 0 
-                double step = updateRate / (2 * 10 * 1000f); // from 30 * 1000f
+                var updateRate = 10000 / 30f; // 30Hz added a 0 
+                double step = updateRate / (2 * 30 * 1000f); // from 30 * 1000f
                 Device.StartTimer(TimeSpan.FromMilliseconds(updateRate), () =>
                 {
                     if (progressBar.Progress < 100)
                     {
                         Device.BeginInvokeOnMainThread(() => progressBar.Progress += step);
+                        yes.IsEnabled = false;
+                        //return true;
+                    }
+                    if (progressBar.Progress == 100)
+                    {
+
+                        yes.IsEnabled = true; // take this out 
+                        yesNo.Children.Add(no, 2, 0); // take this out
                         return true;
+
                     }
                     return false;
                 });
-                yes.IsEnabled = true;
-                yesNo.Children.Add(no, 2, 0);
-                yesNo.Children.Add(blankLabel, 3, 0);
 
             };
 
-
-
-            _whiteframeLayout.Children.Add(blankLabel);
 
             // timer bar --> show "Whoops! That doesn’t look right. Please wait a moment and try again."
         }

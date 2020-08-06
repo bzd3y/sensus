@@ -28,7 +28,7 @@ namespace Sensus.UI
         {
             BackgroundColor = Color.FromHex("D9FFFFFF");
 
-            
+
             _frameLayout = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Center
@@ -98,12 +98,15 @@ namespace Sensus.UI
 
             async void onModuleSelected(object sender, EventArgs args)
             {
-                // definitely nothing wrong with RateDomain.cs
-                await Navigation.PushAsync(new RateDomain());
+                // await Navigation.PushAsync(new RateDomain());
+                // try await Navigation.PushAsync(new NavigationPage(new RateDomain());
+                // try making main page a navigation page
+                await Navigation.PushModalAsync(new NavigationPage(new RateDomain())); // worked
+
                 await PopupNavigation.Instance.PopAsync(true);
 
-            };
-
+                // CANNOT GO BACK ON ANDROID : public override void OnBackPressed(){ if(user.IsAuthenticated(){base.OnBackPressed();}}
+            }
 
             Button selectDiff = new Button
             {
@@ -125,5 +128,7 @@ namespace Sensus.UI
             blueLayout.Children.Add(selectModule);
             blueLayout.Children.Add(selectDiff);
         }
+
+
     }
 }

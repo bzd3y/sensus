@@ -95,14 +95,14 @@ namespace Sensus.UI
 
             async void onRelationshipsClicked(object sender, EventArgs args)
             {
-                //var popupProperties = new PopupPage();
-                //var scaleAnimation = new ScaleAnimation
-                //{
-                //    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
-                //    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
-                //};
-                //await PopupNavigation.Instance.PushAsync(new DomainPopUp());
-                await Navigation.PushAsync(new RateDomain());
+                var popupProperties = new PopupPage();
+                var scaleAnimation = new ScaleAnimation
+                {
+                    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
+                    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
+                };
+                await PopupNavigation.Instance.PushAsync(new DomainPopUp());
+                //await Navigation.PushAsync(new RateDomain());
 
             };
 

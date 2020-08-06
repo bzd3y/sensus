@@ -22,7 +22,6 @@ namespace Sensus.UI
         {
             Content = _contentLayout;
 
-
             Label youChose = new Label
             {
                 Text = "You chose:",

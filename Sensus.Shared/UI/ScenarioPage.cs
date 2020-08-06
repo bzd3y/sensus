@@ -15,20 +15,32 @@ using Sensus.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Sensus.MindTrailsBehind.CsvFileReader;
 
 namespace Sensus.UI
 {
     public class ScenarioPage : BannerFrameTool
     {
-
         public ScenarioPage()
         {
 
             Content = _contentLayout;
-
+            // WorkingWithFiles --> Sensus
+            // LibTextResource.txt --> firstSession.csv
+            // resourceid = Sensus.firstSession.csv
+            // trying to read from file
+            //var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MindTrailsBehind.ScenarioViewModel)).Assembly;
+            //Stream stream = assembly.GetManifestResourceStream("Sensus.firstSession.csv");
+            //string text = "";
+            //using (var reader = new System.IO.StreamReader(stream))
+            //{
+            //    text = reader.ReadToEnd();
+            //}
             Grid headerGrid = new Grid
             {
                 ColumnSpacing = 0,
@@ -78,12 +90,14 @@ namespace Sensus.UI
 
             Label scenarioName = new Label
             {
-                Text = "Writing a report",
+                //Text = "Writing a report",
+                // spotting a neighbor
+                //Text = MindTrailsBehind.CsvFileReader.ReadRow(1),
                 VerticalTextAlignment = TextAlignment.Center,
                 HorizontalTextAlignment = TextAlignment.Center,
                 FontSize = 25,
                 TextColor = Color.Black,
-                HeightRequest = 80 // CHANGED FROM 100 
+                HeightRequest = 80, // CHANGED FROM 100
             };
             Image scenarioImage = new Image
             {
@@ -107,7 +121,7 @@ namespace Sensus.UI
                 FontAttributes = FontAttributes.Bold,
                 CornerRadius = 8,
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.EndAndExpand, // CHANGE
+                VerticalOptions = LayoutOptions.EndAndExpand, 
                 WidthRequest = 150
 
             };

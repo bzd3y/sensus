@@ -310,15 +310,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\ReflectionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioTestPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\ScenarioViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\CsvFileReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\session.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
     <Folder Include="$(MSBuildThisFileDirectory)Callbacks\" />
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)MindTrailsBehind\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
     <None Include="$(MSBuildThisFileDirectory)UI\XMark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\firstSession.csv" />
   </ItemGroup>
 </Project>
