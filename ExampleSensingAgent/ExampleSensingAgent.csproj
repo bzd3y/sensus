@@ -183,6 +183,9 @@
     <Reference Include="Rg.Plugins.Popup">
       <HintPath>..\packages\Rg.Plugins.Popup.2.0.0.3\lib\monoandroid90\Rg.Plugins.Popup.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.15.0.5\lib\netstandard2.1\CsvHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />

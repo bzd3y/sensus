@@ -54,7 +54,7 @@ namespace Sensus.UI
                 xConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width * .01; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
-                { return parent.Height * .13; }), // CHANGE from .15
+                { return parent.Height * .13; }), 
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width * .2; }));
 

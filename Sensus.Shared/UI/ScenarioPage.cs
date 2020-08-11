@@ -11,6 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+using CsvHelper;
+using Newtonsoft.Json;
+using Sensus.MindTrailsBehind;
 using Sensus.Notifications;
 using System;
 using System.Collections.Generic;
@@ -26,8 +29,11 @@ namespace Sensus.UI
 {
     public class ScenarioPage : BannerFrameTool
     {
+        private Label scenarioName;
+        public int scenarioCounter = 0;
+
         public ScenarioPage()
-        {
+        { 
 
             Content = _contentLayout;
             // WorkingWithFiles --> Sensus
@@ -41,6 +47,8 @@ namespace Sensus.UI
             //{
             //    text = reader.ReadToEnd();
             //}
+
+
             Grid headerGrid = new Grid
             {
                 ColumnSpacing = 0,
@@ -88,7 +96,7 @@ namespace Sensus.UI
                 CornerRadius = 10
             };
 
-            Label scenarioName = new Label
+            scenarioName = new Label
             {
                 //Text = "Writing a report",
                 // spotting a neighbor
@@ -99,6 +107,38 @@ namespace Sensus.UI
                 TextColor = Color.Black,
                 HeightRequest = 80, // CHANGED FROM 100
             };
+
+            //string jsonFileName = "firstSession.json";
+            //SessionModel sessionsList = new SessionModel();
+            //var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
+            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+            //using (var reader = new System.IO.StreamReader(stream))
+            //{
+            //    var jsonString = reader.ReadToEnd();
+
+            //    //Converting JSON Array Objects into generic list    
+            //    sessionsList = JsonConvert.DeserializeObject<SessionModel>(jsonString);
+            //}
+
+            //scenarioName.Text = sessionsList.title;
+            var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
+            string jsonFileName = "firstSession.json";
+            Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+
+            using (var reader = new StreamReader(stream)) // System.ArgumentNullException
+            {
+                var json = reader.ReadToEnd();
+                var data = JsonConvert.DeserializeObject<SessionModel>(json); // take out the lists
+                scenarioName.Text = data.title;
+            }
+
+                //if (scenarioCounter < 5) // less than length of block
+                //{
+                // maybe data[0]
+                //    scenarioCounter++; // add this to where the scenario is over
+                //}
+
+
             Image scenarioImage = new Image
             {
                 Source = "Report.png",
@@ -126,12 +166,13 @@ namespace Sensus.UI
 
             };
 
-            
 
-            next.Clicked += onNextClicked;
+            next.Clicked += onNextClicked; // CHANGE BACK 8/6
+            //next.Clicked += onNextClicked;
 
             async void onNextClicked(object sender, EventArgs args)
             {
+                //GetJsonData();
                 await Navigation.PushAsync(new ScenarioDetailPage());
             };
             _whiteframeLayout.Children.Add(next);
@@ -146,5 +187,53 @@ namespace Sensus.UI
 
             _whiteframeLayout.Children.Add(progress);
         }
+
+
+        //private void Button_Clicked(object sender, EventArgs e)
+        //{
+
+        //    var list = new List<MindTrailsBehind.session>();
+        //    var assembly = Assembly.GetExecutingAssembly();
+        //    var resourceName = "MindTrailsBehind.firstSession.csv"; // try just MindTrailsBehind.test.csv
+        //                                                            // cannot find firstSession.csv
+        //                                                            // tried Sensus.Shared.UI.firstSession.csv
+        //                                                            // Sensus.Shared.firstSession.csv
+        //                                                            // Sensus.Shared.MindTrailsBehind.firstSession.csv
+
+        //    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+        //    using (StreamReader reader = new StreamReader(stream)) // getting null object here
+        //    {
+        //        //string result = reader.ReadToEnd();
+
+        //        if (reader != null)
+        //        {
+        //            using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
+        //            {
+        //                while (csv.Read())
+        //                {
+        //                    list.Add(new MindTrailsBehind.session
+        //                    {
+        //                        Block = csv.GetField<int>(0),
+        //                        Name = csv.GetField<string>(1),
+        //                        Title = csv.GetField<string>(2),
+        //                        Word1 = csv.GetField<string>(3),
+        //                        Word2 = csv.GetField<string>(4),
+        //                        Statement1 = csv.GetField<string>(5),
+        //                        Statement2 = csv.GetField<string>(6),
+        //                        Question = csv.GetField<string>(7),
+        //                        Positive = csv.GetField<string>(8),
+        //                        Negative = csv.GetField<string>(9),
+        //                        Answer = csv.GetField<string>(10),
+        //                        Type = csv.GetField<string>(11),
+
+        //                    });
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //    scenarioName.Text = (list.ToArray())[1].Title;  //used to get the value of ID column,6th row(the row include the column[ID, Name, Age] row.).        
+
+        //}
     }
 }

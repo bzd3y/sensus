@@ -14,9 +14,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Sensus.Context;
 using Sensus.UI.Inputs;
 using Xamarin.Forms;
+using System.IO;
+
 
 namespace Sensus.UI
 {
@@ -34,6 +37,7 @@ namespace Sensus.UI
 
         public SensusMasterPage()
         {
+
             List<SensusDetailPageItem> detailPageItems = new List<SensusDetailPageItem>();
 
             detailPageItems.Add(new SensusDetailPageItem

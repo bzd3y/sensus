@@ -313,6 +313,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\ScenarioViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\CsvFileReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\SessionMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\ICsvParserService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\CsvParserService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\SessionModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\test.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\IfThenJournalPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
@@ -323,9 +329,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
-    <None Include="$(MSBuildThisFileDirectory)UI\XMark.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\firstSession.csv" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\test.csv" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)firstSession.json">
+      <LogicalName>Sensus.Shared.firstSession.json</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

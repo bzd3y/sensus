@@ -286,7 +286,8 @@ namespace Sensus.UI
                 lettersGrid.Children.Add(whiteButton, 2, 0);
                 //// timer to next page
                 await Task.Delay(500); // Task.Delay(500).Wait()
-                await Navigation.PushAsync(new ScenarioTestPage());
+                //await Navigation.PushAsync(new ScenarioTestPage());
+                await Navigation.PushAsync(new ReflectionsPage());
             };
 
             Button letterOption3 = new Button

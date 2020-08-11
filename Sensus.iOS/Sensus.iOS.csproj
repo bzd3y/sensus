@@ -348,6 +348,9 @@ Store. It is possible to run and debug this project on physical and virtual iOS 
     <Reference Include="Rg.Plugins.Popup">
       <HintPath>..\packages\Rg.Plugins.Popup.2.0.0.3\lib\xamarinios10\Rg.Plugins.Popup.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.15.0.5\lib\netstandard2.1\CsvHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
