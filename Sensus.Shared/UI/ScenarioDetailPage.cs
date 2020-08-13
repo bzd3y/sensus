@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,9 +24,14 @@ using Xamarin.Forms;
 
 namespace Sensus.UI
 {
+
     public class ScenarioDetailPage : BannerFrameTool
     {
         protected Label scenarioDescription;
+        protected Grid wordGrid;
+        protected Grid lettersGrid;
+        protected Button correctLetterGreen;
+        protected int missingLetterIndex;
 
         public ScenarioDetailPage()
         {
@@ -36,7 +43,7 @@ namespace Sensus.UI
                 ColumnSpacing = 0,
                 RowSpacing = 0,
                 Padding = 0,
-                Margin = new Thickness(10, 20),
+                Margin = new Thickness(10, 10, 10, 0), // , 20 --> need to change in scenarioPage.cs
                 ColumnDefinitions = {
                     new ColumnDefinition {
                         Width = new GridLength(1, GridUnitType.Star)
@@ -70,7 +77,7 @@ namespace Sensus.UI
                 BackgroundColor = Color.FromHex("F0ECEC"),
                 HasShadow = false,
                 Padding = 0,
-                Margin = new Thickness(15,0,15,0),
+                Margin = new Thickness(15, 0, 15, 0),
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 CornerRadius = 10
@@ -84,151 +91,146 @@ namespace Sensus.UI
                 //"\n\nBased on your writing, you expect your boss' opinion of you will be...",
                 TextColor = Color.Black,
                 FontFamily = "Source Sans Pro",
-                Margin = 20,
+                Margin = new Thickness(10),
                 FontSize = 20
             };
 
             grayFrame.Content = scenarioDescription;
 
-            Grid wordGrid = new Grid
+            wordGrid = new Grid
             {
-                ColumnDefinitions = {
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
 
-                },
-                Margin = new Thickness(10,15,10,10),
-                HorizontalOptions = LayoutOptions.CenterAndExpand
+                Margin = new Thickness(10, 5, 10, 0),
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                ColumnSpacing = 5
             };
 
             _whiteframeLayout.Children.Add(wordGrid);
 
-            Button letter1 = new Button
-            {
-                Text = "P",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-            Button letter2 = new Button
-            {
-                Text = "O",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-            Button letter3 = new Button
-            {
-                Text = "S",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
 
-            Button letter4 = new Button
-            {
-                Text = "I",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-
-            Button letter5 = new Button
-            {
-                BackgroundColor = Color.FromHex("DADADA"),
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-            Button correctLetterGreen = new Button
-            {
-                Text = "T",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                TextColor = Color.Black,
-                BackgroundColor = Color.FromHex("6662A74C"),
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-
-            Button letter6 = new Button
-            {
-                Text = "I",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-            Button letter7 = new Button
-            {
-                Text = "V",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-            Button letter8 = new Button
-            {
-                Text = "E",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-
-            wordGrid.Children.Add(letter1, 0, 0);
-            wordGrid.Children.Add(letter2, 1, 0);
-            wordGrid.Children.Add(letter3, 2, 0);
-            wordGrid.Children.Add(letter4, 3, 0);
-            wordGrid.Children.Add(letter5, 4, 0);
-            wordGrid.Children.Add(letter6, 5, 0);
-            wordGrid.Children.Add(letter7, 6, 0);
-            wordGrid.Children.Add(letter8, 7, 0);
 
             Label selectTile = new Label
             {
                 Text = "SELECT A TILE:",
                 FontSize = 14,
                 TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.CenterAndExpand
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                Margin = 0
 
             };
 
             _whiteframeLayout.Children.Add(selectTile);
 
-            Grid lettersGrid = new Grid
+
+
+            var assembly = typeof(ScenarioDetailPage).GetTypeInfo().Assembly;
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
+            Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
+            //var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
+            //string jsonFileName = "firstSession.json";
+            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+
+
+            using (var reader = new StreamReader(stream))
+            {
+                var json = reader.ReadToEnd();
+                var data = JsonConvert.DeserializeObject<Root>(json);
+
+                if (scenarioCounter < 39) // length of json 
+                {
+                    string input = data.firstSession[scenarioCounter].statement1;
+                    string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+");
+                    string description = "";
+                    foreach (string sentence in sentences)
+                    {
+                        description += sentence + "\n\n";
+                    }
+                    scenarioDescription.Text = description.Substring(0, description.Length - 2);
+
+                    string word = data.firstSession[scenarioCounter].word1;
+                    int columnNum = word.Length; // column # = word length
+                    ColumnDefinitionCollection columnCollection = new ColumnDefinitionCollection();
+                    var letters = new Dictionary<string, Button>();
+                    string letterVariable;
+                    for (int i = 0; i < columnNum; i++) // TRYING 
+                    {
+                        ColumnDefinition column = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
+                        columnCollection.Add(column);
+                        // if key exists:
+                        // string letterVariable = "letter" + word[i].ToString();
+                        if (letters.ContainsKey("letter" + word[i].ToString()))
+                        {
+                            letterVariable = "letter" + word[i].ToString() + word[i].ToString();
+
+                        }
+                        else { letterVariable = "letter" + word[i].ToString(); }
+
+
+                        letters[letterVariable] = new Button
+                        {
+                            Text = word[i].ToString(),
+                            FontFamily = "Source Sans Pro",
+                            FontAttributes = FontAttributes.Bold,
+                            BackgroundColor = Color.FromHex("B5E7FA"),
+                            TextColor = Color.Black,
+                            HeightRequest = 40,
+                            FontSize = 15,
+                            CornerRadius = 6,
+                            Padding = 0,
+                            Margin = 0
+                        };
+                    }
+
+                    wordGrid.ColumnDefinitions = columnCollection;
+                    // collection of letters --> add letters to column
+                    int a = 0;
+                    foreach (KeyValuePair<string, Button> letter in letters)
+                    {
+                        // letter.Key is letter + e,a,b, etc.
+                        // letter.Value is the actual button
+                        wordGrid.Children.Add(letter.Value, a, 0);
+                        Console.WriteLine(letter.Key);
+                        Console.WriteLine(a);
+                        a++;
+                    }
+
+                    Button missingLetterButton = new Button
+                    {
+                        BackgroundColor = Color.FromHex("DADADA"),
+                        HeightRequest = 40,
+                        FontSize = 15,
+                        CornerRadius = 6
+                    };
+                    correctLetterGreen = new Button
+                    {
+                        FontFamily = "Source Sans Pro",
+                        FontAttributes = FontAttributes.Bold,
+                        TextColor = Color.Black,
+                        BackgroundColor = Color.FromHex("B5E7FA"),
+                        HeightRequest = 40,
+                        FontSize = 15,
+                        CornerRadius = 6
+                    };
+                    // choose random letter to be missing 
+                    Random rand = new Random();
+                    missingLetterIndex = rand.Next(0, letters.Count);
+                    string missingRandStr = letters.ElementAt(missingLetterIndex).Key; // missing letter string - "lettera"
+                    Button missingRandButton = letters[missingRandStr]; // missing letter button 
+                    wordGrid.Children.Remove(missingRandButton); // delete button from grid
+
+                    char missingLetter = missingRandStr.Last(); // missing letter CHANGE!
+                    correctLetterGreen.Text = missingLetter.ToString();
+                    // get index of missing letter in word
+                    // gray button to index of word in grid
+                    // PROBLEM 
+                    wordGrid.Children.Add(missingLetterButton, missingLetterIndex, 0);
+
+
+                }
+
+            }
+
+            lettersGrid = new Grid
             {
                 ColumnDefinitions = {
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
@@ -239,37 +241,58 @@ namespace Sensus.UI
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
 
                 },
-                Padding = new Thickness(30,0,30,5),
-                HorizontalOptions = LayoutOptions.CenterAndExpand
+                Padding = new Thickness(30, 0, 30, 5),
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                VerticalOptions = LayoutOptions.EndAndExpand // CHANGE? 
 
             };
 
             _whiteframeLayout.Children.Add(lettersGrid);
 
-            Button letterOption1 = new Button
-            {
-                Text = "Y",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-                // center text 
-            };
+            var letterOptions = new Dictionary<string, Button>();
 
-            Button correctLetter = new Button
+            letterOptions["correct"] = correctLetterGreen;
+
+            string chars = "abcdefghijklmnopqrstuvwxyz";
+            int randIndex;
+            string randomLetter;
+
+            for (int j = 0; j < 3; j++)
             {
-                Text = "T",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
+                Random rng = new Random();
+                randIndex = rng.Next(chars.Length);
+                randomLetter = chars[randIndex].ToString();
+                //while (!letterOptions.ContainsKey(randomLetter))
+                //{
+                //    randIndex = rng.Next(chars.Length);
+                //}
+
+                Button letterOption = new Button
+                {
+                    Text = randomLetter, // random letter 
+                    FontFamily = "Source Sans Pro",
+                    FontAttributes = FontAttributes.Bold,
+                    BackgroundColor = Color.FromHex("B5E7FA"),
+                    TextColor = Color.Black,
+                    HeightRequest = 40,
+                    FontSize = 15,
+                    CornerRadius = 6,
+                    // ADD: Clicked = X 
+                };
+                letterOptions["option" + letterOption.Text] = letterOption;
+            }
+            foreach (int b in Enumerable.Range(1, 4))
+            {
+                // random value in letterOptions
+                // but delete pair when done
+                Random rand = new Random();
+                // CHANGE
+                string randOptionStr = letterOptions.ElementAt(rand.Next(0, letterOptions.Count - 1)).Key; // missing letter string - "lettera"
+                Button randOptionButton = letterOptions[randOptionStr]; // missing letter button 
+                lettersGrid.Children.Add(randOptionButton, b, 0);
+                letterOptions.Remove(randOptionStr);
+            }
+
             Button whiteButton = new Button
             {
                 BackgroundColor = Color.White,
@@ -284,72 +307,31 @@ namespace Sensus.UI
                 Margin = 0
             };
 
-            correctLetter.Clicked += onCorrectLetter;
 
-            async void onCorrectLetter(object sender, EventArgs args) // removed async 
+            correctLetterGreen.Clicked += onCorrectLetter;
+
+            async void onCorrectLetter(object sender, EventArgs args)
             {
-                wordGrid.Children.Add(correctLetterGreen, 4, 0);
+                correctLetterGreen.BackgroundColor = Color.FromHex("6662A74C");
+                wordGrid.Children.Add(correctLetterGreen, missingLetterIndex, 0);
                 lettersGrid.Children.Add(correctIcon, 5, 0);
                 lettersGrid.Children.Add(whiteButton, 2, 0);
                 //// timer to next page
                 await Task.Delay(500); // Task.Delay(500).Wait()
-                //await Navigation.PushAsync(new ScenarioTestPage());
+                                       //await Navigation.PushAsync(new ScenarioTestPage());
                 await Navigation.PushAsync(new ReflectionsPage());
             };
 
-            Button letterOption3 = new Button
-            {
-                Text = "O",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-            Button letterOption4 = new Button
-            {
-                Text = "S",
-                FontFamily = "Source Sans Pro",
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex("B5E7FA"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
+            //ProgressBar blankProgress = new ProgressBar
+            //{
+            //    ProgressColor = Color.White,
+            //    BackgroundColor = Color.White,
+            //    VerticalOptions = LayoutOptions.EndAndExpand,
+            //    HeightRequest = 2
+            //};
 
-            lettersGrid.Children.Add(letterOption1, 1, 0);
-            lettersGrid.Children.Add(correctLetter, 2, 0 );
-            lettersGrid.Children.Add(letterOption3, 3, 0);
-            lettersGrid.Children.Add(letterOption4, 4, 0 );
+            //_whiteframeLayout.Children.Add(blankProgress);
 
-            var assembly = typeof(ScenarioDetailPage).GetTypeInfo().Assembly;
-            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
-            Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
-
-
-            using (var reader = new StreamReader(stream))
-            {
-                var json = reader.ReadToEnd();
-                var data = JsonConvert.DeserializeObject<Root>(json);
-
-                if (scenarioCounter < 39) // length of json 
-                {
-                    string input = data.firstSession[scenarioCounter].statement1;
-                    string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+");
-                    string description = "";
-                    foreach(string sentence in sentences)
-                    {
-                        description += sentence + "\n\n";
-                    }
-                    scenarioDescription.Text = description.Substring(0, description.Length-2);
-                    // delete last two \n\n
-
-                }
-
-            }
         }
     }
 }
