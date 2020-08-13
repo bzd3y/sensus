@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
 
 namespace Sensus.MindTrailsBehind
@@ -33,5 +34,11 @@ namespace Sensus.MindTrailsBehind
         public string type { get; set; }
         public string format { get; set; }
         public string immersion { get; set; }
+    }
+
+    public class Root
+    {
+        public List<SessionModel> firstSession { get; set; }
+
     }
 }

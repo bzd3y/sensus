@@ -127,16 +127,22 @@ namespace Sensus.UI
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
             Console.WriteLine("Stream is");
             Console.WriteLine(fileName);
-            // NEXT: Sensus.Android.Resources.firstSession.json
             Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
-            //Console.WriteLine(assembly.GetName().Name.ToString()); // SensusAndroid 
-            //Console.WriteLine(Directory.GetCurrentDirectory().ToString()); // "/" 
 
-            using (var reader = new StreamReader(stream)) // System.ArgumentNullException
+
+            using (var reader = new StreamReader(stream)) // System.ArgumentNullExceptionsec
             {
-                var json = reader.ReadToEnd();
-                var data = JsonConvert.DeserializeObject<SessionModel>(json); // take out the lists
-                scenarioName.Text = data.title;
+                var json = reader.ReadToEnd(); //json string
+                var data = JsonConvert.DeserializeObject<Root>(json);
+
+                if (scenarioCounter < 10)
+                {
+                    scenarioName.Text = data.firstSession[scenarioCounter].title;
+                    scenarioCounter++;
+
+                }
+
+
             }
             // try creating a string of the json https://www.newtonsoft.com/json/help/html/DeserializeObject.htm
 
