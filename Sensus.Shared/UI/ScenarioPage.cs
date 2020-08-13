@@ -122,8 +122,15 @@ namespace Sensus.UI
 
             //scenarioName.Text = sessionsList.title;
             var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
-            string jsonFileName = "firstSession.json";
-            Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+            //string jsonFileName = "firstSession.json";
+            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
+            Console.WriteLine("Stream is");
+            Console.WriteLine(fileName);
+            // NEXT: Sensus.Android.Resources.firstSession.json
+            Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
+            //Console.WriteLine(assembly.GetName().Name.ToString()); // SensusAndroid 
+            //Console.WriteLine(Directory.GetCurrentDirectory().ToString()); // "/" 
 
             using (var reader = new StreamReader(stream)) // System.ArgumentNullException
             {
@@ -131,12 +138,13 @@ namespace Sensus.UI
                 var data = JsonConvert.DeserializeObject<SessionModel>(json); // take out the lists
                 scenarioName.Text = data.title;
             }
+            // try creating a string of the json https://www.newtonsoft.com/json/help/html/DeserializeObject.htm
 
-                //if (scenarioCounter < 5) // less than length of block
-                //{
-                // maybe data[0]
-                //    scenarioCounter++; // add this to where the scenario is over
-                //}
+            //if (scenarioCounter < 5) // less than length of block
+            //{
+            // maybe data[0]
+            //    scenarioCounter++; // add this to where the scenario is over
+            //}
 
 
             Image scenarioImage = new Image

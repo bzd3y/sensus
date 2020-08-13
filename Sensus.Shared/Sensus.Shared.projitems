@@ -333,8 +333,5 @@
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\firstSession.csv" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\test.csv" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)firstSession.json">
-      <LogicalName>Sensus.Shared.firstSession.json</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>
