@@ -30,23 +30,12 @@ namespace Sensus.UI
     public class ScenarioPage : BannerFrameTool
     {
         private Label scenarioName;
-        public int scenarioCounter = 0;
+        
 
         public ScenarioPage()
         { 
 
             Content = _contentLayout;
-            // WorkingWithFiles --> Sensus
-            // LibTextResource.txt --> firstSession.csv
-            // resourceid = Sensus.firstSession.csv
-            // trying to read from file
-            //var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MindTrailsBehind.ScenarioViewModel)).Assembly;
-            //Stream stream = assembly.GetManifestResourceStream("Sensus.firstSession.csv");
-            //string text = "";
-            //using (var reader = new System.IO.StreamReader(stream))
-            //{
-            //    text = reader.ReadToEnd();
-            //}
 
 
             Grid headerGrid = new Grid
@@ -122,36 +111,22 @@ namespace Sensus.UI
 
             //scenarioName.Text = sessionsList.title;
             var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
-            //string jsonFileName = "firstSession.json";
-            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
-            Console.WriteLine("Stream is");
-            Console.WriteLine(fileName);
             Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
 
 
-            using (var reader = new StreamReader(stream)) // System.ArgumentNullExceptionsec
+            using (var reader = new StreamReader(stream)) 
             {
-                var json = reader.ReadToEnd(); //json string
+                var json = reader.ReadToEnd(); 
                 var data = JsonConvert.DeserializeObject<Root>(json);
 
-                if (scenarioCounter < 10)
+                if (scenarioCounter < 39) // length of json 
                 {
                     scenarioName.Text = data.firstSession[scenarioCounter].title;
-                    scenarioCounter++;
 
                 }
 
-
             }
-            // try creating a string of the json https://www.newtonsoft.com/json/help/html/DeserializeObject.htm
-
-            //if (scenarioCounter < 5) // less than length of block
-            //{
-            // maybe data[0]
-            //    scenarioCounter++; // add this to where the scenario is over
-            //}
-
 
             Image scenarioImage = new Image
             {

@@ -21,6 +21,7 @@ namespace Sensus.UI
         protected RelativeLayout _contentLayout;
         protected StackLayout _contentStack;
         protected StackLayout _whiteframeLayout;
+        public static int scenarioCounter = 0;
 
         public BannerFrameTool()
         {

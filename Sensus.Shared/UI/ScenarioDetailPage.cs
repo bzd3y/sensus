@@ -12,13 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Sensus.MindTrailsBehind;
 using Xamarin.Forms;
 
 namespace Sensus.UI
 {
     public class ScenarioDetailPage : BannerFrameTool
     {
+        protected Label scenarioDescription;
+
         public ScenarioDetailPage()
         {
 
@@ -71,10 +78,10 @@ namespace Sensus.UI
 
             _whiteframeLayout.Children.Add(grayFrame);
 
-            Label scenarioDescription = new Label
+            scenarioDescription = new Label
             {
-                Text = "Your boss asks you to write a report.\n\nThe finished document is quite brief but took a lot of time and effort." +
-                "\n\nBased on your writing, you expect your boss' opinion of you will be...",
+                //Text = "Your boss asks you to write a report.\n\nThe finished document is quite brief but took a lot of time and effort." +
+                //"\n\nBased on your writing, you expect your boss' opinion of you will be...",
                 TextColor = Color.Black,
                 FontFamily = "Source Sans Pro",
                 Margin = 20,
@@ -318,7 +325,31 @@ namespace Sensus.UI
             lettersGrid.Children.Add(letterOption3, 3, 0);
             lettersGrid.Children.Add(letterOption4, 4, 0 );
 
+            var assembly = typeof(ScenarioDetailPage).GetTypeInfo().Assembly;
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
+            Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
 
+
+            using (var reader = new StreamReader(stream))
+            {
+                var json = reader.ReadToEnd();
+                var data = JsonConvert.DeserializeObject<Root>(json);
+
+                if (scenarioCounter < 39) // length of json 
+                {
+                    string input = data.firstSession[scenarioCounter].statement1;
+                    string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+");
+                    string description = "";
+                    foreach(string sentence in sentences)
+                    {
+                        description += sentence + "\n\n";
+                    }
+                    scenarioDescription.Text = description.Substring(0, description.Length-2);
+                    // delete last two \n\n
+
+                }
+
+            }
         }
     }
 }

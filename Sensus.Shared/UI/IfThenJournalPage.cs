@@ -109,6 +109,15 @@ namespace Sensus.UI
                 
             };
 
+            add.Clicked += on_add;
+
+            async void on_add(object sender, EventArgs args)
+            {
+                scenarioCounter++;
+                await Navigation.PushAsync(new ScenarioPage());
+
+            }
+
             _contentStack.Children.Add(journalFrame);
             _contentStack.Children.Add(add);
 
