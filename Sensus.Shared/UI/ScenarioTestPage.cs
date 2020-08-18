@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
+using Sensus.MindTrailsBehind;
 using Xamarin.Forms;
 // try to do white frame layout w/ margin as 90 on the bottom
 
@@ -19,6 +23,10 @@ namespace Sensus.UI
 {
     public class ScenarioTestPage : BannerFrameTool
     {
+        private Button correctAnswer;
+        private Button incorrectAnswer;
+        private Button next;
+
         public ScenarioTestPage()
         {
             Content = _contentLayout;
@@ -28,34 +36,41 @@ namespace Sensus.UI
                 ColumnSpacing = 0,
                 RowSpacing = 0,
                 Padding = 0,
-                Margin = new Thickness(10, 20),
+                Margin = new Thickness(10, 10, 10, 0), // , 20 
                 ColumnDefinitions = {
-                    new ColumnDefinition {
-                        Width = new GridLength(1, GridUnitType.Star)
-                    },
-                    new ColumnDefinition
-                    {
-                        Width = new GridLength(3, GridUnitType.Star)
-                    }
+                new ColumnDefinition {
+                    Width = new GridLength(1, GridUnitType.Star)
                 },
+                new ColumnDefinition
+                {
+                    Width = new GridLength(3, GridUnitType.Star)
+                }
+            },
 
             };
             Label scenarioNum = new Label
             {
-                Text = "Scenario 1",
+                Text = "Scenario " + (scenarioCounter + 1).ToString(),
                 TextColor = Color.FromHex("166DA3"),
                 FontSize = 22,
                 FontFamily = "Source Sans Pro",
-                HorizontalTextAlignment = TextAlignment.Start
+                HorizontalTextAlignment = TextAlignment.Start,
+                Margin = new Thickness(0, 4, 0, 4)// CHANGED! added in 
+
+                //Margin = new Thickness(20,10,0,0)// CHANGED! added in 
 
             };
-            Image scenarioIcon = new Image { Source = "pencil.png", HeightRequest = 10 };
+            Image scenarioIcon = new Image
+            {
+                Source = "pencil.png",
+                HeightRequest = 10,
+                Margin = new Thickness(0, 1, -10, 1)
+            };
 
             headerGrid.Children.Add(scenarioIcon, 0, 0);
 
-            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row 
+            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row
 
-            _whiteframeLayout.IsClippedToBounds = true;
             _whiteframeLayout.Children.Add(headerGrid);
 
 
@@ -75,7 +90,6 @@ namespace Sensus.UI
 
             Label question = new Label
             {
-                Text = "Do you expect your boss to have a positive opinion of you after reading your report?",
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 FontFamily = "Source Sans Pro",
                 FontSize = 20,
@@ -85,22 +99,24 @@ namespace Sensus.UI
 
             grayFrame.Content = question;
 
+
+
             Grid yesNo = new Grid
             {
                 ColumnDefinitions =
-                {
-                    new ColumnDefinition {Width = new GridLength(.5, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(.5, GridUnitType.Star)},
+            {
+                new ColumnDefinition {Width = new GridLength(.5, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(.5, GridUnitType.Star)},
 
-                },
+            },
                 RowDefinitions =
-                {
-                    new RowDefinition {Height = new GridLength(1, GridUnitType.Star)}
+            {
+                new RowDefinition {Height = new GridLength(1, GridUnitType.Star)}
 
-                },
-                Margin = new Thickness(10,40,10,0),
+            },
+                Margin = new Thickness(10, 40, 10, 0),
                 IsClippedToBounds = true
             };
 
@@ -110,18 +126,18 @@ namespace Sensus.UI
             {
                 RowSpacing = 0,
                 ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(.5, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(.5, GridUnitType.Star) },
+            {
+                new ColumnDefinition { Width = new GridLength(.5, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(.5, GridUnitType.Star) },
 
-                },
+            },
                 RowDefinitions =
-                {
-                    new RowDefinition { Height = new GridLength(.5, GridUnitType.Star) },
-                    new RowDefinition { Height = new GridLength(.5, GridUnitType.Star) }
+            {
+                new RowDefinition { Height = new GridLength(.5, GridUnitType.Star) },
+                new RowDefinition { Height = new GridLength(.5, GridUnitType.Star) }
 
-                },
+            },
                 Margin = new Thickness(10, 10, 10, 0), // change 8/3 from 10 to 0 
                 IsClippedToBounds = true,
                 VerticalOptions = LayoutOptions.EndAndExpand
@@ -140,28 +156,6 @@ namespace Sensus.UI
                 CornerRadius = 6,
             };
 
-            Button yesGreen = new Button
-            {
-                Text = "Yes",
-                FontFamily = "Source Sans Pro",
-                BackgroundColor = Color.FromHex("6662A74C"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-
-            Button yesRed = new Button
-            {
-                Text = "Yes",
-                FontFamily = "Source Sans Pro",
-                BackgroundColor = Color.FromHex("FAB9B5"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
-
             Button no = new Button
             {
                 Text = "No",
@@ -173,27 +167,9 @@ namespace Sensus.UI
                 CornerRadius = 6,
             };
 
-            Button noGreen = new Button
-            {
-                Text = "No",
-                FontFamily = "Source Sans Pro",
-                BackgroundColor = Color.FromHex("6662A74C"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
 
-            Button noRed = new Button
-            {
-                Text = "No",
-                FontFamily = "Source Sans Pro",
-                BackgroundColor = Color.FromHex("FAB9B5"),
-                TextColor = Color.Black,
-                HeightRequest = 40,
-                FontSize = 15,
-                CornerRadius = 6
-            };
+
+
             Image correctIcon = new Image
             {
                 Source = "CheckMark.png",
@@ -207,25 +183,38 @@ namespace Sensus.UI
                 Margin = 0
             };
 
-
-            ProgressBar progressBarWhite = new ProgressBar
-            {
-                ProgressColor = Color.White,
-                Progress = .5
-            };
-
             Label blankLabel = new Label
             {
-                Text = ".                                                                 .",
-                BackgroundColor = Color.White,
-                TextColor = Color.White,
-                Margin = new Thickness(0),
-                VerticalOptions = LayoutOptions.EndAndExpand, // andexpand
+                Text = "    ",
+                Margin = new Thickness(10, 20, 10, 10),
+                BackgroundColor = Color.White, // CHANGE 166DA3 
+                FontFamily = "Source Sans Pro",
+                FontSize = 20,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.EndAndExpand,
+                HeightRequest = 48,
+                WidthRequest = 150
+
             };
+            Label blankLabel2 = new Label
+            {
+                Text = "    ",
+                Margin = new Thickness(10, 20, 10, 10),
+                BackgroundColor = Color.White, // CHANGE 166DA3 
+                FontFamily = "Source Sans Pro",
+                FontSize = 20,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.EndAndExpand,
+                HeightRequest = 48,
+                WidthRequest = 150
 
-            bottomGrid.Children.Add(progressBarWhite, 1, 0);
+            };
+            _whiteframeLayout.Children.Add(blankLabel);
+            _whiteframeLayout.Children.Add(blankLabel2);
 
-            bottomGrid.Children.Add(blankLabel, 1, 1);
+            //bottomGrid.Children.Add(blankLabel, 1, 1);
 
             ProgressBar progressBar = new ProgressBar
             {
@@ -236,7 +225,7 @@ namespace Sensus.UI
             {
                 TextColor = Color.Black,
                 Text = "Whoops! That doesn’t look right. Please wait a moment and try again.",
-                Margin = new Thickness(0,0,0,50),
+                Margin = new Thickness(0, 0, 0, 28),
                 FontSize = 15,
                 VerticalOptions = LayoutOptions.EndAndExpand, // andexpand
 
@@ -245,51 +234,156 @@ namespace Sensus.UI
             yesNo.Children.Add(yes, 1, 0);
             yesNo.Children.Add(no, 2, 0);
 
-            yes.Clicked += onYes;
-
-            void onYes(object sender, EventArgs args)
+            string jsonFileName = "";
+            if (sessionNumber == 1)
             {
-                yesNo.Children.Add(yesGreen, 1, 0);
-                yesNo.Children.Add(correctIcon, 3, 0);
-                no.IsEnabled = false;
-                // make it so you can't click no 
+                jsonFileName = "Sensus.Android.Resources.firstSession.json";
+            }
+            if (sessionNumber == 2)
+            {
+                jsonFileName = "Sensus.Android.Resources.secondSession.json";
+            }
+            if (sessionNumber == 3)
+            {
+                jsonFileName = "Sensus.Android.Resources.thirdSession.json";
+            }
+            if (sessionNumber == 4)
+            {
+                jsonFileName = "Sensus.Android.Resources.fourthSession.json";
+            }
+            if (sessionNumber == 5)
+            {
+                jsonFileName = "Sensus.Android.Resources.fifthSession.json";
+            }
+
+            var assembly = typeof(ScenarioTestPage).GetTypeInfo().Assembly; // CHANGED
+            Stream stream = assembly.GetManifestResourceStream(jsonFileName);
+            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+
+
+            using (var reader = new StreamReader(stream))
+            {
+                var json = reader.ReadToEnd();
+                var data = JsonConvert.DeserializeObject<Root>(json);
+                if (scenarioCounter < 39) // length of json 
+                {
+                    string input = data.firstSession[scenarioCounter].question;
+                    question.Text = input;
+                    // if the positive answer is yes, and the answer is the positive value --> yes is correct, no is incorrect
+                    // if the negative answer is yes, and the answer is the negative value --> yes is correct, no is incorrect 
+                    if (data.firstSession[scenarioCounter].positive.Equals("Yes") && data.firstSession[scenarioCounter].answer.Equals("Positive")
+                        || data.firstSession[scenarioCounter].negative.Equals("Yes") && data.firstSession[scenarioCounter].answer.Equals("Negative"))
+                    {
+                        // yes is correct, no is incorrect
+                        yes.Clicked += onCorrect;
+                        no.Clicked += onIncorrect;
+                        correctAnswer = yes;
+                        incorrectAnswer = no;
+                    }
+                    else
+                    {
+                        // if positive answer is no, and the answer is the positive --> no is correct 
+                        // if the negative answer is no, and the answer is the negative --> no is correct 
+                        // no is correct, yes is incorrect
+                        yes.Clicked += onIncorrect;
+                        no.Clicked += onCorrect;
+                        correctAnswer = no;
+                        incorrectAnswer = yes;
+
+                    }
+
+                }
+            }
+            // red = BackgroundColor = Color.FromHex("FAB9B5"),
+            // green = BackgroundColor = Color.FromHex("6662A74C"),
+            next = new Button
+            {
+                Text = "Next",
+                Margin = new Thickness(10, 20, 10, 10),
+                TextColor = Color.Black, // CHANGE white
+                BackgroundColor = Color.FromHex("48AADF"), // CHANGE 166DA3 
+                FontFamily = "Source Sans Pro",
+                FontSize = 20,
+                FontAttributes = FontAttributes.Bold,
+                CornerRadius = 8,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.EndAndExpand,
+                WidthRequest = 150
+
+            };
+            next.Clicked += onNextClicked; // CHANGE BACK 8/6
+                                            //next.Clicked += onNextClicked;
+
+            async void onNextClicked(object sender, EventArgs args)
+            {
+                //GetJsonData();
+                scenarioCounter++;
+                await Navigation.PushModalAsync(new NavigationPage(new ScenarioPage())); // change to scenariopage
             };
 
-            no.Clicked += onNo;
-
-            void onNo(object sender, EventArgs args)
+            void onCorrect(object sender, EventArgs args)
             {
-                yesNo.Children.Add(noRed, 2, 0);
+                roundScore ++;
+                correctAnswer.BackgroundColor = Color.FromHex("6662A74C");
+                yesNo.Children.Add(correctIcon, 3, 0);
+                yes.IsEnabled = false; // disable both buttons 
+                no.IsEnabled = false;
+                //_whiteframeLayout.Children.Remove(blankLabel);
+                _whiteframeLayout.Children.Remove(blankLabel2);
+                _whiteframeLayout.Children.Add(next);
+            };
+
+
+            void onIncorrect(object sender, EventArgs args)
+            {
+                //yesNo.Children.Add(noRed, 2, 0);
+                roundScore = roundScore - 2; // -2 because 1 will be added after they get the correct one on their second try
+                progressBar.Progress = 0;
+                incorrectAnswer.BackgroundColor = Color.FromHex("FAB9B5");
                 yesNo.Children.Add(incorrectIcon, 3, 0);
                 yes.IsEnabled = false;
+                no.IsEnabled = false;
                 bottomGrid.Children.Add(progressBar, 1, 0);
-                bottomGrid.Children.Add(whoops,1,1);
+                bottomGrid.Children.Add(whoops, 1, 1);
+                _whiteframeLayout.Children.Remove(blankLabel2);
+                _whiteframeLayout.Children.Remove(blankLabel);
 
-                var updateRate = 10000 / 30f; // 30Hz added a 0 
-                double step = updateRate / (2 * 30 * 1000f); // from 30 * 1000f
-                Device.StartTimer(TimeSpan.FromMilliseconds(updateRate), () =>
+
+                double step = .2; // 30
+                                    // every 1 second, the progress bar increases by .2 
+                Device.StartTimer(new TimeSpan(0, 0, 1), () =>
                 {
                     if (progressBar.Progress < 100)
                     {
                         Device.BeginInvokeOnMainThread(() => progressBar.Progress += step);
-                        yes.IsEnabled = false;
-                        //return true;
-                    }
-                    if (progressBar.Progress == 100)
-                    {
 
-                        yes.IsEnabled = true; // take this out 
-                        yesNo.Children.Add(no, 2, 0); // take this out
                         return true;
-
                     }
+                    else
+                    {
+                        return false;
+                    }
+                });
+                Device.StartTimer(new TimeSpan(0, 0, 5), () =>
+                {
+                    // after 5 seconds --> 
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        yes.IsEnabled = true;
+                        no.IsEnabled = true;
+                        bottomGrid.Children.Remove(progressBar);
+                        bottomGrid.Children.Remove(whoops);
+                        incorrectAnswer.BackgroundColor = Color.FromHex("B5E7FA");
+                        yesNo.Children.Remove(incorrectIcon);
+                        _whiteframeLayout.Children.Add(blankLabel);
+                        _whiteframeLayout.Children.Add(blankLabel2);
+
+                    });
                     return false;
                 });
 
-            };
-
-
-            // timer bar --> show "Whoops! That doesn’t look right. Please wait a moment and try again."
+            }
         }
     }
 }
+

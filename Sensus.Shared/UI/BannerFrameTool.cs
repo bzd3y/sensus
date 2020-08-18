@@ -22,6 +22,8 @@ namespace Sensus.UI
         protected StackLayout _contentStack;
         protected StackLayout _whiteframeLayout;
         public static int scenarioCounter = 0;
+        public int sessionNumber = 1; // counter go up at end of 40
+        public int roundScore = 0;
 
         public BannerFrameTool()
         {
@@ -45,7 +47,7 @@ namespace Sensus.UI
             Image logoImage = new Image { Source = "Logo.png" };
             Label sessionNum = new Label
             {
-                Text = "Session 2",
+                Text = "Session " + sessionNumber.ToString(),
                 TextColor = Color.White,
                 FontFamily = "Source Sans Pro",
                 FontAttributes = FontAttributes.Bold,

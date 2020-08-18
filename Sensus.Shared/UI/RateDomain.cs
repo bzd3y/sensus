@@ -18,7 +18,7 @@ namespace Sensus.UI
 {
     public class RateDomain : BannerFrameTool
     {
-        public RateDomain()
+        public RateDomain(string domain)
         {
             Content = _contentLayout;
 
@@ -55,7 +55,7 @@ namespace Sensus.UI
 
             Label domainArea = new Label
             {
-                Text = "Relationships",
+                Text = domain,
                 TextColor = Color.Black,
                 FontFamily = "Source Sans Pro",
                 FontAttributes = FontAttributes.Bold,
@@ -183,15 +183,15 @@ namespace Sensus.UI
             };
             _whiteframeLayout.Children.Add(next);
 
-            ProgressBar progress = new ProgressBar
-            {
-                ProgressColor = Color.FromHex("166DA3"),
-                Progress = .1,
-                Margin = new Thickness(20,0,20,10),
-                VerticalOptions = LayoutOptions.EndAndExpand
-            };
+            //ProgressBar progress = new ProgressBar
+            //{
+            //    ProgressColor = Color.FromHex("166DA3"),
+            //    Progress = .1,
+            //    Margin = new Thickness(20,0,20,10),
+            //    VerticalOptions = LayoutOptions.EndAndExpand
+            //};
 
-            _whiteframeLayout.Children.Add(progress);
+            //_whiteframeLayout.Children.Add(progress);
         }
     }
 }

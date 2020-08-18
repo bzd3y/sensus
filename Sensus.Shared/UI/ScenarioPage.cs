@@ -43,34 +43,38 @@ namespace Sensus.UI
                 ColumnSpacing = 0,
                 RowSpacing = 0,
                 Padding = 0,
-                Margin = new Thickness(10,20),
+                Margin = new Thickness(10, 10, 10, 0), // , 20 
                 ColumnDefinitions = {
-                    new ColumnDefinition {
-                        Width = new GridLength(1, GridUnitType.Star)
-                    },
-                    new ColumnDefinition
-                    {
-                        Width = new GridLength(3, GridUnitType.Star)
-                    }
+                new ColumnDefinition {
+                    Width = new GridLength(1, GridUnitType.Star)
                 },
+                new ColumnDefinition
+                {
+                    Width = new GridLength(3, GridUnitType.Star)
+                }
+            },
 
             };
             Label scenarioNum = new Label
             {
-                Text = "Scenario 1",
-                //Margin = new Thickness(10), CHANGED 
+                Text = "Scenario " + (scenarioCounter + 1).ToString(),
                 TextColor = Color.FromHex("166DA3"),
                 FontSize = 22,
                 FontFamily = "Source Sans Pro",
-                HorizontalTextAlignment = TextAlignment.Start
-                // WidthRequest =1000
+                HorizontalTextAlignment = TextAlignment.Start,
+                Margin = new Thickness(0, 4, 0, 4)// CHANGED! added in 
 
             };
-            Image scenarioIcon = new Image { Source = "pencil.png", HeightRequest = 10 };
+            Image scenarioIcon = new Image
+            {
+                Source = "pencil.png",
+                HeightRequest = 10,
+                Margin = new Thickness(0, 1, -10, 1)
+            };
 
             headerGrid.Children.Add(scenarioIcon, 0, 0);
 
-            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row 
+            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row
 
             _whiteframeLayout.Children.Add(headerGrid);
 
@@ -80,8 +84,9 @@ namespace Sensus.UI
                 HasShadow = false,
                 Padding = 0,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.Center,
-                WidthRequest = 250,
+                HorizontalOptions = LayoutOptions.CenterAndExpand, // CHANGED - Center 
+                WidthRequest = 400,
+                Margin = new Thickness(40,10,40,14),
                 CornerRadius = 10
             };
 
@@ -97,23 +102,32 @@ namespace Sensus.UI
                 HeightRequest = 80, // CHANGED FROM 100
             };
 
-            //string jsonFileName = "firstSession.json";
-            //SessionModel sessionsList = new SessionModel();
-            //var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
-            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
-            //using (var reader = new System.IO.StreamReader(stream))
-            //{
-            //    var jsonString = reader.ReadToEnd();
 
-            //    //Converting JSON Array Objects into generic list    
-            //    sessionsList = JsonConvert.DeserializeObject<SessionModel>(jsonString);
-            //}
-
-            //scenarioName.Text = sessionsList.title;
             var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
-            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
-            Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
-
+            string jsonFileName = "";
+            if (sessionNumber == 1)
+            {
+                jsonFileName = "Sensus.Android.Resources.firstSession.json";
+            }
+            if (sessionNumber == 2)
+            {
+                jsonFileName = "Sensus.Android.Resources.secondSession.json";
+            }
+            if (sessionNumber == 3)
+            {
+                jsonFileName = "Sensus.Android.Resources.thirdSession.json";
+            }
+            if (sessionNumber == 4)
+            {
+                jsonFileName = "Sensus.Android.Resources.fourthSession.json";
+            }
+            if (sessionNumber == 5)
+            {
+                jsonFileName = "Sensus.Android.Resources.fifthSession.json";
+            }
+            Stream stream = assembly.GetManifestResourceStream(jsonFileName);
+            //string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
+            //Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
 
             using (var reader = new StreamReader(stream)) 
             {
@@ -169,7 +183,7 @@ namespace Sensus.UI
             ProgressBar progress = new ProgressBar
             {
                 ProgressColor = Color.FromHex("166DA3"),
-                Progress = .2,
+                Progress = scenarioCounter/40.0,
                 Margin = new Thickness(20, 0, 20, 10),
                 VerticalOptions = LayoutOptions.EndAndExpand
             };
@@ -178,51 +192,5 @@ namespace Sensus.UI
         }
 
 
-        //private void Button_Clicked(object sender, EventArgs e)
-        //{
-
-        //    var list = new List<MindTrailsBehind.session>();
-        //    var assembly = Assembly.GetExecutingAssembly();
-        //    var resourceName = "MindTrailsBehind.firstSession.csv"; // try just MindTrailsBehind.test.csv
-        //                                                            // cannot find firstSession.csv
-        //                                                            // tried Sensus.Shared.UI.firstSession.csv
-        //                                                            // Sensus.Shared.firstSession.csv
-        //                                                            // Sensus.Shared.MindTrailsBehind.firstSession.csv
-
-        //    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-        //    using (StreamReader reader = new StreamReader(stream)) // getting null object here
-        //    {
-        //        //string result = reader.ReadToEnd();
-
-        //        if (reader != null)
-        //        {
-        //            using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
-        //            {
-        //                while (csv.Read())
-        //                {
-        //                    list.Add(new MindTrailsBehind.session
-        //                    {
-        //                        Block = csv.GetField<int>(0),
-        //                        Name = csv.GetField<string>(1),
-        //                        Title = csv.GetField<string>(2),
-        //                        Word1 = csv.GetField<string>(3),
-        //                        Word2 = csv.GetField<string>(4),
-        //                        Statement1 = csv.GetField<string>(5),
-        //                        Statement2 = csv.GetField<string>(6),
-        //                        Question = csv.GetField<string>(7),
-        //                        Positive = csv.GetField<string>(8),
-        //                        Negative = csv.GetField<string>(9),
-        //                        Answer = csv.GetField<string>(10),
-        //                        Type = csv.GetField<string>(11),
-
-        //                    });
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    scenarioName.Text = (list.ToArray())[1].Title;  //used to get the value of ID column,6th row(the row include the column[ID, Name, Age] row.).        
-
-        //}
     }
 }

@@ -319,6 +319,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\SessionModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\test.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\IfThenJournalPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DomainModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />

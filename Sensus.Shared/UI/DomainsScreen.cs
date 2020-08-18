@@ -101,9 +101,7 @@ namespace Sensus.UI
                     PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
                     PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
                 };
-                await PopupNavigation.Instance.PushAsync(new DomainPopUp());
-                //await Navigation.PushAsync(new RateDomain());
-
+                await PopupNavigation.Instance.PushAsync(new DomainPopUp("Relationships"));
             };
 
             Button resilience = new Button
@@ -117,6 +115,19 @@ namespace Sensus.UI
                 CornerRadius = 8,
                 Margin = new Thickness(3),
                 HeightRequest = 125
+            };
+            resilience.Clicked += onResilienceClicked;
+
+            async void onResilienceClicked(object sender, EventArgs args)
+            {
+                var popupProperties = new PopupPage();
+                var scaleAnimation = new ScaleAnimation
+                {
+                    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
+                    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
+                };
+                await PopupNavigation.Instance.PushAsync(new DomainPopUp("My Resilience"));
+
             };
 
             Button health = new Button
@@ -132,6 +143,20 @@ namespace Sensus.UI
                 HeightRequest = 125
             };
 
+            health.Clicked += onHealthClicked;
+
+            async void onHealthClicked(object sender, EventArgs args)
+            {
+                var popupProperties = new PopupPage();
+                var scaleAnimation = new ScaleAnimation
+                {
+                    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
+                    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
+                };
+                await PopupNavigation.Instance.PushAsync(new DomainPopUp("Health"));
+
+            };
+
             Button uncertainty = new Button
             {
                 Text = "Handling Uncertainty",
@@ -143,6 +168,19 @@ namespace Sensus.UI
                 CornerRadius = 8,
                 Margin = new Thickness(3),
                 HeightRequest = 125
+            };
+            uncertainty.Clicked += onUncertaintyClicked;
+
+            async void onUncertaintyClicked(object sender, EventArgs args)
+            {
+                var popupProperties = new PopupPage();
+                var scaleAnimation = new ScaleAnimation
+                {
+                    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
+                    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
+                };
+                await PopupNavigation.Instance.PushAsync(new DomainPopUp("Handling Uncertainty"));
+
             };
 
             Button surpriseMe = new Button

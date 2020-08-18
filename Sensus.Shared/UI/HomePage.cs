@@ -53,7 +53,7 @@ namespace Sensus.UI
             Image logoImage = new Image { Source = "Logo.png" };
             Label sessionNum = new Label
             {
-                Text = "Session 2",
+                Text = "Session 1",
                 TextColor = Color.White,
                 FontFamily = "Source Sans Pro",
                 FontAttributes = FontAttributes.Bold,

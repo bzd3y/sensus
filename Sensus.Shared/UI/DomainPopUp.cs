@@ -17,6 +17,9 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Services;
+using System.Reflection;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Sensus.UI
 {
@@ -24,7 +27,7 @@ namespace Sensus.UI
     {
         StackLayout _frameLayout;
         
-        public DomainPopUp()
+        public DomainPopUp(string domain)
         {
             BackgroundColor = Color.FromHex("D9FFFFFF");
 
@@ -58,7 +61,7 @@ namespace Sensus.UI
 
             Label domainArea = new Label
             {
-                Text = "Relationships",
+                Text = domain,
                 FontSize = 30,
                 HorizontalTextAlignment = TextAlignment.Center,
                 FontFamily = "Source Sans Pro",
@@ -98,7 +101,7 @@ namespace Sensus.UI
 
             async void onModuleSelected(object sender, EventArgs args)
             {
-                await Navigation.PushModalAsync(new NavigationPage(new RateDomain())); // worked
+                await Navigation.PushModalAsync(new NavigationPage(new RateDomain(domain))); // worked
 
                 await PopupNavigation.Instance.PopAsync(true);
 
@@ -115,7 +118,7 @@ namespace Sensus.UI
 
             async void selectDiff_Clicked(object sender, EventArgs args)
             {
-                await Navigation.PopAsync(true);
+                await PopupNavigation.Instance.PopAsync(true);
             };
 
             blueLayout.Children.Add(domainArea);
@@ -123,6 +126,29 @@ namespace Sensus.UI
             blueLayout.Children.Add(domainDetails);
             blueLayout.Children.Add(selectModule);
             blueLayout.Children.Add(selectDiff);
+
+            var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
+            string jsonFileName = "Sensus.Android.Resources.Domains.json";
+            Stream stream = assembly.GetManifestResourceStream(jsonFileName);
+            //string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
+            //Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
+
+            using (var reader = new StreamReader(stream))
+            {
+                var json = reader.ReadToEnd();
+                var data = JsonConvert.DeserializeObject<RootSession>(json);
+
+                foreach(DomainModel dom in data.Domains)
+                {
+                    if (dom.Domain.Equals(domain)) // if domain in json matches domain we are working with
+                    {
+                        domainDetails.Text = dom.Description; // set text to description in json
+                        domainIcon.Source = dom.ImageName;
+                    };
+                }
+
+            }
+
         }
 
 

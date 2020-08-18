@@ -32,6 +32,7 @@ namespace Sensus.UI
         protected Grid lettersGrid;
         protected Button correctLetterGreen;
         protected int missingLetterIndex;
+        public char missingLetter;
 
         public ScenarioDetailPage()
         {
@@ -43,34 +44,44 @@ namespace Sensus.UI
                 ColumnSpacing = 0,
                 RowSpacing = 0,
                 Padding = 0,
-                Margin = new Thickness(10, 10, 10, 0), // , 20 --> need to change in scenarioPage.cs
+                Margin = new Thickness(10, 10, 10, 0), // , 20 
                 ColumnDefinitions = {
-                    new ColumnDefinition {
-                        Width = new GridLength(1, GridUnitType.Star)
-                    },
-                    new ColumnDefinition
-                    {
-                        Width = new GridLength(3, GridUnitType.Star)
-                    }
+                new ColumnDefinition {
+                    Width = new GridLength(1, GridUnitType.Star)
                 },
+                new ColumnDefinition
+                {
+                    Width = new GridLength(3, GridUnitType.Star)
+                }
+            },
 
             };
             Label scenarioNum = new Label
             {
-                Text = "Scenario 1",
+                Text = "Scenario " + (scenarioCounter + 1).ToString(),
                 TextColor = Color.FromHex("166DA3"),
                 FontSize = 22,
                 FontFamily = "Source Sans Pro",
-                HorizontalTextAlignment = TextAlignment.Start
+                HorizontalTextAlignment = TextAlignment.Start,
+                Margin = new Thickness(0, 4, 0, 4)// CHANGED! added in 
+
+                //Margin = new Thickness(20,10,0,0)// CHANGED! added in 
 
             };
-            Image scenarioIcon = new Image { Source = "pencil.png", HeightRequest = 10 };
+            Image scenarioIcon = new Image
+            {
+                Source = "pencil.png",
+                HeightRequest = 10,
+                Margin = new Thickness(0, 1, -10, 1)
+            };
 
             headerGrid.Children.Add(scenarioIcon, 0, 0);
 
-            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row 
+            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row
 
             _whiteframeLayout.Children.Add(headerGrid);
+
+            //_whiteframeLayout.Children.Add(scenarioNum);
 
             Frame grayFrame = new Frame
             {
@@ -87,8 +98,6 @@ namespace Sensus.UI
 
             scenarioDescription = new Label
             {
-                //Text = "Your boss asks you to write a report.\n\nThe finished document is quite brief but took a lot of time and effort." +
-                //"\n\nBased on your writing, you expect your boss' opinion of you will be...",
                 TextColor = Color.Black,
                 FontFamily = "Source Sans Pro",
                 Margin = new Thickness(10),
@@ -124,8 +133,30 @@ namespace Sensus.UI
 
 
             var assembly = typeof(ScenarioDetailPage).GetTypeInfo().Assembly;
-            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
-            Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
+            string jsonFileName = "";
+            if (sessionNumber == 1)
+            {
+                jsonFileName = "Sensus.Android.Resources.firstSession.json";
+            }
+            if (sessionNumber == 2)
+            {
+                jsonFileName = "Sensus.Android.Resources.secondSession.json";
+            }
+            if (sessionNumber == 3)
+            {
+                jsonFileName = "Sensus.Android.Resources.thirdSession.json";
+            }
+            if (sessionNumber == 4)
+            {
+                jsonFileName = "Sensus.Android.Resources.fourthSession.json";
+            }
+            if (sessionNumber == 5)
+            {
+                jsonFileName = "Sensus.Android.Resources.fifthSession.json";
+            }
+            //Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
+            Stream stream = assembly.GetManifestResourceStream(jsonFileName);
+
             //var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
             //string jsonFileName = "firstSession.json";
             //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
@@ -140,14 +171,32 @@ namespace Sensus.UI
                 {
                     string input = data.firstSession[scenarioCounter].statement1;
                     string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+");
-                    string description = "";
-                    foreach (string sentence in sentences)
-                    {
-                        description += sentence + "\n\n";
-                    }
-                    scenarioDescription.Text = description.Substring(0, description.Length - 2);
 
-                    string word = data.firstSession[scenarioCounter].word1;
+                    string description = "";
+                    if (sentences.Length < 3)
+                    {
+                        foreach (string sentence in sentences)
+                        {
+                            description += sentence + "\n\n";
+                        }
+                    }
+                    else
+                    {
+                        for (int s = 0; s < 3; s++)
+                        {
+                            description += sentences[s] + "\n\n";
+                        }
+                        for (int f = 3; f < sentences.Length; f++)
+                        {
+                            description = description.Substring(0, description.Length - 2) + " " + sentences[f];
+                        }
+                    }
+                    description = description.Substring(0, description.LastIndexOf(" ", description.Length)); // got rid of -2
+                    description += "...";
+                    scenarioDescription.Text = description;
+
+
+                    string word = data.firstSession[scenarioCounter].word1.ToUpper(); // CHANGED!
                     int columnNum = word.Length; // column # = word length
                     ColumnDefinitionCollection columnCollection = new ColumnDefinitionCollection();
                     var letters = new Dictionary<string, Button>();
@@ -158,7 +207,12 @@ namespace Sensus.UI
                         columnCollection.Add(column);
                         // if key exists:
                         // string letterVariable = "letter" + word[i].ToString();
-                        if (letters.ContainsKey("letter" + word[i].ToString()))
+                        if (letters.ContainsKey("letter" + word[i].ToString()) && letters.ContainsKey("letter" + word[i].ToString() + word[i].ToString()))
+                        {
+                            letterVariable = "letter" + word[i].ToString() + word[i].ToString() + word[i].ToString();
+
+                        }
+                        else if (letters.ContainsKey("letter" + word[i].ToString()))
                         {
                             letterVariable = "letter" + word[i].ToString() + word[i].ToString();
 
@@ -209,7 +263,9 @@ namespace Sensus.UI
                         BackgroundColor = Color.FromHex("B5E7FA"),
                         HeightRequest = 40,
                         FontSize = 15,
-                        CornerRadius = 6
+                        CornerRadius = 6,
+                        Padding = 0,
+                        Margin = 0
                     };
                     // choose random letter to be missing 
                     Random rand = new Random();
@@ -218,7 +274,7 @@ namespace Sensus.UI
                     Button missingRandButton = letters[missingRandStr]; // missing letter button 
                     wordGrid.Children.Remove(missingRandButton); // delete button from grid
 
-                    char missingLetter = missingRandStr.Last(); // missing letter CHANGE!
+                    missingLetter = missingRandStr.Last(); // missing letter CHANGE!
                     correctLetterGreen.Text = missingLetter.ToString();
                     // get index of missing letter in word
                     // gray button to index of word in grid
@@ -233,14 +289,14 @@ namespace Sensus.UI
             lettersGrid = new Grid
             {
                 ColumnDefinitions = {
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
-                    new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+                new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
 
-                },
+            },
                 Padding = new Thickness(30, 0, 30, 5),
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 VerticalOptions = LayoutOptions.EndAndExpand // CHANGE? 
@@ -253,7 +309,7 @@ namespace Sensus.UI
 
             letterOptions["correct"] = correctLetterGreen;
 
-            string chars = "abcdefghijklmnopqrstuvwxyz";
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             int randIndex;
             string randomLetter;
 
@@ -262,10 +318,23 @@ namespace Sensus.UI
                 Random rng = new Random();
                 randIndex = rng.Next(chars.Length);
                 randomLetter = chars[randIndex].ToString();
-                //while (!letterOptions.ContainsKey(randomLetter))
-                //{
-                //    randIndex = rng.Next(chars.Length);
-                //}
+                if (randomLetter.Equals(missingLetter.ToString().ToUpper())) // problem
+                {
+                    randIndex += 1;
+                    randomLetter = chars[randIndex].ToString();
+
+                }
+                string key;
+
+                if (letterOptions.ContainsKey("option" + randomLetter))
+                {
+                    randIndex += 1;
+                    randomLetter = chars[randIndex].ToString();
+                    key = "option" + randomLetter;
+
+                }
+                else { key = "option" + randomLetter; }
+
 
                 Button letterOption = new Button
                 {
@@ -279,15 +348,27 @@ namespace Sensus.UI
                     CornerRadius = 6,
                     // ADD: Clicked = X 
                 };
-                letterOptions["option" + letterOption.Text] = letterOption;
+
+                letterOptions[key] = letterOption;
+
             }
             foreach (int b in Enumerable.Range(1, 4))
             {
+                string randOptionStr;
+                int random;
                 // random value in letterOptions
                 // but delete pair when done
                 Random rand = new Random();
                 // CHANGE
-                string randOptionStr = letterOptions.ElementAt(rand.Next(0, letterOptions.Count - 1)).Key; // missing letter string - "lettera"
+                if (letterOptions.Count <= 0)
+                {
+                    random = 0;
+                }
+                else
+                {
+                    random = rand.Next(0, letterOptions.Count);
+                };
+                randOptionStr = letterOptions.ElementAt(random).Key; // missing letter string - "lettera"
                 Button randOptionButton = letterOptions[randOptionStr]; // missing letter button 
                 lettersGrid.Children.Add(randOptionButton, b, 0);
                 letterOptions.Remove(randOptionStr);
@@ -315,22 +396,21 @@ namespace Sensus.UI
                 correctLetterGreen.BackgroundColor = Color.FromHex("6662A74C");
                 wordGrid.Children.Add(correctLetterGreen, missingLetterIndex, 0);
                 lettersGrid.Children.Add(correctIcon, 5, 0);
-                lettersGrid.Children.Add(whiteButton, 2, 0);
                 //// timer to next page
-                await Task.Delay(500); // Task.Delay(500).Wait()
-                                       //await Navigation.PushAsync(new ScenarioTestPage());
-                await Navigation.PushAsync(new ReflectionsPage());
+                await Task.Delay(500); 
+                await Navigation.PushAsync(new ScenarioTestPage());
+                // await Navigation.PushAsync(new ReflectionsPage());
+
             };
 
-            //ProgressBar blankProgress = new ProgressBar
-            //{
-            //    ProgressColor = Color.White,
-            //    BackgroundColor = Color.White,
-            //    VerticalOptions = LayoutOptions.EndAndExpand,
-            //    HeightRequest = 2
-            //};
+            Label blankLabel = new Label
+            {
+                Text = " ",
+                BackgroundColor = Color.White,
+                VerticalOptions = LayoutOptions.EndAndExpand,
+            };
 
-            //_whiteframeLayout.Children.Add(blankProgress);
+            _whiteframeLayout.Children.Add(blankLabel);
 
         }
     }
