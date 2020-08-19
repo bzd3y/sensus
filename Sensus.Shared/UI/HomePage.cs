@@ -261,7 +261,9 @@ namespace Sensus.UI
 
             async void onSessionStart(object sender, EventArgs args)
             {
-                await Navigation.PushAsync(new DomainsScreen());
+                //await Navigation.PushAsync(new DomainsScreen());
+                await Navigation.PushAsync(new RoundScore2());
+
             };
 
             _contentStack.Children.Add(startSession);

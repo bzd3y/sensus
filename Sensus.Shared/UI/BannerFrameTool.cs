@@ -22,8 +22,9 @@ namespace Sensus.UI
         protected StackLayout _contentStack;
         protected StackLayout _whiteframeLayout;
         public static int scenarioCounter = 0;
-        public int sessionNumber = 1; // counter go up at end of 40
-        public int roundScore = 0;
+        public static int sessionNumber = 1; // counter go up at end of 40
+        public static int roundScore = 7; // change back to 10
+        public static int roundCounter = 1;
 
         public BannerFrameTool()
         {

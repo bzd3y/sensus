@@ -260,6 +260,7 @@ namespace Sensus.UI
             Stream stream = assembly.GetManifestResourceStream(jsonFileName);
             //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
 
+            bool tappedBefore = false;
 
             using (var reader = new StreamReader(stream))
             {
@@ -311,19 +312,25 @@ namespace Sensus.UI
                 WidthRequest = 150
 
             };
-            next.Clicked += onNextClicked; // CHANGE BACK 8/6
-                                            //next.Clicked += onNextClicked;
+            next.Clicked += onNextClicked; 
 
             async void onNextClicked(object sender, EventArgs args)
             {
                 //GetJsonData();
+                // scenarioCounter = 9 when 10 scenarios have been completed
                 scenarioCounter++;
-                await Navigation.PushModalAsync(new NavigationPage(new ScenarioPage())); // change to scenariopage
+                if(scenarioCounter == 10 * roundCounter)
+                {
+                    await Navigation.PushModalAsync(new NavigationPage(new RoundScore())); 
+
+                }
+                else { 
+                    await Navigation.PushModalAsync(new NavigationPage(new ScenarioPage())); 
+                }
             };
 
             void onCorrect(object sender, EventArgs args)
             {
-                roundScore ++;
                 correctAnswer.BackgroundColor = Color.FromHex("6662A74C");
                 yesNo.Children.Add(correctIcon, 3, 0);
                 yes.IsEnabled = false; // disable both buttons 
@@ -333,11 +340,10 @@ namespace Sensus.UI
                 _whiteframeLayout.Children.Add(next);
             };
 
-
             void onIncorrect(object sender, EventArgs args)
             {
                 //yesNo.Children.Add(noRed, 2, 0);
-                roundScore = roundScore - 2; // -2 because 1 will be added after they get the correct one on their second try
+                roundScore --; // subtract from score
                 progressBar.Progress = 0;
                 incorrectAnswer.BackgroundColor = Color.FromHex("FAB9B5");
                 yesNo.Children.Add(incorrectIcon, 3, 0);
@@ -347,6 +353,7 @@ namespace Sensus.UI
                 bottomGrid.Children.Add(whoops, 1, 1);
                 _whiteframeLayout.Children.Remove(blankLabel2);
                 _whiteframeLayout.Children.Remove(blankLabel);
+                tappedBefore = true;
 
 
                 double step = .2; // 30

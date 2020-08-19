@@ -336,6 +336,24 @@
     <Reference Include="CsvHelper">
       <HintPath>..\packages\CsvHelper.15.0.5\lib\netstandard2.1\CsvHelper.dll</HintPath>
     </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\packages\SkiaSharp.2.80.1\lib\xamarinios1.0\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="HarfBuzzSharp">
+      <HintPath>..\packages\HarfBuzzSharp.2.6.1.6\lib\xamarinios1.0\HarfBuzzSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp.Views.iOS">
+      <HintPath>..\packages\SkiaSharp.Views.2.80.1\lib\xamarinios1.0\SkiaSharp.Views.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Topten.RichTextKit">
+      <HintPath>..\packages\Topten.RichTextKit.0.3.129\lib\netstandard2.0\Topten.RichTextKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microcharts">
+      <HintPath>..\packages\Microcharts.0.9.5.7\lib\xamarinios1.0\Microcharts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microcharts.iOS">
+      <HintPath>..\packages\Microcharts.0.9.5.7\lib\xamarinios1.0\Microcharts.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -356,6 +374,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Tests\Concurrent\MainConcurrentTests.cs" />
+    <Compile Include="CrossPieCharts\CrossPieChartsRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="..\Sensus.iOS\Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
@@ -440,4 +459,6 @@
   <Import Project="..\packages\xunit.runner.devices.2.4.48\build\xamarinios10\xunit.runner.devices.targets" Condition="Exists('..\packages\xunit.runner.devices.2.4.48\build\xamarinios10\xunit.runner.devices.targets')" />
   <Import Project="..\packages\Xamarin.Swift4.4.0.0.1\build\Xamarin.Swift4.targets" Condition="Exists('..\packages\Xamarin.Swift4.4.0.0.1\build\Xamarin.Swift4.targets')" />
   <Import Project="..\packages\Xamarin.Forms.4.5.0.530\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.4.5.0.530\build\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\SkiaSharp.2.80.1\build\xamarinios1.0\SkiaSharp.targets" Condition="Exists('..\packages\SkiaSharp.2.80.1\build\xamarinios1.0\SkiaSharp.targets')" />
+  <Import Project="..\packages\HarfBuzzSharp.2.6.1.6\build\xamarinios1.0\HarfBuzzSharp.targets" Condition="Exists('..\packages\HarfBuzzSharp.2.6.1.6\build\xamarinios1.0\HarfBuzzSharp.targets')" />
 </Project>

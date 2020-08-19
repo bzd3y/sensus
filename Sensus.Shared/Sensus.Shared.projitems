@@ -320,6 +320,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\test.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\IfThenJournalPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\DomainModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\RoundScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\RoundScore2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
