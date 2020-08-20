@@ -53,7 +53,7 @@ namespace Sensus.UI
             Image logoImage = new Image { Source = "Logo.png" };
             Label sessionNum = new Label
             {
-                Text = "Session 2",
+                Text = "Session 1",
                 TextColor = Color.White,
                 FontFamily = "Source Sans Pro",
                 FontAttributes = FontAttributes.Bold,
@@ -261,7 +261,9 @@ namespace Sensus.UI
 
             async void onSessionStart(object sender, EventArgs args)
             {
-                await Navigation.PushAsync(new DomainsScreen());
+                //await Navigation.PushAsync(new DomainsScreen());
+                await Navigation.PushAsync(new RoundScore2());
+
             };
 
             _contentStack.Children.Add(startSession);

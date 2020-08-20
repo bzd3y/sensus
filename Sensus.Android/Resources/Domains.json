@@ -1,0 +1,34 @@
+{
+  "Domains": [
+    {
+      "Domain": "Relationships",
+      "Description": "Reduce my worries about relationships and what others think of me",
+      "ImageName": "Hands.png"
+    },
+    {
+      "Domain": "My Resilience",
+      "Description": "Increase my belief that I can handle tough situations well",
+      "ImageName": "Resilience.png"
+    },
+    {
+      "Domain": "Handling Uncertainty",
+      "Description": "Increase my comfort with not knowing for certain what's going to happen",
+      "ImageName": "Uncertainty.png"
+    },
+    {
+      "Domain": "Health",
+      "Description": "Decrease how much I worry about my health or changes in my body",
+      "ImageName": "Health.png"
+    },
+    {
+      "Domain": "Surprise Me",
+      "Description": "None",
+      "ImageName": "None"
+    },
+    {
+      "Domain": "Submit Ideas",
+      "Description": "What are you anxious about right now? ",
+      "ImageName": "None"
+    }
+  ]
+}
