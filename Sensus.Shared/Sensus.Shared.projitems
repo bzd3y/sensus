@@ -310,18 +310,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\ReflectionsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScenarioTestPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\ScenarioViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\CsvFileReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\session.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\SessionMap.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\ICsvParserService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\CsvParserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\SessionModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\test.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\IfThenJournalPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\DomainModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\RoundScore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\RoundScore2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\SessionScore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
@@ -332,9 +327,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\firstSession.csv" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MindTrailsBehind\test.csv" />
   </ItemGroup>
 </Project>

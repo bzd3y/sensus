@@ -34,6 +34,7 @@ namespace Sensus.MindTrailsBehind
         public string type { get; set; }
         public string format { get; set; }
         public string immersion { get; set; }
+        public string ifthen { get; set; }
     }
 
     public class Root

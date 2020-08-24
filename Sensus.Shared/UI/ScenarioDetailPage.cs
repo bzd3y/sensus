@@ -154,13 +154,7 @@ namespace Sensus.UI
             {
                 jsonFileName = "Sensus.Android.Resources.fifthSession.json";
             }
-            //Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
             Stream stream = assembly.GetManifestResourceStream(jsonFileName);
-
-            //var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
-            //string jsonFileName = "firstSession.json";
-            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
-
 
             using (var reader = new StreamReader(stream))
             {

@@ -59,7 +59,7 @@ namespace Sensus.UI
                 TextColor = Color.Black,
                 FontFamily = "Source Sans Pro",
                 FontAttributes = FontAttributes.Bold,
-                FontSize = 25,
+                FontSize = 30,
                 VerticalTextAlignment = TextAlignment.Center, // CHANGE  
                 HorizontalTextAlignment = TextAlignment.Center
             };
@@ -75,7 +75,7 @@ namespace Sensus.UI
                 TextColor = Color.Black,
                 BackgroundColor = Color.Transparent,
                 //BackgroundColor = Color.FromHex("B5E7FA"), // CHANGED
-                FontSize = 11,
+                FontSize = 14,
                 CornerRadius = 8
             };
             grayLayout.Children.Add(selectDiff);
@@ -160,15 +160,15 @@ namespace Sensus.UI
             Button next = new Button
             {
                 Text = "Next",
-                Margin = new Thickness(10, 20, 10, 10),
-                TextColor = Color.Black, // CHANGE white
-                BackgroundColor = Color.FromHex("48AADF"), // CHANGE 166DA3 
+                Margin = new Thickness(10, 20, 10, 35),
+                TextColor = Color.Black, 
+                BackgroundColor = Color.FromHex("48AADF"), 
                 FontFamily = "Source Sans Pro",
                 FontSize = 20,
                 FontAttributes = FontAttributes.Bold,
                 CornerRadius = 8,
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.EndAndExpand, // CHANGE
+                VerticalOptions = LayoutOptions.EndAndExpand, 
                 WidthRequest = 150
 
             };
@@ -178,20 +178,10 @@ namespace Sensus.UI
             async void onNextClicked(object sender, EventArgs args)
             {
                 await Navigation.PushAsync(new ScenarioPage());
-                //await Navigation.PushAsync(new ReflectionsPage());
 
             };
             _whiteframeLayout.Children.Add(next);
 
-            //ProgressBar progress = new ProgressBar
-            //{
-            //    ProgressColor = Color.FromHex("166DA3"),
-            //    Progress = .1,
-            //    Margin = new Thickness(20,0,20,10),
-            //    VerticalOptions = LayoutOptions.EndAndExpand
-            //};
-
-            //_whiteframeLayout.Children.Add(progress);
         }
     }
 }

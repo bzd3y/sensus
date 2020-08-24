@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using Sensus.Android;
 using Xamarin.Forms;
 
 namespace Sensus.UI
@@ -253,16 +254,19 @@ namespace Sensus.UI
                 HeightRequest = 70,
                 WidthRequest = 200,
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center, // change  
+                VerticalOptions = LayoutOptions.Center, // change
 
             };
+
+            //startSession.Visual = new CustomVisual();
 
             startSession.Clicked += onSessionStart;
 
             async void onSessionStart(object sender, EventArgs args)
             {
                 //await Navigation.PushAsync(new DomainsScreen());
-                await Navigation.PushAsync(new RoundScore2());
+                await Navigation.PushAsync(new IfThenJournalPage());
+
 
             };
 

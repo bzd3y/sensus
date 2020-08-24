@@ -23,12 +23,16 @@ namespace Sensus.UI
         protected StackLayout _whiteframeLayout;
         public static int scenarioCounter = 0;
         public static int sessionNumber = 1; // counter go up at end of 40
-        public static int roundScore = 7; // change back to 10
+        public static int roundScore1 = 10; // change back to 10
+        public static int roundScore2 = 10; // change back to 10
+        public static int roundScore3 = 10; // change back to 10
+        public static int roundScore4 = 10; // change back to 10
         public static int roundCounter = 1;
 
         public BannerFrameTool()
         {
             NavigationPage.SetHasNavigationBar(this, false);
+
             _contentLayout = new RelativeLayout
             {
 
@@ -151,6 +155,14 @@ namespace Sensus.UI
                 Source = "Home.png",
                 BackgroundColor = Color.Transparent,
                 Margin = new Thickness(0, 0, 0, 10)
+            };
+
+            homeButton.Clicked += onHome;
+
+            async void onHome(object sender, EventArgs args)
+            {
+                await Navigation.PushAsync(new HomePage());
+
             };
 
             ImageButton profileButton = new ImageButton

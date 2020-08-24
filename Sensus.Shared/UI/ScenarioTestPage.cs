@@ -193,7 +193,7 @@ namespace Sensus.UI
                 FontAttributes = FontAttributes.Bold,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.EndAndExpand,
-                HeightRequest = 48,
+                HeightRequest = 42, // keep trying smalled size CHANGED!! 48 
                 WidthRequest = 150
 
             };
@@ -225,7 +225,7 @@ namespace Sensus.UI
             {
                 TextColor = Color.Black,
                 Text = "Whoops! That doesn’t look right. Please wait a moment and try again.",
-                Margin = new Thickness(0, 0, 0, 28),
+                Margin = new Thickness(0, 0, 0, 43), //CHANGED!!
                 FontSize = 15,
                 VerticalOptions = LayoutOptions.EndAndExpand, // andexpand
 
@@ -259,8 +259,6 @@ namespace Sensus.UI
             var assembly = typeof(ScenarioTestPage).GetTypeInfo().Assembly; // CHANGED
             Stream stream = assembly.GetManifestResourceStream(jsonFileName);
             //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
-
-            bool tappedBefore = false;
 
             using (var reader = new StreamReader(stream))
             {
@@ -316,15 +314,16 @@ namespace Sensus.UI
 
             async void onNextClicked(object sender, EventArgs args)
             {
-                //GetJsonData();
                 // scenarioCounter = 9 when 10 scenarios have been completed
                 scenarioCounter++;
-                if(scenarioCounter == 10 * roundCounter)
+                if(scenarioCounter % 5 == 0)
                 {
-                    await Navigation.PushModalAsync(new NavigationPage(new RoundScore())); 
+                    await Navigation.PushModalAsync(new NavigationPage(new ReflectionsPage())); 
 
                 }
-                else { 
+                // scenarioCounter == 10 * roundCounter --> when RoundScore2 appears 
+                else
+                { 
                     await Navigation.PushModalAsync(new NavigationPage(new ScenarioPage())); 
                 }
             };
@@ -343,7 +342,24 @@ namespace Sensus.UI
             void onIncorrect(object sender, EventArgs args)
             {
                 //yesNo.Children.Add(noRed, 2, 0);
-                roundScore --; // subtract from score
+                if (roundCounter == 1)
+                {
+                    roundScore1--;
+                }
+                else if (roundCounter == 2)
+                {
+                    roundScore2--;
+                }
+                else if (roundCounter == 3)
+                {
+                    roundScore3--;
+                }
+                else
+                {
+                    roundScore4--;
+                }
+
+
                 progressBar.Progress = 0;
                 incorrectAnswer.BackgroundColor = Color.FromHex("FAB9B5");
                 yesNo.Children.Add(incorrectIcon, 3, 0);
@@ -352,8 +368,7 @@ namespace Sensus.UI
                 bottomGrid.Children.Add(progressBar, 1, 0);
                 bottomGrid.Children.Add(whoops, 1, 1);
                 _whiteframeLayout.Children.Remove(blankLabel2);
-                _whiteframeLayout.Children.Remove(blankLabel);
-                tappedBefore = true;
+                _whiteframeLayout.Children.Remove(blankLabel); // CHANGED!!
 
 
                 double step = .2; // 30

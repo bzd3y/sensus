@@ -12,27 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
-using CsvHelper.Configuration;
-using CsvHelper;
 
-namespace Sensus.MindTrailsBehind
+using Xamarin.Forms;
+
+namespace Sensus.Android
 {
-    public sealed class SessionMap : ClassMap<SessionModel>
+    public class SessionScore : ContentPage
     {
-        public SessionMap()
+        public SessionScore()
         {
-            Map(m => m.block);
-            Map(m => m.name);
-            Map(m => m.title);
-            Map(m => m.word1);
-            Map(m => m.word2);
-            Map(m => m.statement1);
-            Map(m => m.statement2);
-            Map(m => m.question);
-            Map(m => m.positive);
-            Map(m => m.negative);
-            Map(m => m.answer);
-            Map(m => m.type);
+            Content = new StackLayout
+            {
+                Children = {
+                    new Label { Text = "Hello ContentPage" }
+                }
+            };
         }
     }
 }
+

@@ -11,69 +11,65 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using Microcharts;
-using SkiaSharp;
-using Microcharts.Forms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microcharts;
+using Microcharts.Forms;
+using SkiaSharp;
 using Xamarin.Forms;
-using Entry = Microcharts.ChartEntry; // changed to ChartEntry -- worked!
+using Entry = Microcharts.ChartEntry; 
+
 
 namespace Sensus.UI
 {
-    public class RoundScore2 : BannerFrameTool
+    public class SessionScore : BannerFrameTool
     {
         public int roundScore;
 
-        public RoundScore2()
+        public SessionScore()
         {
             Content = _contentLayout;
 
             _contentLayout.BackgroundColor = Color.White;
 
-            if(roundCounter == 1)
-            {
-                roundScore = roundScore1;
-            }
-            else if (roundCounter == 2)
-            {
-                roundScore = roundScore2;
-            }
-            else if (roundCounter == 3)
-            {
-                roundScore = roundScore3;
-            }
-            else if (roundCounter == 4)
-            {
-                roundScore = roundScore4;
-            }
             List<Entry> entries = new List<Entry>
             {
-                new Entry(roundScore)
+                new Entry(roundScore1)
                 {
-                    Color = SKColor.Parse("#166DA3")
+                    Color = SKColor.Parse("#166DA3"),
                 },
-                new Entry(10-roundScore)
+                new Entry(roundScore2)
+                {
+                    Color = SKColor.Parse("#48AADF"),
+
+                },
+                new Entry(roundScore3)
+                {
+                    Color = SKColor.Parse("#B5E7FA"),
+                },
+                new Entry(roundScore4)
+                {
+                    Color = SKColor.Parse("#BED3DF"),
+
+                },
+                new Entry(10-(roundScore1 + roundScore2 + roundScore3 + roundScore4))
                 {
                     Color = SKColors.Transparent
                 }
             };
-            //_contentStack.HorizontalOptions = LayoutOptions.FillAndExpand;
-            //_contentStack.VerticalOptions = LayoutOptions.FillAndExpand;
+
             _contentStack.BackgroundColor = Color.Transparent;
 
             Label congrats = new Label
             {
-                Text = "Congratulations!",
+                Text = "Training Session " + sessionNumber.ToString() + "\nComplete!",
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 30,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 VerticalOptions = LayoutOptions.Start,
                 TextColor = Color.Black,
-                Margin = new Thickness(0,0,0,25)
+                HorizontalTextAlignment = TextAlignment.Center,
+                Margin = new Thickness(-20, 0, 0, 10)
             };
             _contentStack.Children.Add(congrats);
 
@@ -100,20 +96,19 @@ namespace Sensus.UI
             };
             var scoreString = new FormattedString();
 
-            scoreString.Spans.Add(new Span { Text = roundScore.ToString(), FontSize = 50, FontAttributes = FontAttributes.Bold });
-            scoreString.Spans.Add(new Span { Text = "\n/10", FontSize = 25 });
+            scoreString.Spans.Add(new Span { Text = (roundScore1+roundScore2+roundScore3+roundScore4).ToString(), FontSize = 50, FontAttributes = FontAttributes.Bold });
+            scoreString.Spans.Add(new Span { Text = "\n/40", FontSize = 25 });
             score.FormattedText = scoreString;
 
             grid.Children.Add(Chart1);
             grid.Children.Add(score);
             _contentStack.Children.Add(grid);
-            // .5f
-            Chart1.Chart = new DonutChart() { Entries = entries, HoleRadius = .6f, BackgroundColor = SKColor.Empty  }; 
+            Chart1.Chart = new DonutChart() { Entries = entries, HoleRadius = .6f, BackgroundColor = SKColor.Empty};
 
-            Button nextRound = new Button
+            Button finish = new Button
             {
-                Text = "Start Round " + (roundCounter + 1).ToString(),
-                Margin = new Thickness(10, 25, 10, 10),
+                Text = "Finish!",
+                Margin = new Thickness(10, 15, 10, 10),
                 TextColor = Color.Black, // CHANGE white
                 BackgroundColor = Color.FromHex("48AADF"), // CHANGE 166DA3 
                 FontFamily = "Source Sans Pro",
@@ -125,25 +120,15 @@ namespace Sensus.UI
                 WidthRequest = 180
 
             };
-            _contentStack.Children.Add(nextRound);
+            _contentStack.Children.Add(finish);
+            finish.Clicked += Finish_Clicked;
 
-            nextRound.Clicked += nextClicked;
-            async void nextClicked(object sender, EventArgs args)
+            async void Finish_Clicked(object sender, EventArgs args)
             {
-                if (scenarioCounter == 39)
-                {
-                    await Navigation.PushModalAsync(new NavigationPage(new SessionScore()));
-
-                }
-                else
-                {
-                    await Navigation.PushModalAsync(new NavigationPage(new ScenarioPage()));
-
-                }
+                await Navigation.PushModalAsync(new NavigationPage(new HomePage()));
+                sessionNumber++;
             };
 
         }
-
-
     }
 }

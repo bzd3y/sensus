@@ -35,7 +35,10 @@ namespace Sensus.UI
                 VerticalOptions = LayoutOptions.Center,
                 FontFamily = "Source Sans Pro",
                 TextColor = Color.White,
-                HorizontalTextAlignment = TextAlignment.Center
+                HorizontalTextAlignment = TextAlignment.Center,
+                FontAttributes = FontAttributes.Bold,
+                CharacterSpacing = 1
+
             };
 
             Label reflect2 = new Label
@@ -47,7 +50,10 @@ namespace Sensus.UI
                 VerticalOptions = LayoutOptions.Center,
                 FontFamily = "Source Sans Pro",
                 TextColor = Color.White,
-                HorizontalTextAlignment = TextAlignment.Center
+                HorizontalTextAlignment = TextAlignment.Center,
+                FontAttributes = FontAttributes.Bold,
+                CharacterSpacing = 1
+
             };
 
             Label reflect3 = new Label
@@ -61,7 +67,9 @@ namespace Sensus.UI
                 VerticalOptions = LayoutOptions.Center,
                 FontFamily = "Source Sans Pro",
                 TextColor = Color.White,
-                HorizontalTextAlignment = TextAlignment.Center
+                HorizontalTextAlignment = TextAlignment.Center,
+                FontAttributes = FontAttributes.Bold,
+                CharacterSpacing = 1
             };
 
             Button journal = new Button

@@ -23,7 +23,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using static Sensus.MindTrailsBehind.CsvFileReader;
 
 namespace Sensus.UI
 {
@@ -99,6 +98,7 @@ namespace Sensus.UI
                 HorizontalTextAlignment = TextAlignment.Center,
                 FontSize = 25,
                 TextColor = Color.Black,
+                Margin = new Thickness(5,0,5,0),
                 HeightRequest = 80, // CHANGED FROM 100
             };
 
@@ -170,12 +170,10 @@ namespace Sensus.UI
             };
 
 
-            next.Clicked += onNextClicked; // CHANGE BACK 8/6
-            //next.Clicked += onNextClicked;
+            next.Clicked += onNextClicked;
 
             async void onNextClicked(object sender, EventArgs args)
             {
-                //GetJsonData();
                 await Navigation.PushAsync(new ScenarioDetailPage());
             };
             _whiteframeLayout.Children.Add(next);
