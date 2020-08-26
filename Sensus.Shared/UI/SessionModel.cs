@@ -30,7 +30,7 @@ namespace Sensus.MindTrailsBehind
         public string question { get; set; }
         public string positive { get; set; } // positive answer (yes or no)
         public string negative { get; set; } // negative answer (yes or no) 
-        public string answer { get; set; } // positive or negative 
+        public string answer { get; set; } // is the correct answer positive or negative?
         public string type { get; set; }
         public string format { get; set; }
         public string immersion { get; set; }

@@ -29,7 +29,6 @@ namespace Sensus.UI
     public class ScenarioPage : BannerFrameTool
     {
         private Label scenarioName;
-        
 
         public ScenarioPage()
         { 
@@ -37,12 +36,12 @@ namespace Sensus.UI
             Content = _contentLayout;
 
 
-            Grid headerGrid = new Grid
+            Grid headerGrid = new Grid // header with scenario number
             {
                 ColumnSpacing = 0,
                 RowSpacing = 0,
                 Padding = 0,
-                Margin = new Thickness(10, 10, 10, 0), // , 20 
+                Margin = new Thickness(10, 10, 10, 0),
                 ColumnDefinitions = {
                 new ColumnDefinition {
                     Width = new GridLength(1, GridUnitType.Star)
@@ -61,7 +60,7 @@ namespace Sensus.UI
                 FontSize = 22,
                 FontFamily = "Source Sans Pro",
                 HorizontalTextAlignment = TextAlignment.Start,
-                Margin = new Thickness(0, 4, 0, 4)// CHANGED! added in 
+                Margin = new Thickness(0, 4, 0, 4)
 
             };
             Image scenarioIcon = new Image
@@ -83,7 +82,7 @@ namespace Sensus.UI
                 HasShadow = false,
                 Padding = 0,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.CenterAndExpand, // CHANGED - Center 
+                HorizontalOptions = LayoutOptions.CenterAndExpand,  
                 WidthRequest = 400,
                 Margin = new Thickness(40,10,40,14),
                 CornerRadius = 10
@@ -91,18 +90,15 @@ namespace Sensus.UI
 
             scenarioName = new Label
             {
-                //Text = "Writing a report",
-                // spotting a neighbor
-                //Text = MindTrailsBehind.CsvFileReader.ReadRow(1),
                 VerticalTextAlignment = TextAlignment.Center,
                 HorizontalTextAlignment = TextAlignment.Center,
                 FontSize = 25,
                 TextColor = Color.Black,
                 Margin = new Thickness(5,0,5,0),
-                HeightRequest = 80, // CHANGED FROM 100
+                HeightRequest = 80, 
             };
 
-
+            // READ json file for scenarioPage to get
             var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
             string jsonFileName = "";
             if (sessionNumber == 1)
@@ -125,16 +121,15 @@ namespace Sensus.UI
             {
                 jsonFileName = "Sensus.Android.Resources.fifthSession.json";
             }
+
             Stream stream = assembly.GetManifestResourceStream(jsonFileName);
-            //string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "firstSession.json");
-            //Stream stream = assembly.GetManifestResourceStream("Sensus.Android.Resources.firstSession.json");
 
             using (var reader = new StreamReader(stream)) 
             {
                 var json = reader.ReadToEnd(); 
-                var data = JsonConvert.DeserializeObject<Root>(json);
+                var data = JsonConvert.DeserializeObject<Root>(json); // Root is from SessionModel.cs
 
-                if (scenarioCounter < 39) // length of json 
+                if (scenarioCounter < 40) // max number of scenarios 
                 {
                     scenarioName.Text = data.firstSession[scenarioCounter].title;
 
@@ -142,12 +137,12 @@ namespace Sensus.UI
 
             }
 
-            Image scenarioImage = new Image
+            Image scenarioImage = new Image // image for the scenario 
             {
                 Source = "Report.png",
                 HeightRequest = 200,
                 Margin = new Thickness(0, 0, 0, 0)
-            }; // CHANGED from 0, 20, 0, 0 
+            };
 
             grayFrame.Content = scenarioName;
             _whiteframeLayout.Children.Add(grayFrame);
@@ -181,7 +176,7 @@ namespace Sensus.UI
             ProgressBar progress = new ProgressBar
             {
                 ProgressColor = Color.FromHex("166DA3"),
-                Progress = scenarioCounter/40.0,
+                Progress = scenarioCounter/40.0, // progress bar is the scenario # out of 40 
                 Margin = new Thickness(20, 0, 20, 10),
                 VerticalOptions = LayoutOptions.EndAndExpand
             };

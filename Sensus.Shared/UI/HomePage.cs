@@ -17,6 +17,9 @@ using Xamarin.Forms;
 
 namespace Sensus.UI
 {
+    // because the homePage has an image background, it could not inherit elements from BannerFrameTool
+    // a lot of this page is copied from BannerFrameTool
+
     public class HomePage : ContentPage
     {
         protected RelativeLayout _contentLayout;
@@ -34,13 +37,15 @@ namespace Sensus.UI
                 Padding = new Thickness(20, 15)
             };
             Content = _contentLayout;
-            _contentLayout.Children.Add(new Image
+
+            _contentLayout.Children.Add(new Image // adding image background 
             {
                 Source = "Background.png",
                 Aspect = Aspect.Fill,
             },
+
             widthConstraint: Constraint.RelativeToParent((parent) =>
-            { return parent.Width * 1.1; })); // if this doesn't work, try getting rid of the background color for contentlayout and manually setting it 
+            { return parent.Width * 1.1; })); 
 
             Frame bannerFrame = new Frame
             {
@@ -98,11 +103,10 @@ namespace Sensus.UI
             Frame whiteFrame = new Frame
             {
                 BackgroundColor = Color.White,
-                HasShadow = true, // Change from true
-                //BorderColor = Color.Gray, // maybe change back 
+                HasShadow = true, 
                 CornerRadius = 10,
                 Padding = 0,
-                Margin = new Thickness(30, 0, 30, 40), // CHANGED from  0
+                Margin = new Thickness(30, 0, 30, 40), 
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
                 IsClippedToBounds = true,
@@ -111,9 +115,9 @@ namespace Sensus.UI
 
             _contentStack.Children.Add(whiteFrame);
 
-            _whiteframeLayout = new StackLayout // Compare with BannerAndToolBarControl
+            _whiteframeLayout = new StackLayout 
             {
-                Padding = new Thickness(0), // add this to other ^
+                Padding = new Thickness(0), 
                 Margin = new Thickness(0)
             };
 
@@ -121,7 +125,6 @@ namespace Sensus.UI
 
             Frame toolbarFrame = new Frame
             {
-                //CornerRadius = 18, CHANGE
                 BorderColor = Color.FromHex("F0ECEC"),
                 HeightRequest = 70,
                 Padding = new Thickness(0, 0, 0, 50),
@@ -161,7 +164,7 @@ namespace Sensus.UI
                 BackgroundColor = Color.Transparent,
                 Margin = new Thickness(0, 0, 0, 10)
             };
-            toolbarGrid.Children.Add(journalButton, 0, 0); // column, row 
+            toolbarGrid.Children.Add(journalButton, 0, 0); 
             toolbarGrid.Children.Add(homeButton, 1, 0);
             toolbarGrid.Children.Add(profileButton, 2, 0);
 
@@ -207,7 +210,7 @@ namespace Sensus.UI
                 Margin = new Thickness(20,30,20,50),
                 TextColor = Color.Black,
                 FontAttributes = FontAttributes.Bold,
-                VerticalOptions = LayoutOptions.Center, // CHANGE 7/30
+                VerticalOptions = LayoutOptions.Center, 
                 FontSize = 35,
                 BackgroundColor = Color.FromHex("CECECE")
             };
@@ -254,19 +257,16 @@ namespace Sensus.UI
                 HeightRequest = 70,
                 WidthRequest = 200,
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center, // change
+                VerticalOptions = LayoutOptions.Center, 
 
             };
 
-            //startSession.Visual = new CustomVisual();
 
             startSession.Clicked += onSessionStart;
 
             async void onSessionStart(object sender, EventArgs args)
             {
-                //await Navigation.PushAsync(new DomainsScreen());
-                await Navigation.PushAsync(new IfThenJournalPage());
-
+                await Navigation.PushAsync(new DomainsScreen());
 
             };
 

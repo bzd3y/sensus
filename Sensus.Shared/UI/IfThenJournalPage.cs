@@ -101,15 +101,15 @@ namespace Sensus.UI
             {
                 CornerRadius = 10,
                 BackgroundColor = Color.Transparent,
-                Margin = new Thickness(20, -30, 20, -20),
-                IsClippedToBounds = true
+                Margin = new Thickness(20, -30, 20, -20), // second from -30
+                IsClippedToBounds = true,
             };
 
             Editor journalEditor = new Editor
             {
-                HeightRequest = 80, 
+                HeightRequest = 100,
                 WidthRequest = 400,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.Center,
                 TextColor = Color.Black,
                 BackgroundColor = Color.Transparent,
             };
@@ -118,7 +118,7 @@ namespace Sensus.UI
 
             Grid journalGrid = new Grid
             {
-                Margin = 0,
+                Margin = new Thickness(20, 0, 20, 0),
                 Padding = 0,
                 IsClippedToBounds = true
             };
@@ -126,13 +126,15 @@ namespace Sensus.UI
             Image journalStripes = new Image
             {
                 Source = "JournalPage.png",
-                Aspect = Aspect.Fill,
-                HeightRequest = 80,
-                WidthRequest = 400,
+                //Aspect = Aspect.Fill,
+                Aspect = Aspect.Fill, // CHANGED 
+                HeightRequest = 100,
+                //WidthRequest = 500,
                 Margin = 0
             };
             journalGrid.Children.Add(journalStripes);
             journalGrid.Children.Add(journalFrame);
+
 
 
 
@@ -166,7 +168,7 @@ namespace Sensus.UI
             _contentStack.Children.Add(journalGrid);
             _contentStack.Children.Add(add);
 
-            var assembly = typeof(ScenarioDetailPage).GetTypeInfo().Assembly;
+            var assembly = typeof(IfThenJournalPage).GetTypeInfo().Assembly;
             string jsonFileName = "";
             if (sessionNumber == 1)
             {
@@ -195,7 +197,7 @@ namespace Sensus.UI
                 var json = reader.ReadToEnd();
                 var data = JsonConvert.DeserializeObject<Root>(json);
 
-                string input = data.firstSession[scenarioCounter].ifthen; //  - 1
+                string input = data.firstSession[scenarioCounter - 1].ifthen; //  - 1
 
                 string ifString = input.Substring(3, input.LastIndexOf(", then", input.Length) - 3);
                 ifString += "...";

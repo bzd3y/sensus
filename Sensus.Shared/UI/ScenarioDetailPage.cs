@@ -63,9 +63,8 @@ namespace Sensus.UI
                 FontSize = 22,
                 FontFamily = "Source Sans Pro",
                 HorizontalTextAlignment = TextAlignment.Start,
-                Margin = new Thickness(0, 4, 0, 4)// CHANGED! added in 
+                Margin = new Thickness(0, 4, 0, 4)
 
-                //Margin = new Thickness(20,10,0,0)// CHANGED! added in 
 
             };
             Image scenarioIcon = new Image
@@ -77,11 +76,10 @@ namespace Sensus.UI
 
             headerGrid.Children.Add(scenarioIcon, 0, 0);
 
-            headerGrid.Children.Add(scenarioNum, 1, 0); // column, row
+            headerGrid.Children.Add(scenarioNum, 1, 0); 
 
             _whiteframeLayout.Children.Add(headerGrid);
 
-            //_whiteframeLayout.Children.Add(scenarioNum);
 
             Frame grayFrame = new Frame
             {
@@ -131,6 +129,7 @@ namespace Sensus.UI
             _whiteframeLayout.Children.Add(selectTile);
 
 
+            // read json
 
             var assembly = typeof(ScenarioDetailPage).GetTypeInfo().Assembly;
             string jsonFileName = "";
@@ -161,9 +160,10 @@ namespace Sensus.UI
                 var json = reader.ReadToEnd();
                 var data = JsonConvert.DeserializeObject<Root>(json);
 
-                if (scenarioCounter < 39) // length of json 
+                if (scenarioCounter < 40) // length of json 
                 {
                     string input = data.firstSession[scenarioCounter].statement1;
+                    // from the data, get the firstSession (from SessionModel.cs
                     string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+");
 
                     string description = "";

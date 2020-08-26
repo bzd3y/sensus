@@ -21,17 +21,17 @@ namespace Sensus.UI
         protected RelativeLayout _contentLayout;
         protected StackLayout _contentStack;
         protected StackLayout _whiteframeLayout;
-        public static int scenarioCounter = 0;
-        public static int sessionNumber = 1; // counter go up at end of 40
-        public static int roundScore1 = 10; // change back to 10
-        public static int roundScore2 = 10; // change back to 10
-        public static int roundScore3 = 10; // change back to 10
-        public static int roundScore4 = 10; // change back to 10
-        public static int roundCounter = 1;
+        public static int scenarioCounter = 0; // counts scenarios in a given session 
+        public static int sessionNumber = 1; // reflects the session number  
+        public static int roundScore1 = 10; // score in round 1 in a given session 
+        public static int roundScore2 = 10; // score in round 2 in a given session 
+        public static int roundScore3 = 10; // round 3
+        public static int roundScore4 = 10; // round 4
+        public static int roundCounter = 1; // reflects round number in a given session 
 
         public BannerFrameTool()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false); // deletes top navigation bar that is default with a new navigation page 
 
             _contentLayout = new RelativeLayout
             {
@@ -40,17 +40,17 @@ namespace Sensus.UI
                 Padding = new Thickness(20, 15)
             };
 
-            Frame bannerFrame = new Frame 
+            Frame bannerFrame = new Frame // frame that holds banner at top 
             {
                 BackgroundColor = Color.FromHex("233367"),
                 HeightRequest = 80,
                 CornerRadius = 0
             };
 
-            RelativeLayout bannerLayout = new RelativeLayout();
+            RelativeLayout bannerLayout = new RelativeLayout(); // layout within the bannerFrame 
 
-            Image logoImage = new Image { Source = "Logo.png" };
-            Label sessionNum = new Label
+            Image logoImage = new Image { Source = "Logo.png" }; // MT logo 
+            Label sessionNum = new Label // "Session X" 
             {
                 Text = "Session " + sessionNumber.ToString(),
                 TextColor = Color.White,
@@ -58,7 +58,7 @@ namespace Sensus.UI
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 30
             };
-            bannerLayout.Children.Add(logoImage,
+            bannerLayout.Children.Add(logoImage, // add logo to banner 
                 xConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width * .01; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
@@ -66,13 +66,13 @@ namespace Sensus.UI
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width * .2; }));
 
-            bannerLayout.Children.Add(sessionNum,
+            bannerLayout.Children.Add(sessionNum, // add "Session X" 
                 xConstraint: Constraint.RelativeToView(logoImage,
                     (parent, sibling) => { return sibling.Width * 1.2; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Height - 40; }));
 
-            bannerFrame.Content = bannerLayout;
+            bannerFrame.Content = bannerLayout; // content of frame is bannerLayout 
 
             _contentLayout.Children.Add(bannerFrame,
                 heightConstraint: Constraint.RelativeToParent((parent) =>
@@ -80,12 +80,12 @@ namespace Sensus.UI
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width; }));
 
-            _contentStack = new StackLayout
+            _contentStack = new StackLayout // stack layout that you can easily add elements to in future screens 
             {
 
             };
 
-            _contentLayout.Children.Add(_contentStack,
+            _contentLayout.Children.Add(_contentStack, // add _contentStack to the layout on screen 
                 heightConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Height; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
@@ -93,26 +93,25 @@ namespace Sensus.UI
                 widthConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Width; }));
 
-            Frame whiteFrame = new Frame
+            Frame whiteFrame = new Frame // white frame that some screens have under the banner
             {
                 BackgroundColor = Color.White, 
-                HasShadow = true, // Change from true
-                //BorderColor = Color.Gray, // maybe change back 
+                HasShadow = true, 
                 CornerRadius = 10,
                 Padding = 0,
-                Margin = new Thickness(20, 0, 20, 40), // changed from 30 7/30
+                Margin = new Thickness(20, 0, 20, 10), 
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center, 
                 IsClippedToBounds = true,
 
             };
 
-            _contentStack.Children.Add(whiteFrame);
+            _contentStack.Children.Add(whiteFrame); // add white frame to that content stack 
 
-            _whiteframeLayout = new StackLayout 
+            _whiteframeLayout = new StackLayout // layout within the white frame that you can add to 
             {
                 Padding = new Thickness(0), 
-                Margin = new Thickness(0) // CHANGE 8/3 from 0 
+                Margin = new Thickness(0) 
             };
 
             whiteFrame.Content = _whiteframeLayout;
@@ -120,9 +119,8 @@ namespace Sensus.UI
 
 
 
-            Frame toolbarFrame = new Frame
+            Frame toolbarFrame = new Frame // tool bar at bottom
             {
-                //CornerRadius = 18, CHANGE
                 BorderColor = Color.FromHex("F0ECEC"),
                 HeightRequest = 70,
                 Padding = new Thickness(0, 0, 0, 50),
@@ -131,7 +129,7 @@ namespace Sensus.UI
 
 
             };
-            Grid toolbarGrid = new Grid
+            Grid toolbarGrid = new Grid // grid layout within the tool bar 
             {
                 Margin = 0,
                 Padding = new Thickness(0, 10, 0, 18),
@@ -144,13 +142,13 @@ namespace Sensus.UI
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star) }
                 }
             };
-            ImageButton journalButton = new ImageButton
+            ImageButton journalButton = new ImageButton // journal button on tool bar
             {
                 Source = "JournalGray.png",
                 BackgroundColor = Color.Transparent,
                 Margin = new Thickness(0, 0, 0, 10)
             };
-            ImageButton homeButton = new ImageButton
+            ImageButton homeButton = new ImageButton // home button on tool bar 
             {
                 Source = "Home.png",
                 BackgroundColor = Color.Transparent,
@@ -165,17 +163,20 @@ namespace Sensus.UI
 
             };
 
-            ImageButton profileButton = new ImageButton
+            ImageButton profileButton = new ImageButton // profile button on tool bar
             {
                 Source = "ProfileGray.png",
                 BackgroundColor = Color.Transparent,
                 Margin = new Thickness(0, 0, 0, 10)
             };
-            toolbarGrid.Children.Add(journalButton, 0, 0); // column, row 
+            // add all to toolbar 
+            toolbarGrid.Children.Add(journalButton, 0, 0);
             toolbarGrid.Children.Add(homeButton, 1, 0);
             toolbarGrid.Children.Add(profileButton, 2, 0);
 
             toolbarFrame.Content = toolbarGrid;
+
+            // add tool bar to the screen's layout 
             _contentLayout.Children.Add(toolbarFrame,
                 widthConstraint: Constraint.RelativeToParent(
                     (parent) => { return parent.Width; }),

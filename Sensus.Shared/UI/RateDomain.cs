@@ -27,19 +27,20 @@ namespace Sensus.UI
                 Text = "You chose:",
                 TextColor = Color.Black,
                 FontFamily = "Source Sans Pro",
-                //FontAttributes = FontAttributes.Bold,
                 FontSize = 23,
                 Margin = new Thickness(20,20,20,10)
             };
 
+            // add to _whiteframeLayout b/c this page has a white frame 
             _whiteframeLayout.Children.Add(youChose);
 
+            // gray box with domain name 
             Frame grayBox = new Frame
             {
                 BackgroundColor = Color.FromHex("F0ECEC"),
                 HasShadow = false,
                 CornerRadius = 8,
-                VerticalOptions = LayoutOptions.CenterAndExpand, // CHANGE
+                VerticalOptions = LayoutOptions.CenterAndExpand,
                 Margin = new Thickness(40,0,40,0)
                 
             };
@@ -74,7 +75,6 @@ namespace Sensus.UI
                 WidthRequest = 180,
                 TextColor = Color.Black,
                 BackgroundColor = Color.Transparent,
-                //BackgroundColor = Color.FromHex("B5E7FA"), // CHANGED
                 FontSize = 14,
                 CornerRadius = 8
             };
@@ -91,17 +91,19 @@ namespace Sensus.UI
 
             _whiteframeLayout.Children.Add(feeling);
 
+            // frame with likert scale of smilies 
             Frame likertBox = new Frame
             {
                 CornerRadius = 30, 
-                HasShadow = true, // CHANGED FROM False
-                HeightRequest = 65, // from 70 
+                HasShadow = true, 
+                HeightRequest = 65, 
                 Padding = new Thickness(0),
-                BorderColor = Color.Black, // CHANGED FROM GRAY
+                BorderColor = Color.Black, 
                 Margin = new Thickness(20, 0, 20, 0),
                 HorizontalOptions = LayoutOptions.Center
             };
 
+            // grid layout within the likert frame 
             Grid likertGrid = new Grid
             {
                 Margin = new Thickness(0),

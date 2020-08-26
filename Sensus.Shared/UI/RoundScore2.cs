@@ -130,6 +130,7 @@ namespace Sensus.UI
             nextRound.Clicked += nextClicked;
             async void nextClicked(object sender, EventArgs args)
             {
+                roundCounter++;
                 if (scenarioCounter == 39)
                 {
                     await Navigation.PushModalAsync(new NavigationPage(new SessionScore()));

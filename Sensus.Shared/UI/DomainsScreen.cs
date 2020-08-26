@@ -19,21 +19,21 @@ using Rg.Plugins.Popup.Animations;
 
 namespace Sensus.UI
 {
-    public class DomainsScreen : BannerFrameTool 
+    public class DomainsScreen : BannerFrameTool // inherit from BannerFrameTool because this page has a banner + toolbar
     {
         public DomainsScreen()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false); // probably can delete this 
 
-            Content = _contentLayout;
+            Content = _contentLayout; // set content of page equal to the content layout of BannerFrameTool
 
 
-            StackLayout domainLayout = new StackLayout
+            StackLayout domainLayout = new StackLayout // layout to hold each domain 
             {
-
+                // could have used _contentStack for this. This was created before I added _contentStack 
             };
 
-            _contentLayout.Children.Add(domainLayout,
+            _contentLayout.Children.Add(domainLayout, // add to BannerFrameTool's content 
                 heightConstraint: Constraint.RelativeToParent((parent) =>
                 { return parent.Height; }),
                 yConstraint: Constraint.RelativeToParent((parent) =>
@@ -62,24 +62,26 @@ namespace Sensus.UI
 
             domainLayout.Children.Add(clickTile);
 
-            Grid tileGrid = new Grid
+            Grid tileGrid = new Grid // grid with all domain tiles  
             {
                 BackgroundColor = Color.FromHex("E5E7ED"),
                 Margin = 15,
-                RowDefinitions =
+                RowDefinitions = // three rows
                 {
                     new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
                     new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
                     new RowDefinition {Height = new GridLength(1, GridUnitType.Star) }
                 },
-                ColumnDefinitions =
+                ColumnDefinitions = // two columns 
                 {
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
                     new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
                 }
             };
 
-            Button relationships = new Button
+            // creating all tiles
+
+            Button relationships = new Button 
             {
                 Text = "Relationships",
                 TextColor = Color.White,
@@ -91,16 +93,19 @@ namespace Sensus.UI
                 Margin = new Thickness(3),
                 HeightRequest = 125
             };
-            relationships.Clicked += onRelationshipsClicked;
+
+            relationships.Clicked += onRelationshipsClicked; // when relationships is clicked
 
             async void onRelationshipsClicked(object sender, EventArgs args)
             {
+                // animation for popup
                 var popupProperties = new PopupPage();
                 var scaleAnimation = new ScaleAnimation
                 {
                     PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Right,
                     PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Left
                 };
+                // new pop up page with relationships 
                 await PopupNavigation.Instance.PushAsync(new DomainPopUp("Relationships"));
             };
 
@@ -209,6 +214,7 @@ namespace Sensus.UI
                 HeightRequest = 125
             };
 
+            // add all to tile grid 
             tileGrid.Children.Add(relationships, 0, 0);
             tileGrid.Children.Add(resilience, 1, 0);
             tileGrid.Children.Add(health, 0, 1);
