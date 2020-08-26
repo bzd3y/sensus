@@ -15,6 +15,7 @@ using CsvHelper;
 using Newtonsoft.Json;
 using Sensus.MindTrailsBehind;
 using Sensus.Notifications;
+using Sensus.UI.MindTrailsBehind;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,7 +25,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class ScenarioPage : BannerFrameTool
     {

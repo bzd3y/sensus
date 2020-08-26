@@ -16,9 +16,10 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using Sensus.MindTrailsBehind;
+using Sensus.UI.MindTrailsBehind;
 using Xamarin.Forms;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class IfThenJournalPage : BannerFrameTool
     {

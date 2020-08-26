@@ -14,7 +14,7 @@
 using System;
 using Xamarin.Forms;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class RateDomain : BannerFrameTool
     {

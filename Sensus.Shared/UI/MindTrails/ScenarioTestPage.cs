@@ -16,10 +16,11 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using Sensus.MindTrailsBehind;
+using Sensus.UI.MindTrailsBehind;
 using Xamarin.Forms;
 // try to do white frame layout w/ margin as 90 on the bottom
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class ScenarioTestPage : BannerFrameTool
     {

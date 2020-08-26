@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
 
-namespace Sensus.MindTrailsBehind
+namespace Sensus.UI.MindTrailsBehind
 {
     public class SessionModel
     {

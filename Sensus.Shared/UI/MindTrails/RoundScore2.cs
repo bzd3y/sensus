@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Entry = Microcharts.ChartEntry; // changed to ChartEntry -- worked!
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class RoundScore2 : BannerFrameTool
     {

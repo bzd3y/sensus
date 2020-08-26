@@ -17,7 +17,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Animations;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class DomainsScreen : BannerFrameTool // inherit from BannerFrameTool because this page has a banner + toolbar
     {

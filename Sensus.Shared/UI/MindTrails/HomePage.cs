@@ -15,7 +15,7 @@ using System;
 using Sensus.Android;
 using Xamarin.Forms;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     // because the homePage has an image background, it could not inherit elements from BannerFrameTool
     // a lot of this page is copied from BannerFrameTool

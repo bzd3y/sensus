@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
-using Xamarin.Forms;
-// does not do anything
-namespace Sensus.UI
+using System.Collections.Generic;
 
+namespace Sensus.UI.MindTrails
 {
-    public class BannerAndToolbar : ContentView
+    public class DomainModel
     {
-        
-        public static readonly BindableProperty innerLayoutProperty = BindableProperty.Create(nameof(innerLayout), typeof(StackLayout), typeof(BannerAndToolbar));
+        // Domain, Description, ImageName
+        public string Domain { get; set; }
+        public string Description { get; set; }
+        public string ImageName { get; set; }
 
-        public StackLayout innerLayout
-        {
-            get => (StackLayout)GetValue(innerLayoutProperty);
-            set => SetValue(innerLayoutProperty, value);
-        }
+    }
+
+    public class RootSession
+    {
+        public List<DomainModel> Domains { get; set; }
 
     }
 }

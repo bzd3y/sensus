@@ -20,7 +20,7 @@ using Xamarin.Forms;
 using Entry = Microcharts.ChartEntry; 
 
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class SessionScore : BannerFrameTool
     {

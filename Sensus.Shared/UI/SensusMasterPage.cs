@@ -19,7 +19,7 @@ using Sensus.Context;
 using Sensus.UI.Inputs;
 using Xamarin.Forms;
 using System.IO;
-
+using Sensus.UI.MindTrails;
 
 namespace Sensus.UI
 {
@@ -74,7 +74,7 @@ namespace Sensus.UI
             detailPageItems.Add(new SensusDetailPageItem
             {
                 Title = "MindTrails",
-                TargetType=typeof(HomePage) //HomePage
+                TargetType=typeof(HomePage)
             });
 
             detailPageItems.Add(new SensusDetailPageItem

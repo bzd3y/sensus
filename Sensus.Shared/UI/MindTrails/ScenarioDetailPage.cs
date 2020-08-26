@@ -20,9 +20,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Sensus.MindTrailsBehind;
+using Sensus.UI.MindTrailsBehind;
 using Xamarin.Forms;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
 
     public class ScenarioDetailPage : BannerFrameTool
@@ -163,18 +164,20 @@ namespace Sensus.UI
                 if (scenarioCounter < 40) // length of json 
                 {
                     string input = data.firstSession[scenarioCounter].statement1;
-                    // from the data, get the firstSession (from SessionModel.cs
-                    string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+");
+                    // from the data, and then from the firstSession (list of all scenarios from SessionModel.cs)
+                    // get the # scenario that corresponds to scenarioCounter, then get the first statement
+
+                    string[] sentences = Regex.Split(input, @"(?<=[\.!\?])\s+"); // split by sentences
 
                     string description = "";
-                    if (sentences.Length < 3)
+                    if (sentences.Length < 3) // if there are 3 sentences, separate each sentence with two enters
                     {
                         foreach (string sentence in sentences)
                         {
                             description += sentence + "\n\n";
                         }
                     }
-                    else
+                    else // if not, the sentences after the third one should be combined without \n 
                     {
                         for (int s = 0; s < 3; s++)
                         {
@@ -185,27 +188,39 @@ namespace Sensus.UI
                             description = description.Substring(0, description.Length - 2) + " " + sentences[f];
                         }
                     }
-                    description = description.Substring(0, description.LastIndexOf(" ", description.Length)); // got rid of -2
-                    description += "...";
-                    scenarioDescription.Text = description;
+                    description = description.Substring(0, description.LastIndexOf(" ", description.Length)); // delete last space 
+                    description += "..."; // add ... to the scenario description
+
+                    scenarioDescription.Text = description; // text of the label scenarioDescription is description
 
 
-                    string word = data.firstSession[scenarioCounter].word1.ToUpper(); // CHANGED!
-                    int columnNum = word.Length; // column # = word length
-                    ColumnDefinitionCollection columnCollection = new ColumnDefinitionCollection();
-                    var letters = new Dictionary<string, Button>();
+                    string word = data.firstSession[scenarioCounter].word1.ToUpper(); // the word that should be taken out, to upper case 
+                    int columnNum = word.Length; // # of columns in the word tiles is equal to the word length
+
+                    ColumnDefinitionCollection columnCollection = new ColumnDefinitionCollection(); 
+
+                    // dictionary of letters
+                    var letters = new Dictionary<string, Button>(); 
                     string letterVariable;
-                    for (int i = 0; i < columnNum; i++) // TRYING 
+                    for (int i = 0; i < columnNum; i++) // in a loop from 0 to columnNum 
                     {
+                        // add a new column 
                         ColumnDefinition column = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
                         columnCollection.Add(column);
-                        // if key exists:
-                        // string letterVariable = "letter" + word[i].ToString();
+
+                        // now we are adding the letters in the word to the letters dictionary:
+
+
+                        // usually, string letterVariable = "letter" + word[i].ToString();
+                        // ex. lettere
+                        // if letter's key already exists in the dictionary:
                         if (letters.ContainsKey("letter" + word[i].ToString()) && letters.ContainsKey("letter" + word[i].ToString() + word[i].ToString()))
                         {
+                            // make the key something like letteree
                             letterVariable = "letter" + word[i].ToString() + word[i].ToString() + word[i].ToString();
 
                         }
+                        // otherwise, just make it "lettere" 
                         else if (letters.ContainsKey("letter" + word[i].ToString()))
                         {
                             letterVariable = "letter" + word[i].ToString() + word[i].ToString();
@@ -214,6 +229,7 @@ namespace Sensus.UI
                         else { letterVariable = "letter" + word[i].ToString(); }
 
 
+                        // for each letter, make it into a button
                         letters[letterVariable] = new Button
                         {
                             Text = word[i].ToString(),
@@ -229,12 +245,12 @@ namespace Sensus.UI
                         };
                     }
 
+                    // add letters to each column
                     wordGrid.ColumnDefinitions = columnCollection;
-                    // collection of letters --> add letters to column
                     int a = 0;
                     foreach (KeyValuePair<string, Button> letter in letters)
                     {
-                        // letter.Key is letter + e,a,b, etc.
+                        // letter.Key is lettere, lettera, letterb, etc.
                         // letter.Value is the actual button
                         wordGrid.Children.Add(letter.Value, a, 0);
                         Console.WriteLine(letter.Key);
@@ -268,11 +284,10 @@ namespace Sensus.UI
                     Button missingRandButton = letters[missingRandStr]; // missing letter button 
                     wordGrid.Children.Remove(missingRandButton); // delete button from grid
 
-                    missingLetter = missingRandStr.Last(); // missing letter CHANGE!
+                    missingLetter = missingRandStr.Last(); // missing letter 
                     correctLetterGreen.Text = missingLetter.ToString();
                     // get index of missing letter in word
                     // gray button to index of word in grid
-                    // PROBLEM 
                     wordGrid.Children.Add(missingLetterButton, missingLetterIndex, 0);
 
 
@@ -393,7 +408,6 @@ namespace Sensus.UI
                 //// timer to next page
                 await Task.Delay(500); 
                 await Navigation.PushAsync(new ScenarioTestPage());
-                // await Navigation.PushAsync(new ReflectionsPage());
 
             };
 

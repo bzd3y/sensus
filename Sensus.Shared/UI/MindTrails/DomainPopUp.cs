@@ -21,7 +21,7 @@ using System.Reflection;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Sensus.UI
+namespace Sensus.UI.MindTrails
 {
     public class DomainPopUp : PopupPage
     {
