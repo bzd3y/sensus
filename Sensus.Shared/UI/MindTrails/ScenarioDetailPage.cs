@@ -327,7 +327,7 @@ namespace Sensus.UI.MindTrails
                 Random rng = new Random();
                 randIndex = rng.Next(chars.Length);
                 randomLetter = chars[randIndex].ToString();
-                if (randomLetter.Equals(missingLetter.ToString().ToUpper())) // problem
+                if (randomLetter.Equals(missingLetter.ToString().ToUpper())) 
                 {
                     randIndex += 1;
                     randomLetter = chars[randIndex].ToString();
@@ -357,6 +357,33 @@ namespace Sensus.UI.MindTrails
                     CornerRadius = 6,
                     // ADD: Clicked = X 
                 };
+                // if key is not correct 
+                if (!letterOption.Text.Equals(missingLetter.ToString().ToUpper()))
+                {
+                    // missingRandStr.Last()
+                    letterOption.Clicked += onIncorrect;
+                    void onIncorrect(object sender, EventArgs args)
+                    {
+                        if (roundCounter == 1)
+                        {
+                            roundScore1 -= 0.5;
+                            Console.WriteLine("Score after incorrect letter");
+                            Console.WriteLine(roundScore1);
+                        }
+                        else if (roundCounter == 2)
+                        {
+                            roundScore2 -= 0.5;
+                        }
+                        else if (roundCounter == 3)
+                        {
+                            roundScore3 -= 0.5;
+                        }
+                        else
+                        {
+                            roundScore4 -= 0.50;
+                        }
+                    };
+                }
 
                 letterOptions[key] = letterOption;
 
@@ -381,6 +408,9 @@ namespace Sensus.UI.MindTrails
                 Button randOptionButton = letterOptions[randOptionStr]; // missing letter button 
                 lettersGrid.Children.Add(randOptionButton, b, 0);
                 letterOptions.Remove(randOptionStr);
+
+
+
             }
 
             Button whiteButton = new Button

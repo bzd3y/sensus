@@ -345,19 +345,21 @@ namespace Sensus.UI.MindTrails
                 //yesNo.Children.Add(noRed, 2, 0);
                 if (roundCounter == 1)
                 {
-                    roundScore1--;
+                    roundScore1 -= 0.5;
+                    Console.WriteLine("Score after incorrect test");
+                    Console.WriteLine(roundScore1);
                 }
                 else if (roundCounter == 2)
                 {
-                    roundScore2--;
+                    roundScore2 -= 0.5;
                 }
                 else if (roundCounter == 3)
                 {
-                    roundScore3--;
+                    roundScore3 -= 0.5;
                 }
                 else
                 {
-                    roundScore4--;
+                    roundScore4 -= 0.50;
                 }
 
 

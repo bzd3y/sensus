@@ -26,7 +26,7 @@ namespace Sensus.UI.MindTrails
 {
     public class RoundScore2 : BannerFrameTool
     {
-        public int roundScore;
+        public double roundScore;
 
         public RoundScore2()
         {
@@ -52,11 +52,11 @@ namespace Sensus.UI.MindTrails
             }
             List<Entry> entries = new List<Entry>
             {
-                new Entry(roundScore)
+                new Entry((float)roundScore)
                 {
                     Color = SKColor.Parse("#166DA3")
                 },
-                new Entry(10-roundScore)
+                new Entry(10-(float)roundScore)
                 {
                     Color = SKColors.Transparent
                 }

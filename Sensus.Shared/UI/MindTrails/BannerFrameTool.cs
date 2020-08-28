@@ -23,10 +23,10 @@ namespace Sensus.UI.MindTrails
         protected StackLayout _whiteframeLayout;
         public static int scenarioCounter = 0; // counts scenarios in a given session 
         public static int sessionNumber = 1; // reflects the session number  
-        public static int roundScore1 = 10; // score in round 1 in a given session 
-        public static int roundScore2 = 10; // score in round 2 in a given session 
-        public static int roundScore3 = 10; // round 3
-        public static int roundScore4 = 10; // round 4
+        public static double roundScore1 = 10; // score in round 1 in a given session 
+        public static double roundScore2 = 10; // score in round 2 in a given session 
+        public static double roundScore3 = 10; // round 3
+        public static double roundScore4 = 10; // round 4
         public static int roundCounter = 1; // reflects round number in a given session 
 
         public BannerFrameTool()

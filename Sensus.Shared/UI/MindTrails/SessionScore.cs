@@ -34,25 +34,26 @@ namespace Sensus.UI.MindTrails
 
             List<Entry> entries = new List<Entry>
             {
-                new Entry(roundScore1)
+                new Entry((float)roundScore1)
                 {
                     Color = SKColor.Parse("#166DA3"),
                 },
-                new Entry(roundScore2)
+                new Entry((float)roundScore2)
                 {
                     Color = SKColor.Parse("#48AADF"),
 
                 },
-                new Entry(roundScore3)
+                new Entry((float)roundScore3)
                 {
                     Color = SKColor.Parse("#B5E7FA"),
                 },
-                new Entry(roundScore4)
+                new Entry((float)roundScore4)
                 {
                     Color = SKColor.Parse("#BED3DF"),
 
                 },
-                new Entry(10-(roundScore1 + roundScore2 + roundScore3 + roundScore4))
+                new Entry(10-((float)roundScore1 + (float)roundScore2 +
+                (float)roundScore3 + (float)roundScore4))
                 {
                     Color = SKColors.Transparent
                 }
