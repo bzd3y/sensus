@@ -1,6 +1,5 @@
 ﻿using Foundation;
 using HealthKit;
-using MetalPerformanceShaders;
 using Newtonsoft.Json;
 using Sensus.Probes.User.Health;
 using Sensus.UI.UiProperties;
@@ -42,11 +41,6 @@ namespace Sensus.iOS.Probes.User.Health
 			public HKObjectType ObjectType { get; protected set; }
 			[JsonIgnore]
 			public string Key { get; protected set; }
-
-			public virtual Task InitializeAsync()
-			{
-				return Task.CompletedTask;
-			}
 
 			public abstract Task<List<HealthDatum>> GetDataAsync();
 		}

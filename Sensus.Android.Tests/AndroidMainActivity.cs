@@ -24,6 +24,7 @@ using Xunit;
 using Android.Widget;
 using Android.Content;
 using System;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -64,8 +65,12 @@ namespace Sensus.Android
 
             ResultChannel = resultCounter;
 
+            Instance = this;
+
             base.OnCreate(bundle);
         }
+
+        public static Activity Instance { get; private set; }
 
         public void GetActivityResultAsync(Intent intent, AndroidActivityResultRequestCode requestCode, Action<Tuple<Result, Intent>> callback)
         {
