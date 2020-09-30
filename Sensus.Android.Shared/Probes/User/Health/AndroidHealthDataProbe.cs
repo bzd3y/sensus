@@ -14,262 +14,26 @@ using System.Linq;
 using System;
 using Java.Util.Concurrent;
 using Android.Gms.Fitness.Result;
+using Android.Gms.Auth.Api.SignIn;
+using Android.Gms.Common;
+using Sensus.Extensions;
+using Android.OS;
+using Java.Interop;
+using Android.Support.V4.Content;
+using Android;
 
 namespace Sensus.Android.Probes.User.Health
 {
 	public class AndroidHealthDataProbe : HealthDataProbe
 	{
 		private GoogleApiClient _client;
+		private bool _isAuthorizationInProgress;
 
 		public AndroidHealthDataProbe()
 		{
-
+			DataTypes = new HashSet<DataType>();
 		}
 
-		//#region Health data collector classes...
-		//public abstract class HealthDataCollector
-		//{
-		//	public HealthDataCollector()
-		//	{
-
-		//	}
-
-		//	public HealthDataCollector(GoogleApiClient client)
-		//	{
-		//		Client = client;
-		//	}
-
-		//	[JsonIgnore]
-		//	public GoogleApiClient Client { get; set; }
-		//	[JsonIgnore]
-		//	public string Key { get; protected set; }
-
-		//	public abstract Task<List<HealthDatum>> GetDataAsync();
-		//}
-
-		//public class SampleCollector : HealthDataCollector
-		//{
-		//	public SampleCollector()
-		//	{
-
-		//	}
-
-		//	public SampleCollector(GoogleApiClient client) : base(client)
-		//	{
-
-		//	}
-
-		//	public override Task<List<HealthDatum>> GetDataAsync()
-		//	{
-		//		TaskCompletionSource<List<HealthDatum>> completionSource = new TaskCompletionSource<List<HealthDatum>>();
-
-		//		return completionSource.Task;
-		//	}
-		//}
-
-		////public abstract class CharacteristicCollector : HealthDataCollector
-		////{
-		////	private HKCharacteristicTypeIdentifier _characteristicType;
-
-		////	public HKCharacteristicTypeIdentifier CharacteristicType
-		////	{
-		////		get
-		////		{
-		////			return _characteristicType;
-		////		}
-		////		set
-		////		{
-		////			_characteristicType = value;
-
-		////			ObjectType = HKCharacteristicType.Create(value);
-		////			Key = value.ToString();
-		////		}
-		////	}
-
-		////	public string LastValue { get; set; }
-
-		////	protected List<HealthDatum> CreateData(string currentValue)
-		////	{
-		////		List<HealthDatum> data = new List<HealthDatum>();
-
-		////		if (currentValue != LastValue)
-		////		{
-		////			HealthDatum datum = new HealthDatum(CharacteristicType.ToString(), currentValue, null, null, DateTime.Now, DateTime.Now, DateTimeOffset.UtcNow);
-
-		////			LastValue = currentValue;
-
-		////			data.Add(datum);
-		////		}
-		////		else
-		////		{
-		////			data.Add(null);
-		////		}
-
-		////		return data;
-		////	}
-		////	protected bool CanCreateData(NSError error)
-		////	{
-		////		if (error != null)
-		////		{
-		////			SensusServiceHelper.Get().Logger.Log($"Failed to collect {CharacteristicType}: " + error.Description, LoggingLevel.Normal, GetType());
-
-		////			return false;
-		////		}
-
-		////		return true;
-		////	}
-
-		////	public CharacteristicCollector()
-		////	{
-
-		////	}
-
-		////	public CharacteristicCollector(HKHealthStore healthStore, HKCharacteristicTypeIdentifier characteristicType) : base(healthStore)
-		////	{
-		////		CharacteristicType = characteristicType;
-		////	}
-		////}
-
-		////public class BiologicalSexCollector : CharacteristicCollector
-		////{
-		////	public BiologicalSexCollector()
-		////	{
-
-		////	}
-
-		////	public BiologicalSexCollector(HKHealthStore healthStore) : base(healthStore, HKCharacteristicTypeIdentifier.BiologicalSex)
-		////	{
-
-		////	}
-
-		////	public override Task<List<HealthDatum>> GetDataAsync()
-		////	{
-		////		HKBiologicalSexObject biologicalSex = HealthStore.GetBiologicalSex(out NSError error);
-
-		////		if (CanCreateData(error))
-		////		{
-		////			string currentValue = biologicalSex.BiologicalSex.ToString();
-
-		////			return Task.FromResult(CreateData(currentValue));
-		////		}
-
-		////		return Task.FromResult(new List<HealthDatum> { null });
-		////	}
-		////}
-
-		////public class BirthdateCollector : CharacteristicCollector
-		////{
-		////	public BirthdateCollector()
-		////	{
-
-		////	}
-
-		////	public BirthdateCollector(HKHealthStore healthStore) : base(healthStore, HKCharacteristicTypeIdentifier.DateOfBirth)
-		////	{
-
-		////	}
-
-		////	public override Task<List<HealthDatum>> GetDataAsync()
-		////	{
-		////		NSDateComponents birthdate = HealthStore.GetDateOfBirthComponents(out NSError error);
-
-		////		if (birthdate != null && CanCreateData(error))
-		////		{
-		////			string currentValue = NSIso8601DateFormatter.Format(birthdate.Date, birthdate.TimeZone, NSIso8601DateFormatOptions.FullDate);
-
-		////			return Task.FromResult(CreateData(currentValue));
-		////		}
-
-		////		return Task.FromResult(new List<HealthDatum> { null });
-		////	}
-		////}
-
-		////public class BloodTypeCollector : CharacteristicCollector
-		////{
-		////	public BloodTypeCollector()
-		////	{
-
-		////	}
-
-		////	public BloodTypeCollector(HKHealthStore healthStore) : base(healthStore, HKCharacteristicTypeIdentifier.BloodType)
-		////	{
-
-		////	}
-
-		////	public override Task<List<HealthDatum>> GetDataAsync()
-		////	{
-		////		HKBloodTypeObject bloodType = HealthStore.GetBloodType(out NSError error);
-
-		////		if (CanCreateData(error))
-		////		{
-		////			string currentValue = bloodType.BloodType.ToString();
-
-		////			return Task.FromResult(CreateData(currentValue));
-		////		}
-
-		////		return Task.FromResult(new List<HealthDatum> { null });
-		////	}
-		////}
-
-		////public class FitzpatrickSkinTypeCollector : CharacteristicCollector
-		////{
-		////	public FitzpatrickSkinTypeCollector()
-		////	{
-
-		////	}
-
-		////	public FitzpatrickSkinTypeCollector(HKHealthStore healthStore) : base(healthStore, HKCharacteristicTypeIdentifier.FitzpatrickSkinType)
-		////	{
-
-		////	}
-
-		////	public override Task<List<HealthDatum>> GetDataAsync()
-		////	{
-		////		HKFitzpatrickSkinTypeObject skinType = HealthStore.GetFitzpatrickSkinType(out NSError error);
-
-		////		if (CanCreateData(error))
-		////		{
-		////			string currentValue = skinType.SkinType.ToString();
-
-		////			return Task.FromResult(CreateData(currentValue));
-		////		}
-
-		////		return Task.FromResult(new List<HealthDatum> { null });
-		////	}
-		////}
-
-		////public class WheelchairUseCollector : CharacteristicCollector
-		////{
-		////	public WheelchairUseCollector()
-		////	{
-
-		////	}
-
-		////	public WheelchairUseCollector(HKHealthStore healthStore) : base(healthStore, HKCharacteristicTypeIdentifier.WheelchairUse)
-		////	{
-
-		////	}
-
-		////	public override Task<List<HealthDatum>> GetDataAsync()
-		////	{
-		////		HKWheelchairUseObject wheelchairUse = HealthStore.GetWheelchairUse(out NSError error);
-
-		////		if (CanCreateData(error))
-		////		{
-		////			string currentValue = wheelchairUse.WheelchairUse.ToString();
-
-		////			return Task.FromResult(CreateData(currentValue));
-		////		}
-
-		////		return Task.FromResult(new List<HealthDatum> { null });
-		////	}
-		////}
-		//#endregion
-
-		//private Dictionary<string, DataType> _collectors;
-		//public List<HealthDataCollector> Collectors { get; set; }
-
-		//private Dictionary<string, DataType> _dataTypes;
 		public HashSet<DataType> DataTypes { get; set; }
 
 		public long LastCollectionTime { get; set; }
@@ -298,18 +62,17 @@ namespace Sensus.Android.Probes.User.Health
 		//public bool CollectStepCount { get; set; }
 		[OnOffUiProperty("Collect Weight:", true, 71)]
 		public bool CollectWeight { get; set; }
+
 		//[OnOffUiProperty("Collect Wheelchair Use:", true, 72)]
 		//public bool CollectWheelchairUse { get; set; }
 
-		private bool _authorizationInProgress;
-
 		private void InitializeDataType(bool enabled, DataType dataType)
 		{
-			if (enabled)
+			if (enabled && DataTypes.Contains(dataType) == false)
 			{
 				DataTypes.Add(dataType);
 			}
-			else if (enabled)
+			else if (enabled == false && DataTypes.Contains(dataType))
 			{
 				DataTypes.Remove(dataType);
 			}
@@ -317,6 +80,7 @@ namespace Sensus.Android.Probes.User.Health
 
 		private void InitializeDataTypes()
 		{
+			DataTypes = new HashSet<DataType>();
 			//_dataTypes = DataTypes.ToDictionary(x => x.Name);
 
 			//InitializeCollector(CollectBiologicalSex, new SampleCollector(_client));
@@ -336,28 +100,53 @@ namespace Sensus.Android.Probes.User.Health
 			//Collectors = _dataTypes.Values.ToList();
 		}
 
+		public void OnConnected(Bundle connectionHint)
+		{
+			_isAuthorizationInProgress = false;
+
+			SensusServiceHelper.Get().Logger.Log("Connected to Google Fitness API", LoggingLevel.Normal, GetType());
+		}
+
+		public void OnConnectionSuspended(int cause)
+		{
+			_isAuthorizationInProgress = false;
+
+			SensusServiceHelper.Get().Logger.Log("Connection to Google Fitness API suspended", LoggingLevel.Normal, GetType());
+		}
+
+		public void OnConnectionFailed(ConnectionResult result)
+		{
+			if (result.HasResolution)
+			{
+				if (_isAuthorizationInProgress == false)
+				{
+					_isAuthorizationInProgress = true;
+
+					SensusServiceHelper.Get().Logger.Log("Connecting to Google Fitness API...", LoggingLevel.Normal, GetType());
+
+					result.StartResolutionForResult(CrossCurrentActivity.Current.Activity, 999);
+				}
+			}
+			else
+			{
+				_isAuthorizationInProgress = false;
+
+				GoogleApiAvailability.Instance.GetErrorDialog(CrossCurrentActivity.Current.Activity, result.ErrorCode, 1);
+
+				SensusServiceHelper.Get().Logger.Log("Could not connect to Google Fitness API", LoggingLevel.Normal, GetType());
+			}
+		}
+
 		protected override async Task InitializeAsync()
 		{
 			await base.InitializeAsync();
 
 			_client = new GoogleApiClient.Builder(Application.Context)
+				.UseDefaultAccount()
 				.AddApi(FitnessClass.HISTORY_API)
-				.AddOnConnectionFailedListener(x =>
-				{
-					if (x.HasResolution)
-					{
-						if (_authorizationInProgress == false)
-						{
-							_authorizationInProgress = true;
-
-							x.StartResolutionForResult(CrossCurrentActivity.Current.Activity, 1);
-						}
-					}
-					else
-					{
-						SensusServiceHelper.Get().Logger.Log("Could not connect to Google Fitness API", LoggingLevel.Normal, GetType());
-					}
-				})
+				.AddScope(FitnessClass.ScopeActivityRead)
+				.AddConnectionCallbacks(OnConnected, OnConnectionSuspended)
+				.AddOnConnectionFailedListener(OnConnectionFailed)
 				.Build();
 
 			_client.Connect();
@@ -369,26 +158,49 @@ namespace Sensus.Android.Probes.User.Health
 		{
 			List<Datum> data = new List<Datum>();
 
-			if (_client.IsConnected == false)
+			if (_client.IsConnected)
 			{
-				_client.Connect();
+				long currentTime = Java.Lang.JavaSystem.CurrentTimeMillis();
+
+				if (LastCollectionTime == 0)
+				{
+					LastCollectionTime = currentTime - PollingSleepDurationMS;
+				}
+
+				LastCollectionTime = new DateTime(2020, 9, 1).ToJavaCurrentTimeMillis();
+
+				DataReadRequest.Builder builder = new DataReadRequest.Builder()
+					.SetTimeRange(LastCollectionTime, currentTime, TimeUnit.Milliseconds);
+
+				foreach (DataType dataType in DataTypes)
+				{
+					builder = builder.Read(dataType);
+				}
+
+				try
+				{
+					DataReadRequest request = builder.Build();
+
+					DataReadResult result = await FitnessClass.HistoryApi.ReadDataAsync(_client, request);
+
+					foreach (DataSet dataSet in result.DataSets)
+					{
+						foreach (DataPoint dataPoint in dataSet.DataPoints)
+						{
+							//DateTime startTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(dataPoint.GetStartTime);
+							//DateTime endTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(currentTime);
+
+							//data.Add(new HealthDatum(dataPoint.DataType.Name, dataPoint.Start))
+						}
+					}
+
+					LastCollectionTime = currentTime;
+				}
+				catch (Exception e)
+				{
+
+				}
 			}
-
-			long currentTime = Java.Lang.JavaSystem.CurrentTimeMillis();
-
-			DataReadRequest.Builder builder = new DataReadRequest.Builder()
-				.SetTimeRange(LastCollectionTime, currentTime, TimeUnit.Milliseconds);
-
-			foreach (DataType dataType in DataTypes)
-			{
-				builder = builder.Read(dataType);
-			}
-
-			DataReadRequest request = builder.Build();
-
-			DataReadResult result = await FitnessClass.HistoryApi.ReadDataAsync(_client, request);
-
-			LastCollectionTime = currentTime;
 
 			return data;
 		}
