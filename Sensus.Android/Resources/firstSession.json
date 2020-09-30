@@ -16,7 +16,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I reach out to someone and they don't respond, then I will remind myself they are probably not ignoring me on purpose."
+      "ifthen": "If I reach out to someone and they don't respond, then I will remind myself they are probably not ignoring me on purpose.",
+      "image" :  "neighbor.png"
     },
     {
       "block": 1,
@@ -34,7 +35,8 @@
       "type": "Physical_NonAnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I'm waiting to hear news from a doctor, then I will remind myself that I can handle what they tell me."
+      "ifthen": "If I'm waiting to hear news from a doctor, then I will remind myself that I can handle what they tell me.",
+      "image": "dentist.png"
     },
     {
       "block": 1,
@@ -52,7 +54,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I think my coworkers are annoyed with me, I will remind myself that it will probably pass soon."
+      "ifthen": "If I think my coworkers are annoyed with me, I will remind myself that it will probably pass soon.",
+      "image": "chair.png"
     },
     {
       "block": 1,
@@ -70,7 +73,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am being evaluated, then I will remember that people probably think I'm doing a great job."
+      "ifthen": "If I am being evaluated, then I will remember that people probably think I'm doing a great job.",
+      "image": "language.png"
     },
     {
       "block": 1,
@@ -88,7 +92,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am worried about speaking in a group, then I will remind myself that I don't know what people are thinking about me."
+      "ifthen": "If I am worried about speaking in a group, then I will remind myself that I don't know what people are thinking about me.",
+      "image": "aid.png"
     },
     {
       "block": 1,
@@ -106,7 +111,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I ______, then I will ________."
+      "ifthen": "If I ______, then I will ________.",
+      "image": "section.png"
     },
     {
       "block": 1,
@@ -124,7 +130,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am nervous before an interview, then I will focus on taking deep breaths."
+      "ifthen": "If I am nervous before an interview, then I will focus on taking deep breaths.",
+      "image": "shaky.png"
     },
     {
       "block": 1,
@@ -142,7 +149,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If something unexpected happens while I'm trying a new activity, then I will remind myself that feeling surprised is normal."
+      "ifthen": "If something unexpected happens while I'm trying a new activity, then I will remind myself that feeling surprised is normal.",
+      "image": "horseback.png"
     },
     {
       "block": 1,
@@ -160,7 +168,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If my work is being evaluated, then I will remind myself that I did my best."
+      "ifthen": "If my work is being evaluated, then I will remind myself that I did my best.",
+      "image": "report.png"
     },
     {
       "block": 1,
@@ -178,7 +187,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am feeling sudden physical sensations, then I will remind myself that these feelings are probably temporary."
+      "ifthen": "If I am feeling sudden physical sensations, then I will remind myself that these feelings are probably temporary.",
+      "image": "bus.png"
     },
     {
       "block": 2,
@@ -196,7 +206,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If a friend reacts to how I look, then I will remind myself that they might be pleasently surprised. "
+      "ifthen": "If a friend reacts to how I look, then I will remind myself that they might be pleasently surprised. ",
+      "image": "haircut.png"
     },
     {
       "block": 2,
@@ -214,7 +225,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I get nervous before a performance, then I will remember that I can tolerate the nervousness."
+      "ifthen": "If I get nervous before a performance, then I will remember that I can tolerate the nervousness.",
+      "image": "audition.png"
     },
     {
       "block": 2,
@@ -232,7 +244,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If people look at me when I walk in a room, then I will remind myself that they are probably not judging me."
+      "ifthen": "If people look at me when I walk in a room, then I will remind myself that they are probably not judging me.",
+      "image": "outfit.png"
     },
     {
       "block": 2,
@@ -250,7 +263,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I disagree with someone, then I will remind myself that it is okay to have different opinions. "
+      "ifthen": "If I disagree with someone, then I will remind myself that it is okay to have different opinions. ",
+      "image": "radio.png"
     },
     {
       "block": 2,
@@ -268,7 +282,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am anxious about being high off the ground, then I will remind myself that feeling anxious doesn’t mean I am in danger."
+      "ifthen": "If I am anxious about being high off the ground, then I will remind myself that feeling anxious doesn’t mean I am in danger.",
+      "image": "ocean.png"
     },
     {
       "block": 2,
@@ -286,7 +301,8 @@
       "type": "Physical_NonAnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I have to wait before getting an answer to a question I'm worried about, then I will remind myself that I can tolerate the anxiety I feel."
+      "ifthen": "If I have to wait before getting an answer to a question I'm worried about, then I will remind myself that I can tolerate the anxiety I feel.",
+      "image": "sick.png"
     },
     {
       "block": 2,
@@ -304,7 +320,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If people are reviewing my work, then I will remind myself that getting feedback is usually helpful."
+      "ifthen": "If people are reviewing my work, then I will remind myself that getting feedback is usually helpful.",
+      "image": "creative.png"
     },
     {
       "block": 2,
@@ -322,7 +339,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I ______, then I will ________."
+      "ifthen": "If I ______, then I will ________.",
+      "image": "coworkers.png"
     },
     {
       "block": 2,
@@ -340,7 +358,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am feeling sudden physical sensations, then I will remind myself that these feelings are probably temporary."
+      "ifthen": "If I am feeling sudden physical sensations, then I will remind myself that these feelings are probably temporary.",
+      "image": "apartment.png"
     },
     {
       "block": 2,
@@ -358,7 +377,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am worried about fianances, then I will remind myself that I am financially responsible."
+      "ifthen": "If I am worried about fianances, then I will remind myself that I am financially responsible.",
+      "image": "degree.png"
     },
     {
       "block": 3,
@@ -376,7 +396,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I start to feel dizzy, then I will remind myself that this feeling is only temporary. "
+      "ifthen": "If I start to feel dizzy, then I will remind myself that this feeling is only temporary. ",
+      "image": "movie.png"
     },
     {
       "block": 3,
@@ -394,7 +415,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I feel nervous before giving a presentation, then I will remind myself that stress helps people perform well."
+      "ifthen": "If I feel nervous before giving a presentation, then I will remind myself that stress helps people perform well.",
+      "image": "department.png"
     },
     {
       "block": 3,
@@ -412,7 +434,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I have a scary thought, then I remind myself that all thoughts eventually pass."
+      "ifthen": "If I have a scary thought, then I remind myself that all thoughts eventually pass.",
+      "image": "night.png"
     },
     {
       "block": 3,
@@ -430,7 +453,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am in an uncertain situation, then I will remind myself not to jump to conclusions."
+      "ifthen": "If I am in an uncertain situation, then I will remind myself not to jump to conclusions.",
+      "image": "babysitting.png"
     },
     {
       "block": 3,
@@ -448,7 +472,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am giving a presentation, then I will remind myself that it is good opportunity to practice public speaking. "
+      "ifthen": "If I am giving a presentation, then I will remind myself that it is good opportunity to practice public speaking. ",
+      "image": "interns.png"
     },
     {
       "block": 3,
@@ -466,7 +491,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I'm meeting new people, then I will remind myself that I can make a good impression."
+      "ifthen": "If I'm meeting new people, then I will remind myself that I can make a good impression.",
+      "image": "guests.png"
     },
     {
       "block": 3,
@@ -484,7 +510,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am with a large group of new people, then I will remember that they may feel nervous like me."
+      "ifthen": "If I am with a large group of new people, then I will remember that they may feel nervous like me.",
+      "image": "sign.png"
     },
     {
       "block": 3,
@@ -502,7 +529,8 @@
       "type": "Physical_NonAnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I'm waiting to hear news from a doctor, then I will remind myself that I will can handle what they tell me."
+      "ifthen": "If I'm waiting to hear news from a doctor, then I will remind myself that I will can handle what they tell me.",
+      "image" :  "mole.png"
     },
     {
       "block": 3,
@@ -520,7 +548,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I ______, then I will ________."
+      "ifthen": "If I ______, then I will ________.",
+      "image": "photo.png"
     },
     {
       "block": 3,
@@ -538,7 +567,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am in an uncertain situation, then I will remind myself not to jump to conclusions."
+      "ifthen": "If I am in an uncertain situation, then I will remind myself not to jump to conclusions.",
+      "image": "grandmother.png"
     },
     {
       "block": 4,
@@ -556,7 +586,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If my boss gives me feedback, then I will remind myself that she values me enough to want to help me improve. "
+      "ifthen": "If my boss gives me feedback, then I will remind myself that she values me enough to want to help me improve. ",
+      "image": "deadline.png"
     },
     {
       "block": 4,
@@ -574,7 +605,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I lose my train of thought while speaking, then I will remind myself that it is normal, and I will keep going."
+      "ifthen": "If I lose my train of thought while speaking, then I will remind myself that it is normal, and I will keep going.",
+      "image": "boss.png"
     },
     {
       "block": 4,
@@ -592,7 +624,8 @@
       "type": "Physical_NonAnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I notice changes in my body, then I will remember that they might not be related to my health."
+      "ifthen": "If I notice changes in my body, then I will remember that they might not be related to my health.",
+      "image": "throat.png"
     },
     {
       "block": 4,
@@ -610,7 +643,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I notice changes in my body, then I will remember that they might not be related to my health."
+      "ifthen": "If I notice changes in my body, then I will remember that they might not be related to my health.",
+      "image": "paint.png"
     },
     {
       "block": 4,
@@ -628,7 +662,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I am worried about keeping my job, then I will remind myself that I'm doing my best."
+      "ifthen": "If I am worried about keeping my job, then I will remind myself that I'm doing my best.",
+      "image": "economy.png"
     },
     {
       "block": 4,
@@ -646,7 +681,8 @@
       "type": "Other",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I make a small mistake in my work, then I  will emind myself that it does not reflect failure."
+      "ifthen": "If I make a small mistake in my work, then I  will emind myself that it does not reflect failure.",
+      "image": "typo.png"
     },
     {
       "block": 4,
@@ -664,7 +700,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If my boss wants to discuss my work, then I will remind myself that getting feedback is helpful. "
+      "ifthen": "If my boss wants to discuss my work, then I will remind myself that getting feedback is helpful. ",
+      "image": "evaluation.png"
     },
     {
       "block": 4,
@@ -682,7 +719,8 @@
       "type": "Physical_AnxSensitive",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I start to space out, then I will remind myself to focus on what is happening in front of me."
+      "ifthen": "If I start to space out, then I will remind myself to focus on what is happening in front of me.",
+      "image": "lecture.png"
     },
     {
       "block": 4,
@@ -700,7 +738,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I need to speak in public, then I will remind myself that it is a good opportunity to challenge myself. "
+      "ifthen": "If I need to speak in public, then I will remind myself that it is a good opportunity to challenge myself. ",
+      "image": "topic.png"
     },
     {
       "block": 4,
@@ -718,7 +757,8 @@
       "type": "Social",
       "format": "Visual",
       "immersion": "picture",
-      "ifthen": "If I hear people say my name, then I will remind myself that they might be talking about someone else."
+      "ifthen": "If I hear people say my name, then I will remind myself that they might be talking about someone else.",
+      "image": "colleagues.png"
     }
   ]
 }

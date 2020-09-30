@@ -315,6 +315,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioTestPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\SessionModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\SessionScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\YourStudies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\AddStudyPopUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\MindTrailsProtocol.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />

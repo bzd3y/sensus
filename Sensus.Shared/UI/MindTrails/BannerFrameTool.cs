@@ -21,6 +21,7 @@ namespace Sensus.UI.MindTrails
         protected RelativeLayout _contentLayout;
         protected StackLayout _contentStack;
         protected StackLayout _whiteframeLayout;
+        protected Label sessionNum;
         public static int scenarioCounter = 0; // counts scenarios in a given session 
         public static int sessionNumber = 1; // reflects the session number  
         public static double roundScore1 = 10; // score in round 1 in a given session 
@@ -50,7 +51,7 @@ namespace Sensus.UI.MindTrails
             RelativeLayout bannerLayout = new RelativeLayout(); // layout within the bannerFrame 
 
             Image logoImage = new Image { Source = "Logo.png" }; // MT logo 
-            Label sessionNum = new Label // "Session X" 
+            sessionNum = new Label // "Session X" 
             {
                 Text = "Session " + sessionNumber.ToString(),
                 TextColor = Color.White,
