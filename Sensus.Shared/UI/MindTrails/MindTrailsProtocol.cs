@@ -29,6 +29,7 @@ using Sensus.Probes;
 using Sensus.Probes.User.Scripts;
 using Sensus.UI.Inputs;
 using Sensus.UI.MindTrailsBehind;
+using Sensus.UI.UiProperties;
 
 namespace Sensus.UI.MindTrails
 {
@@ -305,12 +306,30 @@ namespace Sensus.UI.MindTrails
 
         public static async Task<MindTrailsProtocol> DeserializeAsync(byte[] bytes, bool offerToReplaceExistingProtocol) // method from 151
         {
-            string jsonStr = Encoding.UTF8.GetString(bytes);
-            var data = JsonConvert.DeserializeObject<Root>(jsonStr); // Root is from SessionModel.cs
+            string json;
+            try
+            {
+                json = Encoding.Unicode.GetString(bytes);    
+            }
 
-            // from data, you can just do something like data.firstSession[scenarioCounter].title; to get a variable
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to get json string from bytes:  " + ex.Message);
+            }
 
-            return data; 
+            MindTrailsProtocol protocol;
+            try
+            {
+                // from StringExtensions.cs
+                protocol = json.DeserializeJson<MindTrailsProtocol>();
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to deserialize json:  " + ex.Message);
+            }
+
+            return protocol; 
         }
         public string ParticipantId
         {
@@ -323,13 +342,14 @@ namespace Sensus.UI.MindTrails
                 _participantId = value;
             }
         }
+        [EntryStringUiProperty(null, false, 0, true)]
         public string Id
         {
             get { return _id; }
             set
             {
                 _id = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Id)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Id)));
             }
         }
     }
