@@ -14,9 +14,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Sensus.Context;
 using Sensus.UI.Inputs;
 using Xamarin.Forms;
+using System.IO;
+using Sensus.UI.MindTrails;
 
 namespace Sensus.UI
 {
@@ -34,6 +37,7 @@ namespace Sensus.UI
 
         public SensusMasterPage()
         {
+
             List<SensusDetailPageItem> detailPageItems = new List<SensusDetailPageItem>();
 
             detailPageItems.Add(new SensusDetailPageItem
@@ -52,12 +56,26 @@ namespace Sensus.UI
 
             detailPageItems.Add(new SensusDetailPageItem
             {
+                Title = "Message Center",
+                IconSource = "surveys.png",
+                TargetType = typeof(MessageCenterPage)
+            });
+
+            detailPageItems.Add(new SensusDetailPageItem
+            {
                 Title = "Privacy Policy",
                 IconSource = "privacy.png",
                 Action = () =>
                 {
                     Device.OpenUri(new Uri("https://predictive-technology-laboratory.github.io/sensus/articles/privacy-policy.html"));
                 }
+            });
+
+            detailPageItems.Add(new SensusDetailPageItem
+            {
+                Title = "MindTrails",
+                TargetType=typeof(YourStudies)
+                // HomePage
             });
 
             detailPageItems.Add(new SensusDetailPageItem

@@ -1,5 +1,6 @@
 ﻿<resources>
   <style name="SensusTheme" parent="SensusTheme.Base">
+     <item name="android:textAllCaps">false</item>
   </style>
   <style name="SensusTheme.Base" parent="Theme.AppCompat.NoActionBar">    
   </style>

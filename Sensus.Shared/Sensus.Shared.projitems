@@ -32,6 +32,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ImpreciseDatum.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageEventDatum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Notifications\UserMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\ApplicationUsageEventProbe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\ApplicationUsageStatsProbe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Apps\ApplicationUsageEventDatum.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\AnonymizerPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\DataStorePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\HyperlinkInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MediaInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\TimeInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\Input.cs" />
@@ -187,6 +190,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\VoiceInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\MapPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\MediaPreviewPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MessageCenterPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ParticipationReportDetailsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ParticipationReportPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\PendingScriptsPage.cs" />
@@ -209,7 +213,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScriptRunnerPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScriptRunnersPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ScriptTriggersPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\PauseProtocolsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\SnoozeProtocolsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UiProperties\DateUiProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UiProperties\DisplayStringUiProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UiProperties\DisplayYesNoUiProperty.cs" />
@@ -224,10 +228,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\UiProperties\TimeUiProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UiProperties\UiProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\VerifiedParticipationPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MessagePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewTextLinesPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Callbacks\CallbackScheduler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Callbacks\ScheduledCallback.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\DataRateCalculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewVisibleValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VideoPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Window.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\Location\EstimoteBeacon.cs" />
@@ -294,13 +300,32 @@
     <Compile Include="$(MSBuildThisFileDirectory)Adaptation\AsplAggregation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\ProbeState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptation\SensingAgentStateDatum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\BannerFrameTool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\DomainModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\DomainPopUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\DomainsScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\HomePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\IfThenJournalPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\RateDomain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ReflectionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\RoundScore2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioDetailPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioTestPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\SessionModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\SessionScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\YourStudies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\AddStudyPopUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\MindTrailsProtocol.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
     <Folder Include="$(MSBuildThisFileDirectory)Callbacks\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Notifications\" />
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)MindTrailsBehind\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UI\MindTrails\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />

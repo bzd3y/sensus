@@ -1,6 +1,7 @@
 ﻿<resources>
   <style name="SensusTheme" parent="SensusTheme.Base">
     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:textAllCaps">false</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
   </style>
 </resources>

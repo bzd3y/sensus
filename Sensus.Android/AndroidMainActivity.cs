@@ -54,6 +54,7 @@ namespace Sensus.Android
 
 		protected override async void OnCreate(Bundle savedInstanceState)
 		{
+			Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 			Console.Error.WriteLine("--------------------------- Creating activity ---------------------------");
 
 			// set the layout resources first
