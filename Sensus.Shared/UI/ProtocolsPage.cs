@@ -744,13 +744,15 @@ namespace Sensus.UI
 
         private Tuple<string, string> ParseManagedProtocolURL(string url)
         {
-            
+            Console.WriteLine("PARSE MANAGED 1");
+
             // should have the following parts (participant is optional but the last colon is still required):  managed:BASEURL:PARTICIPANT_ID
             int firstColon = url.IndexOf(':');
             int lastColon = url.LastIndexOf(':');
 
             if (firstColon == lastColon)
             {
+                Console.WriteLine("PARSE MANAGED 2");
                 throw new Exception("Invalid study URL format.");
             }
 

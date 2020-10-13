@@ -100,22 +100,30 @@ namespace Sensus.UI.MindTrails
                 WidthRequest = 180
             };
 
-            fromURL.Clicked += FromURL_Clicked;
+            fromURL.Clicked += FromURL_Clicked; 
 
 
 
-            async void FromURL_Clicked(object sender, EventArgs e)
+            async void FromURL_Clicked(object sender, EventArgs e) // is this not being called? 
             {
                 await PopupNavigation.Instance.PopAsync(true);
 
                 string url = null;
                 Input input = await SensusServiceHelper.Get().PromptForInputAsync("Download Study", new SingleLineTextInput("Study URL:", Keyboard.Url), null, true, null, null, null, null, false);
                 url = input?.Value?.ToString();
+                Console.WriteLine("URL IS: ");
+                Console.WriteLine(url);
+
+                // GOT TO HERE! 
+
 
                 if (url != null)
                 {
+                    Console.WriteLine("URL IS NOT NULL"); // got to here 
                     // Change to MindTrailsProtocol 
+                    //MindTrailsProtocol protocol = null;
                     MindTrailsProtocol protocol = null;
+
                     Exception loadException = null;
 
                     ProgressPage loadProgressPage = null;
@@ -123,26 +131,42 @@ namespace Sensus.UI.MindTrails
 
                     try
                     {
-                        Tuple<string, string> baseUrlParticipantId = ParseManagedProtocolURL(url);
+                        Console.WriteLine("TRYING 1"); 
+
+                        Tuple<string, string> baseUrlParticipantId = ParseManagedProtocolURL(url); // FAILS 
+
+                        Console.WriteLine("TRYING 2"); 
 
                         AuthenticationService authenticationService = new AuthenticationService(baseUrlParticipantId.Item1);
+
+                        Console.WriteLine("TRYING 3");  
 
                         // get account and credentials. this can take a while, so show the user something fun to look at.
                         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
                         loadProgressPage = new ProgressPage("Configuring study. Please wait...", cancellationTokenSource);
                         await loadProgressPage.DisplayAsync(Navigation);
 
+                        Console.WriteLine("TRYING 4");
+
+
                         await loadProgressPage.SetProgressAsync(0, "creating account");
                         Account account = await authenticationService.CreateAccountAsync(baseUrlParticipantId.Item2);
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        Console.WriteLine("TRYING 5");
+
 
                         await loadProgressPage.SetProgressAsync(0.3, "getting credentials");
                         AmazonS3Credentials credentials = await authenticationService.GetCredentialsAsync();
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
+                        Console.WriteLine("TRYING 6");
+
                         await loadProgressPage.SetProgressAsync(0.6, "downloading study");
                         protocol = await MindTrailsProtocol.DeserializeAsync(new Uri(credentials.ProtocolURL), true, credentials);
                         await loadProgressPage.SetProgressAsync(1, null);
+
+                        Console.WriteLine("TRYING 7");
 
                         // don't throw for cancellation here as doing so will leave the protocol partially configured. if 
                         // the download succeeds, ensure that the properties get set below before throwing any exceptions.
@@ -158,10 +182,14 @@ namespace Sensus.UI.MindTrails
                     catch (Exception ex)
                     {
                         loadException = ex;
+                        Console.WriteLine("Exception ex");
+
                     }
                     finally
                     {
                         // ensure the progress page is closed
+                        Console.WriteLine("FINALLY YES");
+
                         await (loadProgressPage?.CloseAsync() ?? Task.CompletedTask);
                     }
                 }
@@ -198,26 +226,41 @@ namespace Sensus.UI.MindTrails
 
         private Tuple<string, string> ParseManagedProtocolURL(string url)
         {
+            Console.WriteLine("GOT TO PARSE MANAGED"); 
 
             // should have the following parts (participant is optional but the last colon is still required):  managed:BASEURL:PARTICIPANT_ID
             int firstColon = url.IndexOf(':');
             int lastColon = url.LastIndexOf(':');
 
+            Console.WriteLine("GOT TO PARSE MANAGED 2");
+
             // managed:BASEURL:PARTICIPANT_ID
 
             if (firstColon == lastColon)
             {
+                Console.WriteLine("GOT TO PARSE MANAGED 3");
+                // HERE IS WHERE IT IS STOPPING. THERE ARE NO COLONS
+                // but the same thing is happening for other one 
+                
                 throw new Exception("Invalid study URL format.");
             }
+            Console.WriteLine("GOT TO PARSE MANAGED 4");
 
             string baseUrl = url.Substring(firstColon + 1, lastColon - firstColon - 1);
+
+            Console.WriteLine("GOT TO PARSE MANAGED 5");
 
             // get participant id if one follows the last colon
             string participantId = null;
             if (lastColon < url.Length - 1)
             {
                 participantId = url.Substring(lastColon + 1);
+                Console.WriteLine("PARTICIPANT ID: ");
+                Console.WriteLine(participantId);
+
+
             }
+            Console.WriteLine("GOT TO PARSE MANAGED 6");
 
             return new Tuple<string, string>(baseUrl, participantId);
         }

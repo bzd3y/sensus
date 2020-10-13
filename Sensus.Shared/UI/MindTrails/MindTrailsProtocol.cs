@@ -38,6 +38,7 @@ namespace Sensus.UI.MindTrails
         public const string MANAGED_URL_STRING = "managed"; // server end point that returns json + participant ID
         private string _id;
         private string _name;
+        private string _title;
         private string _participantId;
         private DateTimeOffset _randomTimeAnchor;
         private List<Probe> _probes;
@@ -251,6 +252,7 @@ namespace Sensus.UI.MindTrails
 
         public static async Task<MindTrailsProtocol> DeserializeAsync(Uri uri, bool offerToReplaceExistingProtocol, AmazonS3Credentials credentials = null) // bool offerToReplaceExistingProtocol, AmazonS3Credentials credentials = null
         {
+            Console.WriteLine("VERIFY"); // not getting here
             MindTrailsProtocol protocol = null;
 
             byte[] protocolBytes = null;
@@ -306,6 +308,7 @@ namespace Sensus.UI.MindTrails
 
         public static async Task<MindTrailsProtocol> DeserializeAsync(byte[] bytes, bool offerToReplaceExistingProtocol) // method from 151
         {
+            
             string json;
             try
             {
@@ -318,10 +321,12 @@ namespace Sensus.UI.MindTrails
             }
 
             MindTrailsProtocol protocol;
+            Root data;
             try
             {
                 // from StringExtensions.cs
                 protocol = json.DeserializeJson<MindTrailsProtocol>();
+                data = JsonConvert.DeserializeObject<Root>(json);
             }
 
             catch (Exception ex)
@@ -329,8 +334,17 @@ namespace Sensus.UI.MindTrails
                 throw new Exception("Failed to deserialize json:  " + ex.Message);
             }
 
+            // print a protocol field to the console
+            Console.WriteLine("VERIFICATION: ");
+            Console.WriteLine(data.firstSession[0].title);
             return protocol; 
         }
+
+        //public Root getData(byte[] bytes)
+        //{
+
+        //}
+
         public string ParticipantId
         {
             get

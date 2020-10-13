@@ -156,6 +156,8 @@ namespace Sensus.UI.MindTrails
             }
             Stream stream = assembly.GetManifestResourceStream(jsonFileName);
 
+            // should be protocol.
+
             using (var reader = new StreamReader(stream))
             {
                 var json = reader.ReadToEnd();
