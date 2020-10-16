@@ -61,6 +61,7 @@ using Sensus.iOS.Probes.User.Health;
 #if __ANDROID__
 using Sensus.Android;
 using Microsoft.AppCenter.Analytics;
+using Sensus.UI.MindTrails;
 #endif
 
 namespace Sensus
@@ -3201,6 +3202,11 @@ namespace Sensus
             };
 
             _localDataStore.WriteDatum(datum, cancellationToken);
+        }
+
+        public static implicit operator Protocol(MindTrailsProtocol v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

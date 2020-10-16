@@ -250,9 +250,9 @@ namespace Sensus.UI.MindTrails
         public AuthenticationService AuthenticationService { get; set; }
 
 
-        public static async Task<MindTrailsProtocol> DeserializeAsync(Uri uri, bool offerToReplaceExistingProtocol, AmazonS3Credentials credentials = null) // bool offerToReplaceExistingProtocol, AmazonS3Credentials credentials = null
+        public static async Task<MindTrailsProtocol> DeserializeAsync(Uri uri, bool offerToReplaceExistingProtocol) // bool offerToReplaceExistingProtocol, AmazonS3Credentials credentials = null
         {
-            Console.WriteLine("VERIFY"); // not getting here
+            Console.WriteLine("VERIFY it gets to deserialize"); // getting here!
             MindTrailsProtocol protocol = null;
 
             byte[] protocolBytes = null;
@@ -298,6 +298,7 @@ namespace Sensus.UI.MindTrails
             //{
 
             protocolBytes = await uri.DownloadBytesAsync(); // ONLY this line, comment out s3 portion, add to new protocol class
+            Console.WriteLine("bytes downloaded"); 
 
             //}
 
@@ -312,11 +313,13 @@ namespace Sensus.UI.MindTrails
             string json;
             try
             {
-                json = Encoding.Unicode.GetString(bytes);    
+                json = Encoding.Unicode.GetString(bytes);
+                Console.WriteLine("encoded json");
             }
 
             catch (Exception ex)
             {
+                Console.WriteLine("failed to get json string from bytes");
                 throw new Exception("Failed to get json string from bytes:  " + ex.Message);
             }
 
@@ -331,11 +334,12 @@ namespace Sensus.UI.MindTrails
 
             catch (Exception ex)
             {
+                Console.WriteLine("failed to deserialize json");
                 throw new Exception("Failed to deserialize json:  " + ex.Message);
             }
 
             // print a protocol field to the console
-            Console.WriteLine("VERIFICATION: ");
+            Console.WriteLine("VERIFICATION: "); // not getting to here 
             Console.WriteLine(data.firstSession[0].title);
             return protocol; 
         }

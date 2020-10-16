@@ -119,82 +119,99 @@ namespace Sensus.UI.MindTrails
 
                 if (url != null)
                 {
-                    Console.WriteLine("URL IS NOT NULL"); // got to here 
-                    // Change to MindTrailsProtocol 
-                    //MindTrailsProtocol protocol = null;
-                    MindTrailsProtocol protocol = null;
-
+                    Protocol protocol = null;
                     Exception loadException = null;
 
-                    ProgressPage loadProgressPage = null;
-
-
-                    try
+                    // handle managed studies...handshake with authentication service.
+                    if (url.StartsWith(Protocol.MANAGED_URL_STRING)) // prefix defines how it should be loaded 
                     {
-                        Console.WriteLine("TRYING 1"); 
+                        Console.WriteLine("Managed");
+                        ProgressPage loadProgressPage = null;
 
-                        Tuple<string, string> baseUrlParticipantId = ParseManagedProtocolURL(url); // FAILS 
-
-                        Console.WriteLine("TRYING 2"); 
-
-                        AuthenticationService authenticationService = new AuthenticationService(baseUrlParticipantId.Item1);
-
-                        Console.WriteLine("TRYING 3");  
-
-                        // get account and credentials. this can take a while, so show the user something fun to look at.
-                        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-                        loadProgressPage = new ProgressPage("Configuring study. Please wait...", cancellationTokenSource);
-                        await loadProgressPage.DisplayAsync(Navigation);
-
-                        Console.WriteLine("TRYING 4");
-
-
-                        await loadProgressPage.SetProgressAsync(0, "creating account");
-                        Account account = await authenticationService.CreateAccountAsync(baseUrlParticipantId.Item2);
-                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                        Console.WriteLine("TRYING 5");
-
-
-                        await loadProgressPage.SetProgressAsync(0.3, "getting credentials");
-                        AmazonS3Credentials credentials = await authenticationService.GetCredentialsAsync();
-                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                        Console.WriteLine("TRYING 6");
-
-                        await loadProgressPage.SetProgressAsync(0.6, "downloading study");
-                        protocol = await MindTrailsProtocol.DeserializeAsync(new Uri(credentials.ProtocolURL), true, credentials);
-                        await loadProgressPage.SetProgressAsync(1, null);
-
-                        Console.WriteLine("TRYING 7");
-
-                        // don't throw for cancellation here as doing so will leave the protocol partially configured. if 
-                        // the download succeeds, ensure that the properties get set below before throwing any exceptions.
-                        protocol.ParticipantId = account.ParticipantId;
-                        protocol.AuthenticationService = authenticationService;
-
-                        // make sure protocol has the id that we expect
-                        if (protocol.Id != credentials.ProtocolId)
+                        try
                         {
-                            throw new Exception("The identifier of the study does not match that of the credentials.");
+                            Tuple<string, string> baseUrlParticipantId = ParseManagedProtocolURL(url);
+
+                            AuthenticationService authenticationService = new AuthenticationService(baseUrlParticipantId.Item1);
+
+                            // get account and credentials. this can take a while, so show the user something fun to look at.
+                            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                            loadProgressPage = new ProgressPage("Configuring study. Please wait...", cancellationTokenSource);
+                            await loadProgressPage.DisplayAsync(Navigation);
+
+                            await loadProgressPage.SetProgressAsync(0, "creating account");
+                            Account account = await authenticationService.CreateAccountAsync(baseUrlParticipantId.Item2);
+                            cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                            await loadProgressPage.SetProgressAsync(0.3, "getting credentials");
+                            AmazonS3Credentials credentials = await authenticationService.GetCredentialsAsync();
+                            cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                            await loadProgressPage.SetProgressAsync(0.6, "downloading study");
+                            protocol = await Protocol.DeserializeAsync(new Uri(credentials.ProtocolURL), true, credentials);
+                            await loadProgressPage.SetProgressAsync(1, null);
+
+                            // don't throw for cancellation here as doing so will leave the protocol partially configured. if 
+                            // the download succeeds, ensure that the properties get set below before throwing any exceptions.
+                            protocol.ParticipantId = account.ParticipantId;
+                            protocol.AuthenticationService = authenticationService;
+
+                            // make sure protocol has the id that we expect
+                            if (protocol.Id != credentials.ProtocolId)
+                            {
+                                throw new Exception("The identifier of the study does not match that of the credentials.");
+                            }
+
+                            // deserializing file + adding to Protocol 
+                        }
+                        catch (Exception ex)
+                        {
+                            loadException = ex;
+                        }
+                        finally
+                        {
+                            // ensure the progress page is closed
+                            await (loadProgressPage?.CloseAsync() ?? Task.CompletedTask);
                         }
                     }
-                    catch (Exception ex)
+                    // handle unmanaged studies...direct download from URL.
+                    else
                     {
-                        loadException = ex;
-                        Console.WriteLine("Exception ex");
+                        Console.WriteLine("unmanaged");
 
+                        try
+                        {
+                            protocol = await MindTrailsProtocol.DeserializeAsync(new Uri(url), true);
+                            Console.WriteLine("protocol tried");
+                            // create a new function to deserialize JSON file --> using similar method 
+                        }
+                        catch (Exception ex)
+                        {
+                            loadException = ex;
+                            Console.WriteLine("exception!");
+
+                        }
                     }
-                    finally
-                    {
-                        // ensure the progress page is closed
-                        Console.WriteLine("FINALLY YES");
 
-                        await (loadProgressPage?.CloseAsync() ?? Task.CompletedTask);
+                    // show load exception to user
+                    if (loadException != null)
+                    {
+                        await SensusServiceHelper.Get().FlashNotificationAsync("Failed to get study:  " + loadException.Message);
+                        protocol = null;
+                    }
+
+                    // start protocol if we have one
+                    if (protocol != null)
+                    {
+                        // save app state to hang on to protocol, authentication information, etc.
+                        await SensusServiceHelper.Get().SaveAsync();
+
+                        // show the protocol to the user and start
+                        await Protocol.DisplayAndStartAsync(protocol);
                     }
                 }
-
             }
+
 
             Button back = new Button
             {
