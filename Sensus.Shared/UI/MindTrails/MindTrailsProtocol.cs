@@ -329,7 +329,8 @@ namespace Sensus.UI.MindTrails
             {
                 // from StringExtensions.cs
                 protocol = json.DeserializeJson<MindTrailsProtocol>();
-                data = JsonConvert.DeserializeObject<Root>(json);
+                Console.WriteLine("protocol deserialized");
+                //data = JsonConvert.DeserializeObject<Root>(json);
             }
 
             catch (Exception ex)
@@ -340,7 +341,7 @@ namespace Sensus.UI.MindTrails
 
             // print a protocol field to the console
             Console.WriteLine("VERIFICATION: "); // not getting to here 
-            Console.WriteLine(data.firstSession[0].title);
+            //Console.WriteLine(data.firstSession[0].title);
             return protocol; 
         }
 
