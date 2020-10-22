@@ -163,6 +163,7 @@ namespace Sensus
                 // SKIP : 
                 // once upon a time, we made the poor decision to encode protocols as unicode (UTF-16). can't switch to UTF-8 now...
                 json = SensusContext.Current.SymmetricEncryption.DecryptToString(bytes, Encoding.Unicode);
+                // what is SensusContext --> is it important? 
             }
             catch (Exception ex)
             {

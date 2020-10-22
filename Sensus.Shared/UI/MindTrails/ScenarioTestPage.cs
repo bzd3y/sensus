@@ -267,12 +267,12 @@ namespace Sensus.UI.MindTrails
                 var data = JsonConvert.DeserializeObject<Root>(json);
                 if (scenarioCounter < 39) // length of json 
                 {
-                    string input = data.firstSession[scenarioCounter].question;
+                    string input = MindTrailsProtocol.protocol.Session[scenarioCounter].question;
                     question.Text = input;
                     // if the positive answer is yes, and the answer is the positive value --> yes is correct, no is incorrect
                     // if the negative answer is yes, and the answer is the negative value --> yes is correct, no is incorrect 
-                    if (data.firstSession[scenarioCounter].positive.Equals("Yes") && data.firstSession[scenarioCounter].answer.Equals("Positive")
-                        || data.firstSession[scenarioCounter].negative.Equals("Yes") && data.firstSession[scenarioCounter].answer.Equals("Negative"))
+                    if (MindTrailsProtocol.protocol.Session[scenarioCounter].positive.Equals("Yes") && MindTrailsProtocol.protocol.Session[scenarioCounter].answer.Equals("Positive")
+                        || MindTrailsProtocol.protocol.Session[scenarioCounter].negative.Equals("Yes") && MindTrailsProtocol.protocol.Session[scenarioCounter].answer.Equals("Negative"))
                     {
                         // yes is correct, no is incorrect
                         yes.Clicked += onCorrect;

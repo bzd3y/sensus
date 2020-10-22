@@ -45,7 +45,9 @@ namespace Sensus.UI.MindTrails
         private LocalDataStore _localDataStore;
         private RemoteDataStore _remoteDataStore;
         private string _storageDirectory;
+        public static MindTrailsProtocol protocol; 
 
+        public List<SessionModel> Session { get; set; }
 
         public MindTrailsProtocol(string name)
         {
@@ -298,24 +300,36 @@ namespace Sensus.UI.MindTrails
             //{
 
             protocolBytes = await uri.DownloadBytesAsync(); // ONLY this line, comment out s3 portion, add to new protocol class
-            Console.WriteLine("bytes downloaded"); 
+
+            Console.WriteLine("bytes downloaded");
+            Console.WriteLine(protocolBytes == null); // bytes are not false 
 
             //}
 
             protocol = await DeserializeAsync(protocolBytes, offerToReplaceExistingProtocol); // look for method that deserializes from bytes
-            // new method would deserialize from bytes 
+            // new method would deserialize from bytes
+            Console.WriteLine("VERIFY 2");
+            Console.WriteLine(protocol);
             return protocol;
         }
 
+        // protocol is currrently null 
         public static async Task<MindTrailsProtocol> DeserializeAsync(byte[] bytes, bool offerToReplaceExistingProtocol) // method from 151
         {
-            
             string json;
+            Console.WriteLine("checking bytes");
+            Console.WriteLine(bytes == null); // bytes are not false 
+            //json = Encoding.Unicode.GetString(bytes);
+
+            //string json;
             try
             {
                 json = Encoding.Unicode.GetString(bytes);
                 Console.WriteLine("encoded json");
+                Console.WriteLine(json == null); 
+
             }
+
 
             catch (Exception ex)
             {
@@ -323,13 +337,30 @@ namespace Sensus.UI.MindTrails
                 throw new Exception("Failed to get json string from bytes:  " + ex.Message);
             }
 
-            MindTrailsProtocol protocol;
-            Root data;
+            // make any necessary platform conversions to type names to allow the JSON to deserialize
+            //try
+            //{
+            //    json = SensusServiceHelper.Get().ConvertJsonForCrossPlatform(json);
+            //    Console.WriteLine("json converted");
+            //    Console.WriteLine(json == null); // not null 
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("Failed to convert study:  " + ex.Message);
+
+            //}
+
+            protocol = new MindTrailsProtocol("placeholder");
+            //Root data;
             try
             {
                 // from StringExtensions.cs
-                protocol = json.DeserializeJson<MindTrailsProtocol>();
+                protocol.Session = json.DeserializeJson<List<SessionModel>>(); // problem // MindTrailsProtocol
+                //protocol.Session = JsonConvert.DeserializeObject<List<SessionModel>>(json); // problem // MindTrailsProtocol
+
                 Console.WriteLine("protocol deserialized");
+
+                //Console.WriteLine(protocol.ToString());
                 //data = JsonConvert.DeserializeObject<Root>(json);
             }
 
@@ -340,8 +371,10 @@ namespace Sensus.UI.MindTrails
             }
 
             // print a protocol field to the console
-            Console.WriteLine("VERIFICATION: "); // not getting to here 
+            Console.WriteLine("VERIFICATION: "); // getting to here  
             //Console.WriteLine(data.firstSession[0].title);
+            Console.WriteLine(protocol == null); // right now protocol is null
+
             return protocol; 
         }
 

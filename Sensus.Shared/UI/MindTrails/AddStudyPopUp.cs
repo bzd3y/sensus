@@ -181,8 +181,9 @@ namespace Sensus.UI.MindTrails
 
                         try
                         {
-                            protocol = await MindTrailsProtocol.DeserializeAsync(new Uri(url), true);
+                            protocol = await MindTrailsProtocol.DeserializeAsync(new Uri(url), true); // problem here 
                             Console.WriteLine("protocol tried");
+                            Console.WriteLine(protocol == null);
                             // create a new function to deserialize JSON file --> using similar method 
                         }
                         catch (Exception ex)

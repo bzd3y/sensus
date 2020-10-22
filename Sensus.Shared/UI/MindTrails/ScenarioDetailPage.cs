@@ -162,10 +162,12 @@ namespace Sensus.UI.MindTrails
             {
                 var json = reader.ReadToEnd();
                 var data = JsonConvert.DeserializeObject<Root>(json);
-
+                // instead of data, protocol.Session 
                 if (scenarioCounter < 40) // length of json 
                 {
-                    string input = data.firstSession[scenarioCounter].statement1;
+                    string input = MindTrailsProtocol.protocol.Session[scenarioCounter].statement1;
+                    // protocol.Session[scenarioCounter].statement1;
+
                     // from the data, and then from the firstSession (list of all scenarios from SessionModel.cs)
                     // get the # scenario that corresponds to scenarioCounter, then get the first statement
 
@@ -196,7 +198,7 @@ namespace Sensus.UI.MindTrails
                     scenarioDescription.Text = description; // text of the label scenarioDescription is description
 
 
-                    string word = data.firstSession[scenarioCounter].word1.ToUpper(); // the word that should be taken out, to upper case 
+                    string word = MindTrailsProtocol.protocol.Session[scenarioCounter].word1.ToUpper(); // the word that should be taken out, to upper case 
                     int columnNum = word.Length; // # of columns in the word tiles is equal to the word length
 
                     ColumnDefinitionCollection columnCollection = new ColumnDefinitionCollection(); 

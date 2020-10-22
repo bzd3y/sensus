@@ -1,5 +1,4 @@
-{
-  "firstSession": [
+[
     {
       "block": 1,
       "name": "neighbor",
@@ -761,4 +760,3 @@
       "image": "colleagues.png"
     }
   ]
-}

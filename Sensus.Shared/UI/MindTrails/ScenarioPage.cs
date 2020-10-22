@@ -99,6 +99,13 @@ namespace Sensus.UI.MindTrails
                 HeightRequest = 80, 
             };
 
+            Image scenarioImage = new Image // image for the scenario 
+            {
+                //Source = "dentist.png",
+                HeightRequest = 200,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+
             // READ json file for scenarioPage to get
             var assembly = typeof(ScenarioPage).GetTypeInfo().Assembly;
             string jsonFileName = "";
@@ -132,18 +139,14 @@ namespace Sensus.UI.MindTrails
 
                 if (scenarioCounter < 40) // max number of scenarios 
                 {
-                    scenarioName.Text = data.firstSession[scenarioCounter].title;
+                    scenarioName.Text = MindTrailsProtocol.protocol.Session[scenarioCounter].title;
+                    scenarioImage.Source = MindTrailsProtocol.protocol.Session[scenarioCounter].image;
 
                 }
 
             }
 
-            Image scenarioImage = new Image // image for the scenario 
-            {
-                Source = "Report.png",
-                HeightRequest = 200,
-                Margin = new Thickness(0, 0, 0, 0)
-            };
+
 
             grayFrame.Content = scenarioName;
             _whiteframeLayout.Children.Add(grayFrame);
