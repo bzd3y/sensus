@@ -65,8 +65,6 @@ namespace Sensus.Android
 			_activityResultWait = new ManualResetEvent(false);
 			_serviceBindWait = new ManualResetEvent(false);
 
-
-
 			Window.AddFlags(global::Android.Views.WindowManagerFlags.DismissKeyguard);
 			Window.AddFlags(global::Android.Views.WindowManagerFlags.ShowWhenLocked);
 			Window.AddFlags(global::Android.Views.WindowManagerFlags.TurnScreenOn);
@@ -400,12 +398,18 @@ namespace Sensus.Android
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 
-			if (requestCode == (int)_activityResultRequestCode)
+			if (requestCode == (int)AndroidActivityResultRequestCode.OauthRequest)
+			{
+				OAUTH_RESULT_RECEIVED?.Invoke(this, resultCode == Result.Ok);
+			}
+			else if (requestCode == (int)_activityResultRequestCode)
 			{
 				_activityResult = new Tuple<Result, Intent>(resultCode, data);
 				_activityResultWait.Set();
 			}
 		}
+
+		public static event EventHandler<bool> OAUTH_RESULT_RECEIVED;
 
 #if __ANDROID_23__
 		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

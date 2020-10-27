@@ -18,6 +18,7 @@ namespace Sensus.Android
     {
         PromptForFile,
         RecognizeSpeech,
-        EnableBluetooth
+        EnableBluetooth,
+        OauthRequest
     }
 }

@@ -9,29 +9,29 @@ using Android.Gms.Fitness.Data;
 using Android.App;
 using Sensus.UI.UiProperties;
 using Plugin.CurrentActivity;
-using Newtonsoft.Json;
-using System.Linq;
 using System;
 using Java.Util.Concurrent;
 using Android.Gms.Fitness.Result;
-using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Sensus.Extensions;
 using Android.OS;
-using Java.Interop;
-using Android.Support.V4.Content;
-using Android;
+using Sensus.Exceptions;
+using Xamarin.Essentials;
+using Sensus.Context;
 
 namespace Sensus.Android.Probes.User.Health
 {
 	public class AndroidHealthDataProbe : HealthDataProbe
 	{
 		private GoogleApiClient _client;
-		private bool _isAuthorizationInProgress;
+		private bool _isAuthorizing;
+		private ManualResetEventSlim _connectEvent;
 
 		public AndroidHealthDataProbe()
 		{
 			DataTypes = new HashSet<DataType>();
+
+			_connectEvent = new ManualResetEventSlim();
 		}
 
 		public HashSet<DataType> DataTypes { get; set; }
@@ -102,54 +102,87 @@ namespace Sensus.Android.Probes.User.Health
 
 		public void OnConnected(Bundle connectionHint)
 		{
-			_isAuthorizationInProgress = false;
+			_isAuthorizing = false;
+
+			_connectEvent.Set();
 
 			SensusServiceHelper.Get().Logger.Log("Connected to Google Fitness API", LoggingLevel.Normal, GetType());
 		}
 
 		public void OnConnectionSuspended(int cause)
 		{
-			_isAuthorizationInProgress = false;
+			_isAuthorizing = false;
 
 			SensusServiceHelper.Get().Logger.Log("Connection to Google Fitness API suspended", LoggingLevel.Normal, GetType());
 		}
 
 		public void OnConnectionFailed(ConnectionResult result)
 		{
-			if (result.HasResolution)
+			SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(() =>
 			{
-				if (_isAuthorizationInProgress == false)
+				if (result.HasResolution)
 				{
-					_isAuthorizationInProgress = true;
+					if (_isAuthorizing == false)
+					{
+						_isAuthorizing = true;
 
-					SensusServiceHelper.Get().Logger.Log("Connecting to Google Fitness API...", LoggingLevel.Normal, GetType());
+						SensusServiceHelper.Get().Logger.Log("Connecting to Google Fitness API...", LoggingLevel.Normal, GetType());
 
-					result.StartResolutionForResult(CrossCurrentActivity.Current.Activity, 999);
+						result.StartResolutionForResult(CrossCurrentActivity.Current.Activity, (int)AndroidActivityResultRequestCode.OauthRequest);
+					}
 				}
-			}
-			else
-			{
-				_isAuthorizationInProgress = false;
+				else
+				{
+					_isAuthorizing = false;
 
-				GoogleApiAvailability.Instance.GetErrorDialog(CrossCurrentActivity.Current.Activity, result.ErrorCode, 1);
+					GoogleApiAvailability.Instance.GetErrorDialog(CrossCurrentActivity.Current.Activity, result.ErrorCode, (int)AndroidActivityResultRequestCode.OauthRequest).Show();
 
-				SensusServiceHelper.Get().Logger.Log("Could not connect to Google Fitness API", LoggingLevel.Normal, GetType());
-			}
+					SensusServiceHelper.Get().Logger.Log("Could not connect to Google Fitness API", LoggingLevel.Normal, GetType());
+				}
+			});
 		}
 
 		protected override async Task InitializeAsync()
 		{
 			await base.InitializeAsync();
 
-			_client = new GoogleApiClient.Builder(Application.Context)
-				.UseDefaultAccount()
-				.AddApi(FitnessClass.HISTORY_API)
-				.AddScope(FitnessClass.ScopeActivityRead)
-				.AddConnectionCallbacks(OnConnected, OnConnectionSuspended)
-				.AddOnConnectionFailedListener(OnConnectionFailed)
-				.Build();
+			SensusContext.Current.MainThreadSynchronizer.ExecuteThreadSafe(() =>
+			{
+				_client = new GoogleApiClient.Builder(Application.Context)
+					.UseDefaultAccount()
+					.AddApi(FitnessClass.HISTORY_API)
+					.AddScope(FitnessClass.ScopeBodyRead)
+					.AddScope(FitnessClass.ScopeActivityRead)
+					.AddConnectionCallbacks(OnConnected, OnConnectionSuspended)
+					.AddOnConnectionFailedListener(OnConnectionFailed)
+					.Build();
 
-			_client.Connect();
+				AndroidMainActivity.OAUTH_RESULT_RECEIVED += (sender, success) =>
+				{
+					if (success)
+					{
+						if (_client.IsConnecting == false && _client.IsConnected == false)
+						{
+							_client.Connect();
+						}
+					}
+					else
+					{
+						_connectEvent.Set();
+					}
+				};
+
+				_client.Connect();
+			});
+
+			_connectEvent.Wait();
+
+			//if (_client.IsConnected == false)
+			//{
+			//	//SensusServiceHelper.Get().Logger.Log(, LoggingLevel.Normal, GetType());
+
+			//	throw SensusException.Report("Unable to connect to Google Fitness API...");
+			//}
 
 			InitializeDataTypes();
 		}
@@ -170,6 +203,7 @@ namespace Sensus.Android.Probes.User.Health
 				LastCollectionTime = new DateTime(2020, 9, 1).ToJavaCurrentTimeMillis();
 
 				DataReadRequest.Builder builder = new DataReadRequest.Builder()
+					//.EnableServerQueries()
 					.SetTimeRange(LastCollectionTime, currentTime, TimeUnit.Milliseconds);
 
 				foreach (DataType dataType in DataTypes)
@@ -203,6 +237,13 @@ namespace Sensus.Android.Probes.User.Health
 			}
 
 			return data;
+		}
+
+		protected override Task ProtectedStopAsync()
+		{
+			_client.Disconnect();
+
+			return Task.CompletedTask;
 		}
 	}
 }
