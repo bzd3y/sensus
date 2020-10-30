@@ -300,12 +300,32 @@
     <Compile Include="$(MSBuildThisFileDirectory)Adaptation\AsplAggregation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Probes\ProbeState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptation\SensingAgentStateDatum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MindTrailsBehind\session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\BannerFrameTool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\DomainModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\DomainPopUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\DomainsScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\HomePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\IfThenJournalPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\RateDomain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ReflectionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\RoundScore2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioDetailPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\ScenarioTestPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\SessionModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\SessionScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\YourStudies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\AddStudyPopUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\MindTrails\MindTrailsProtocol.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Probes\User\Scripts\ProbeTriggerProperties\" />
     <Folder Include="$(MSBuildThisFileDirectory)Callbacks\" />
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)MindTrailsBehind\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UI\MindTrails\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />

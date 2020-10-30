@@ -30,6 +30,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.3" />
+    <PackageReference Include="CsvHelper" Version="15.0.5" />
+    <PackageReference Include="SkiaSharp" Version="2.80.1" />
+    <PackageReference Include="Microcharts" Version="0.9.5.7" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />

@@ -566,7 +566,7 @@ namespace Sensus.UI
                         Exception loadException = null;
 
                         // handle managed studies...handshake with authentication service.
-                        if (url.StartsWith(Protocol.MANAGED_URL_STRING))
+                        if (url.StartsWith(Protocol.MANAGED_URL_STRING)) // prefix defines how it should be loaded 
                         {
                             ProgressPage loadProgressPage = null;
 
@@ -603,6 +603,8 @@ namespace Sensus.UI
                                 {
                                     throw new Exception("The identifier of the study does not match that of the credentials.");
                                 }
+
+                                // deserializing file + adding to Protocol 
                             }
                             catch (Exception ex)
                             {
@@ -632,6 +634,7 @@ namespace Sensus.UI
                                 else
                                 {
                                     protocol = await Protocol.DeserializeAsync(new Uri(url), true);
+                                    // create a new function to deserialize JSON file --> using similar method 
                                 }
                             }
                             catch (Exception ex)
@@ -741,13 +744,15 @@ namespace Sensus.UI
 
         private Tuple<string, string> ParseManagedProtocolURL(string url)
         {
-            
+            Console.WriteLine("PARSE MANAGED 1");
+
             // should have the following parts (participant is optional but the last colon is still required):  managed:BASEURL:PARTICIPANT_ID
             int firstColon = url.IndexOf(':');
             int lastColon = url.LastIndexOf(':');
 
             if (firstColon == lastColon)
             {
+                Console.WriteLine("PARSE MANAGED 2");
                 throw new Exception("Invalid study URL format.");
             }
 

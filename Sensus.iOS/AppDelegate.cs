@@ -47,6 +47,8 @@ namespace Sensus.iOS
     {
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
+            Rg.Plugins.Popup.Popup.Init();
+
             DateTime finishLaunchStartTime = DateTime.Now;
 
             UIDevice.CurrentDevice.BatteryMonitoringEnabled = true;

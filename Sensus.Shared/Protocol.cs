@@ -61,6 +61,7 @@ using Sensus.iOS.Probes.User.Health;
 #if __ANDROID__
 using Sensus.Android;
 using Microsoft.AppCenter.Analytics;
+using Sensus.UI.MindTrails;
 #endif
 
 namespace Sensus
@@ -79,7 +80,7 @@ namespace Sensus
         public const int GPS_DEFAULT_MIN_DISTANCE_DELAY_METERS = 50;
         public const int GPS_DEFAULT_DEFERRAL_DISTANCE_METERS = 500;
         public const int GPS_DEFAULT_DEFERRAL_TIME_MINUTES = 5;
-        public const string MANAGED_URL_STRING = "managed";
+        public const string MANAGED_URL_STRING = "managed"; // server end point that returns json + participant ID 
         private const string SENSING_AGENT_ACTION_COMPLETION_CHECK_CALLBACK_ID_SUFFIX = "sensing-agent-completion-callback";
         private readonly Regex NON_ALPHANUMERIC_REGEX = new Regex("[^a-zA-Z0-9]");
 
@@ -144,22 +145,25 @@ namespace Sensus
             // if we don't have an S3 URI, then download protocol bytes directly from web and deserialize.
             else
             {
-                protocolBytes = await uri.DownloadBytesAsync();
+                protocolBytes = await uri.DownloadBytesAsync(); // ONLY this line, comment out s3 portion, add to new protocol class
+                 
             }
 
-            protocol = await DeserializeAsync(protocolBytes, offerToReplaceExistingProtocol);
-
+            protocol = await DeserializeAsync(protocolBytes, offerToReplaceExistingProtocol); // look for method that deserializes from bytes
+            // new method would deserialize from bytes 
             return protocol;
         }
 
-        public static async Task<Protocol> DeserializeAsync(byte[] bytes, bool offerToReplaceExistingProtocol)
+        public static async Task<Protocol> DeserializeAsync(byte[] bytes, bool offerToReplaceExistingProtocol) // method from 151
         {
             // decrypt the bytes to JSON
             string json;
             try
             {
+                // SKIP : 
                 // once upon a time, we made the poor decision to encode protocols as unicode (UTF-16). can't switch to UTF-8 now...
                 json = SensusContext.Current.SymmetricEncryption.DecryptToString(bytes, Encoding.Unicode);
+                // what is SensusContext --> is it important? 
             }
             catch (Exception ex)
             {
@@ -3199,6 +3203,11 @@ namespace Sensus
             };
 
             _localDataStore.WriteDatum(datum, cancellationToken);
+        }
+
+        public static implicit operator Protocol(MindTrailsProtocol v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
