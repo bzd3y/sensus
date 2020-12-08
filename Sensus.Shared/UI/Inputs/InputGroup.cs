@@ -97,17 +97,17 @@ namespace Sensus.UI.Inputs
 		/// </summary>
 		/// <value><c>true</c> to hide the navigation buttons; otherwise, <c>false</c>.</value>
 		[ListUiProperty("Show Navigation:", true, 2, new object[] { ShowNavigationOptions.Always, ShowNavigationOptions.WhenValid, ShowNavigationOptions.WhenComplete, ShowNavigationOptions.WhenCorrect, ShowNavigationOptions.Never }, false)]
-		public ShowNavigationOptions ShowNavigationButtons { get; set; }
+		public virtual ShowNavigationOptions ShowNavigationButtons { get; set; }
 
 		[OnOffUiProperty("Prevent Navigation Backward:", true, 3)]
-		public bool HidePreviousButton { get; set; }
+		public virtual bool HidePreviousButton { get; set; }
 
 		/// <summary>
 		/// Whether or not to tag inputs in this group with the device's current GPS location.
 		/// </summary>
 		/// <value><c>true</c> if geotag; otherwise, <c>false</c>.</value>
 		[OnOffUiProperty(null, true, 3)]
-		public bool Geotag { get; set; }
+		public virtual bool Geotag { get; set; }
 
 		/// <summary>
 		/// Whether or not to force valid input values (e.g., all required fields completed, etc.)
@@ -115,14 +115,14 @@ namespace Sensus.UI.Inputs
 		/// </summary>
 		/// <value><c>true</c> if force valid inputs; otherwise, <c>false</c>.</value>
 		[OnOffUiProperty("Force Valid Inputs:", true, 4)]
-		public bool ForceValidInputs { get; set; }
+		public virtual bool ForceValidInputs { get; set; }
 
 		/// <summary>
 		/// Whether or not to randomly shuffle the inputs in this group when displaying them to the user.
 		/// </summary>
 		/// <value><c>true</c> if shuffle inputs; otherwise, <c>false</c>.</value>
 		[OnOffUiProperty("Shuffle Inputs:", true, 5)]
-		public bool ShuffleInputs { get; set; }
+		public virtual bool ShuffleInputs { get; set; }
 
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="InputGroup"/> is valid.

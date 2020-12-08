@@ -175,6 +175,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ButtonGridInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ButtonWithValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\InputFeedbackView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrials\MindTrialsInputGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrials\MindTrialsTrainingModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ScoreInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ReadOnlyTextInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\HyperlinkInput.cs" />
@@ -318,6 +320,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Callbacks\" />
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrials\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
