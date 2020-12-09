@@ -26,6 +26,7 @@ namespace Sensus.UI.Inputs
 		private string _value;
 
 		private ButtonWithValue _correctButton;
+		private ButtonGridView _choiceGrid;
 
 		public override object Value => _value;
 
@@ -94,7 +95,7 @@ namespace Sensus.UI.Inputs
 					HorizontalTextAlignment = TextAlignment.Center
 				};
 
-				ButtonGridView choiceGrid = new ButtonGridView(0, (o, s) =>
+				_choiceGrid = new ButtonGridView(0, (o, s) =>
 				{
 					if (o is ButtonWithValue button)
 					{
@@ -132,14 +133,14 @@ namespace Sensus.UI.Inputs
 
 				foreach(string choice in choices.OrderBy(x => random.Next()))
 				{
-					choiceGrid.AddButton(choice.ToUpper(), choice);
+					_choiceGrid.AddButton(choice.ToUpper(), choice);
 				}
 
-				choiceGrid.Arrange();
+				_choiceGrid.Arrange();
 
 				StackLayout puzzleLayout = new StackLayout()
 				{
-					Children = { wordGrid, label, choiceGrid }
+					Children = { wordGrid, label, _choiceGrid }
 				};
 
 				base.SetView(puzzleLayout);

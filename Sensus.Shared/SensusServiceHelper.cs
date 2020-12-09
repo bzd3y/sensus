@@ -50,6 +50,7 @@ using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Plugin.ContactService.Shared;
 using System.Text.RegularExpressions;
+using Sensus.UI.Inputs.MindTrials;
 
 namespace Sensus
 {
@@ -1278,6 +1279,17 @@ namespace Sensus
 			// keep a stack of input groups that were displayed so that the user can navigate backward. not all groups are displayed due to display
 			// conditions, so we can't simply decrement the index to navigate backwards.
 			Stack<int> inputGroupNumBackStack = new Stack<int>();
+
+			// expand MindTrialsInputGroups
+			inputGroups = inputGroups.SelectMany(x =>
+			{
+				if (x is MindTrialsInputGroup mindTrials)
+				{
+					return mindTrials.InputGroups;
+				}
+
+				return new List<InputGroup> { x };
+			});
 
 			// assign inputs to scoreinputs by scoregroup
 			IEnumerable<Input> allInputs = inputGroups.SelectMany(x => x.Inputs);

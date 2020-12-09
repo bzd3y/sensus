@@ -45,6 +45,11 @@ namespace Sensus.UI
 
 				List<string> actions = new string[] { "Edit", "Copy", "Delete" }.ToList();
 
+				if (selectedInputGroup is MindTrialsInputGroup)
+				{
+					actions.Insert(2, "Update");
+				}
+
 				if (selectedIndex < script.InputGroups.Count - 1)
 				{
 					actions.Insert(0, "Move Down");
@@ -76,6 +81,13 @@ namespace Sensus.UI
 				{
 					script.InputGroups.Add(selectedInputGroup.Copy(true));
 				}
+				else if (selectedAction == "Update")
+				{
+					if (selectedInputGroup is MindTrialsInputGroup mindTrialsInputGroup)
+					{
+						await mindTrialsInputGroup.DownloadAndBuildAsync();
+					}
+				}
 				else if (selectedAction == "Delete")
 				{
 					if (await DisplayAlert("Delete " + selectedInputGroup.ListItemText + "?", "This action cannot be undone.", "Delete", "Cancel"))
@@ -103,13 +115,7 @@ namespace Sensus.UI
 					{
 						if (string.IsNullOrWhiteSpace(input.Value as string) == false)
 						{
-							using (HttpClient client = new HttpClient())
-							{
-								using (HttpResponseMessage response = await client.GetAsync(input?.Value?.ToString()))
-								{
-									await inputGroup.BuildAsync(await response.Content.ReadAsStringAsync());
-								}
-							}
+							await inputGroup.DownloadAndBuildAsync(input?.Value?.ToString());
 
 							script.InputGroups.Add(inputGroup);
 						}

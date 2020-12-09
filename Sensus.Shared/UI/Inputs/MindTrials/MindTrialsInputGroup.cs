@@ -16,17 +16,47 @@ using Newtonsoft.Json;
 using Sensus.UI.UiProperties;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Sensus.UI.Inputs.MindTrials
 {
 	public class MindTrialsInputGroup : InputGroup, INotifyPropertyChanged
 	{
+		public MindTrialsInputGroup()
+		{
+			InputGroups = new List<InputGroup>();
+		}
+
+		public string Url { get; set; }
 		public List<InputGroup> InputGroups { get; set; }
+
+		public override bool HasInputs => InputGroups.Any(x => x.HasInputs);
+
+		public async Task DownloadAndBuildAsync(string url)
+		{
+			Url = url;
+
+			await DownloadAndBuildAsync();
+		}
+
+		public async Task DownloadAndBuildAsync()
+		{
+			using (HttpClient client = new HttpClient())
+			{
+				using (HttpResponseMessage response = await client.GetAsync(Url))
+				{
+					await BuildAsync(await response.Content.ReadAsStringAsync());
+				}
+			}
+		}
 
 		public async Task BuildAsync(string json)
 		{
 			List<Domain> domains = JsonConvert.DeserializeObject<List<Domain>>(json, SensusServiceHelper.JSON_SERIALIZER_SETTINGS);
+
+			InputGroups.Clear();
 
 			InputGroup domainPage = new InputGroup();
 
@@ -51,20 +81,26 @@ namespace Sensus.UI.Inputs.MindTrials
 
 						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
-						MediaInput mediaInput = new MediaInput();
-
-						if (scenario.ImageEmbeded)
+						if (string.IsNullOrWhiteSpace(scenario.Image) == false)
 						{
-							mediaInput.Media = new MediaObject(scenario.Image, scenario.ImageType, true);
-						}
-						else
-						{
-							string mimeType = SensusServiceHelper.Get().GetMimeType(scenario.Image);
+							MediaInput mediaInput = new MediaInput();
 
-							mediaInput.Media = await MediaObject.FromUrlAsync(scenario.Image, mimeType, true);
-						}
+							if (scenario.ImageEmbeded)
+							{
+								if (string.IsNullOrWhiteSpace(scenario.ImageType) == false)
+								{
+									mediaInput.Media = new MediaObject(scenario.Image, scenario.ImageType, true);
+								}
+							}
+							else
+							{
+								string mimeType = SensusServiceHelper.Get().GetMimeType(scenario.Image);
 
-						introduction.Inputs.Add(mediaInput);
+								mediaInput.Media = await MediaObject.FromUrlAsync(scenario.Image, mimeType, true);
+							}
+
+							introduction.Inputs.Add(mediaInput);
+						}
 
 						introduction.ShowNavigationButtons = ShowNavigationOptions.Always;
 						introduction.HidePreviousButton = true;
@@ -97,7 +133,8 @@ namespace Sensus.UI.Inputs.MindTrials
 
 						question.Inputs.Add(new ButtonGridInput
 						{
-							Buttons = { "Yes", "No" },
+							Buttons = new List<string> () { "Yes", "No" },
+							ColumnCount = 2,
 							ScoreGroup = scoreGroup,
 							CorrectValue = scenario.Answer,
 							CorrectScore = 0.5f,
