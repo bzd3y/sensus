@@ -73,15 +73,36 @@ namespace Sensus.UI.Inputs.MindTrials
 			foreach (Domain domain in domains)
 			{
 				List<InputGroup> domainInputGroups = new List<InputGroup>();
+				Session lastSession = domain.Sessions.LastOrDefault();
 
 				domainButtons.Buttons.Add(domain.Title);
 
 				foreach (Session session in domain.Sessions)
 				{
+					if (string.IsNullOrWhiteSpace(session.Name))
+					{
+						session.Name = $"Session{session.Number}";
+					}
+
+					if (string.IsNullOrWhiteSpace(session.Title))
+					{
+						session.Title = $"Session {session.Number}";
+					}
+
 					string scoreGroup = $"{domain.Name}.{session.Name}_Score";
 
 					foreach (Scenario scenario in session.Scenarios)
 					{
+						if (string.IsNullOrWhiteSpace(scenario.Name))
+						{
+							scenario.Name = $"Scenario{scenario.Number}";
+						}
+
+						if (string.IsNullOrWhiteSpace(scenario.Title))
+						{
+							scenario.Title = $"Scenario {scenario.Number}";
+						}
+
 						// Introduction page...
 						InputGroup introduction = new InputGroup();
 
@@ -113,6 +134,7 @@ namespace Sensus.UI.Inputs.MindTrials
 							introduction.Inputs.Add(mediaInput);
 						}
 
+						introduction.NextButtonText = "Next";
 						introduction.ShowNavigationButtons = ShowNavigationOptions.Always;
 						introduction.HidePreviousButton = true;
 
@@ -155,6 +177,7 @@ namespace Sensus.UI.Inputs.MindTrials
 							IncorrectFeedbackMessage = scenario.IncorrectFeedback
 						});
 
+						question.NextButtonText = "Next";
 						question.ShowNavigationButtons = ShowNavigationOptions.WhenCorrect;
 						question.HidePreviousButton = true;
 
@@ -168,7 +191,18 @@ namespace Sensus.UI.Inputs.MindTrials
 						ScoreGroup = scoreGroup
 					});
 
-					score.ShowNavigationButtons = ShowNavigationOptions.Never;
+					score.ShowNavigationButtons = ShowNavigationOptions.Always;
+					score.HidePreviousButton = true;
+
+					if (session == lastSession)
+					{
+						score.NextButtonText = "Done";
+						score.SubmitButtonText = "Done";
+					}
+					else
+					{
+						score.NextButtonText = $"Start Round {session.Number + 1}";
+					}
 
 					domainInputGroups.Add(score);
 
@@ -210,6 +244,8 @@ namespace Sensus.UI.Inputs.MindTrials
 
 			if (Hash != hash)
 			{
+				Hash = hash;
+
 				await BuildAsync(json);
 			}
 		}

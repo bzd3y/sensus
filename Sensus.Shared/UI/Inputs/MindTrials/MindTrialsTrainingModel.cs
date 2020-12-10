@@ -36,7 +36,7 @@ namespace Sensus.UI.Inputs.MindTrials
 	public class Scenario
 	{
 		public int Number { get; set; }
-		public int Name { get; set; }
+		public string Name { get; set; }
 		public string Title { get; set; }
 		public string Image { get; set; }
 		public string ImageType { get; set; }
