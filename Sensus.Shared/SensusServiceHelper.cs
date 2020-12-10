@@ -1281,7 +1281,7 @@ namespace Sensus
 			Stack<int> inputGroupNumBackStack = new Stack<int>();
 
 			// update MindTrialsInputGroups if necessary
-			foreach (MindTrialsInputGroup mindTrials in inputGroups)
+			foreach (MindTrialsInputGroup mindTrials in inputGroups.OfType<MindTrialsInputGroup>())
 			{
 				if (mindTrials.UpdateAutomatically)
 				{

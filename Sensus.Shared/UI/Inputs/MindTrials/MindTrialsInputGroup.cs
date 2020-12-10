@@ -64,6 +64,8 @@ namespace Sensus.UI.Inputs.MindTrials
 				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
 			};
 
+			domainPage.ShowNavigationButtons = ShowNavigationOptions.Never;
+
 			domainPage.Inputs.Add(domainButtons);
 
 			domainButtons.Buttons = new List<string>();
