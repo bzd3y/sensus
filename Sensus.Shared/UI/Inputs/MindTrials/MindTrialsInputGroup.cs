@@ -15,6 +15,7 @@
 using Newtonsoft.Json;
 using Sensus.UI.UiProperties;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
@@ -29,30 +30,28 @@ namespace Sensus.UI.Inputs.MindTrials
 			InputGroups = new List<InputGroup>();
 		}
 
+		[OnOffUiProperty("Update Automatically:", true, 1)]
+		public bool UpdateAutomatically { get; set; } = true;
+		
 		public string Url { get; set; }
+		public string Hash { get; set; }
 		public List<InputGroup> InputGroups { get; set; }
 
+		public override ObservableCollection<Input> Inputs => new ObservableCollection<Input>(InputGroups.SelectMany(x => x.Inputs));
 		public override bool HasInputs => InputGroups.Any(x => x.HasInputs);
 
-		public async Task DownloadAndBuildAsync(string url)
-		{
-			Url = url;
-
-			await DownloadAndBuildAsync();
-		}
-
-		public async Task DownloadAndBuildAsync()
+		private async Task<string> DownloadAsync()
 		{
 			using (HttpClient client = new HttpClient())
 			{
 				using (HttpResponseMessage response = await client.GetAsync(Url))
 				{
-					await BuildAsync(await response.Content.ReadAsStringAsync());
+					return await response.Content.ReadAsStringAsync();
 				}
 			}
 		}
 
-		public async Task BuildAsync(string json)
+		private async Task BuildAsync(string json)
 		{
 			List<Domain> domains = JsonConvert.DeserializeObject<List<Domain>>(json, SensusServiceHelper.JSON_SERIALIZER_SETTINGS);
 
@@ -60,14 +59,21 @@ namespace Sensus.UI.Inputs.MindTrials
 
 			InputGroup domainPage = new InputGroup();
 
-			ButtonGridInput domainButtons = new ButtonGridInput();
+			ButtonGridInput domainButtons = new ButtonGridInput()
+			{
+				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
+			};
 
 			domainPage.Inputs.Add(domainButtons);
 
 			domainButtons.Buttons = new List<string>();
 
+			InputGroups.Add(domainPage);
+
 			foreach (Domain domain in domains)
 			{
+				List<InputGroup> domainInputGroups = new List<InputGroup>();
+
 				domainButtons.Buttons.Add(domain.Title);
 
 				foreach (Session session in domain.Sessions)
@@ -85,18 +91,23 @@ namespace Sensus.UI.Inputs.MindTrials
 						{
 							MediaInput mediaInput = new MediaInput();
 
-							if (scenario.ImageEmbeded)
+							if (scenario.ImageFromUrl)
+							{
+								string mimeType = scenario.ImageType;
+
+								if (string.IsNullOrWhiteSpace(mimeType))
+								{
+									mimeType = SensusServiceHelper.Get().GetMimeType(scenario.Image);
+								}
+
+								mediaInput.Media = await MediaObject.FromUrlAsync(scenario.Image, mimeType, scenario.ImageEmbeded);
+							}
+							else
 							{
 								if (string.IsNullOrWhiteSpace(scenario.ImageType) == false)
 								{
 									mediaInput.Media = new MediaObject(scenario.Image, scenario.ImageType, true);
 								}
-							}
-							else
-							{
-								string mimeType = SensusServiceHelper.Get().GetMimeType(scenario.Image);
-
-								mediaInput.Media = await MediaObject.FromUrlAsync(scenario.Image, mimeType, true);
 							}
 
 							introduction.Inputs.Add(mediaInput);
@@ -119,6 +130,7 @@ namespace Sensus.UI.Inputs.MindTrials
 							CorrectScore = 0.5f,
 							CorrectDelay = 1000,
 							IncorrectDelay = 5000,
+							CorrectFeedbackMessage = scenario.CorrectFeedback,
 							IncorrectFeedbackMessage = scenario.IncorrectFeedback,
 							NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
 						});
@@ -133,19 +145,20 @@ namespace Sensus.UI.Inputs.MindTrials
 
 						question.Inputs.Add(new ButtonGridInput
 						{
-							Buttons = new List<string> () { "Yes", "No" },
+							Buttons = new List<string>() { "Yes", "No" },
 							ColumnCount = 2,
 							ScoreGroup = scoreGroup,
 							CorrectValue = scenario.Answer,
 							CorrectScore = 0.5f,
 							IncorrectDelay = 5000,
+							CorrectFeedbackMessage = scenario.CorrectFeedback,
 							IncorrectFeedbackMessage = scenario.IncorrectFeedback
 						});
 
 						question.ShowNavigationButtons = ShowNavigationOptions.WhenCorrect;
 						question.HidePreviousButton = true;
 
-						InputGroups.AddRange(new[] { introduction, puzzle, question });
+						domainInputGroups.AddRange(new[] { introduction, puzzle, question });
 					}
 
 					InputGroup score = new InputGroup();
@@ -155,8 +168,49 @@ namespace Sensus.UI.Inputs.MindTrials
 						ScoreGroup = scoreGroup
 					});
 
-					InputGroups.Add(score);
+					score.ShowNavigationButtons = ShowNavigationOptions.Never;
+
+					domainInputGroups.Add(score);
+
+					foreach (Input input in domainInputGroups.SelectMany(x => x.Inputs))
+					{
+						InputDisplayCondition condition = new InputDisplayCondition(domainButtons, InputValueCondition.Equals, domain.Name, true);
+
+						input.Required = false;
+
+						input.DisplayConditions.Add(condition);
+					}
+
+					InputGroups.AddRange(domainInputGroups);
 				}
+			}
+		}
+
+		public async Task DownloadAndBuildAsync(string url)
+		{
+			Url = url;
+
+			await DownloadAndBuildAsync();
+		}
+
+		public async Task DownloadAndBuildAsync()
+		{
+			string json = await DownloadAsync();
+
+			Hash = SensusServiceHelper.Get().GetHash(json);
+
+			await BuildAsync(json);
+		}
+
+		public async Task UpdateAsync()
+		{
+			string json = await DownloadAsync();
+
+			string hash = SensusServiceHelper.Get().GetHash(json);
+
+			if (Hash != hash)
+			{
+				await BuildAsync(json);
 			}
 		}
 

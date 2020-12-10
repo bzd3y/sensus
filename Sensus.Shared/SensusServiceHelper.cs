@@ -1280,6 +1280,15 @@ namespace Sensus
 			// conditions, so we can't simply decrement the index to navigate backwards.
 			Stack<int> inputGroupNumBackStack = new Stack<int>();
 
+			// update MindTrialsInputGroups if necessary
+			foreach (MindTrialsInputGroup mindTrials in inputGroups)
+			{
+				if (mindTrials.UpdateAutomatically)
+				{
+					await mindTrials.UpdateAsync();
+				}
+			}
+
 			// expand MindTrialsInputGroups
 			inputGroups = inputGroups.SelectMany(x =>
 			{

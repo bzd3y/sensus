@@ -30,7 +30,7 @@ namespace Sensus.UI.Inputs
 		private string _description;
 
 		public string Id { get; set; }
-		public ObservableCollection<Input> Inputs { get; }
+		public virtual ObservableCollection<Input> Inputs { get; }
 
 		public virtual bool HasInputs => Inputs.Any();
 

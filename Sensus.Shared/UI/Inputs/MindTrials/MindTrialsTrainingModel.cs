@@ -41,7 +41,9 @@ namespace Sensus.UI.Inputs.MindTrials
 		public string Image { get; set; }
 		public string ImageType { get; set; }
 		public bool ImageEmbeded { get; set; }
+		public bool ImageFromUrl { get; set; }
 		public string Description { get; set; }
+		public string CorrectFeedback { get; set; }
 		public string IncorrectFeedback { get; set; }
 		public List<string> Words { get; set; }
 		public string Question { get; set; }
