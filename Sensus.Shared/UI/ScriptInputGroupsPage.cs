@@ -85,7 +85,18 @@ namespace Sensus.UI
 				{
 					if (selectedInputGroup is MindTrialsInputGroup mindTrialsInputGroup)
 					{
-						await mindTrialsInputGroup.DownloadAndBuildAsync();
+						try
+						{
+							await mindTrialsInputGroup.DownloadAndBuildAsync();
+
+							await SensusServiceHelper.Get().FlashNotificationAsync($"{mindTrialsInputGroup} updated successfully.");
+						}
+						catch (Exception ex)
+						{
+							SensusServiceHelper.Get().Logger.Log($"Failed to update MindTrials training: {ex.Message}", LoggingLevel.Normal, GetType());
+
+							await SensusServiceHelper.Get().FlashNotificationAsync("The MindTrials training could not be updated.");
+						}
 					}
 				}
 				else if (selectedAction == "Delete")
@@ -122,9 +133,9 @@ namespace Sensus.UI
 					}
 					catch (Exception ex)
 					{
-						SensusServiceHelper.Get().Logger.Log($"Failed to obtain permission: {ex.Message}", LoggingLevel.Normal, GetType());
+						SensusServiceHelper.Get().Logger.Log($"Failed to add MindTrials training: {ex.Message}", LoggingLevel.Normal, GetType());
 
-						await SensusServiceHelper.Get().FlashNotificationAsync("The MindTrials protocol could not be built.");
+						await SensusServiceHelper.Get().FlashNotificationAsync("The MindTrials training could not be added.");
 					}
 				}
 			}, ToolbarItemOrder.Secondary));

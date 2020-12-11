@@ -44,6 +44,8 @@ namespace Sensus.UI.Inputs.MindTrials
 		{
 			using (HttpClient client = new HttpClient())
 			{
+				client.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
+
 				using (HttpResponseMessage response = await client.GetAsync(Url))
 				{
 					return await response.Content.ReadAsStringAsync();
@@ -57,14 +59,17 @@ namespace Sensus.UI.Inputs.MindTrials
 
 			InputGroups.Clear();
 
-			InputGroup domains = new InputGroup();
+			InputGroup domains = new InputGroup
+			{
+				HideTitle = true,
+				ShowNavigationButtons = ShowNavigationOptions.Never
+			};
 
 			ButtonGridInput domainButtons = new ButtonGridInput()
 			{
-				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
+				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward,
+				Required = false
 			};
-
-			domains.ShowNavigationButtons = ShowNavigationOptions.Never;
 
 			domains.Inputs.Add(domainButtons);
 
@@ -109,8 +114,11 @@ namespace Sensus.UI.Inputs.MindTrials
 						}
 
 						// Introduction page...
-						InputGroup introduction = new InputGroup();
-						
+						InputGroup introduction = new InputGroup
+						{
+							HideTitle = true
+						};
+
 						introduction.Inputs.Add(new LabelOnlyInput(session.Title));
 						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
@@ -145,7 +153,10 @@ namespace Sensus.UI.Inputs.MindTrials
 						introduction.HidePreviousButton = true;
 
 						// Puzzle page...
-						InputGroup puzzle = new InputGroup();
+						InputGroup puzzle = new InputGroup
+						{
+							HideTitle = true
+						};
 
 						puzzle.Inputs.Add(new LabelOnlyInput(session.Title));
 						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Title));
@@ -168,7 +179,10 @@ namespace Sensus.UI.Inputs.MindTrials
 						puzzle.HidePreviousButton = true;
 
 						// Question page...
-						InputGroup question = new InputGroup();
+						InputGroup question = new InputGroup
+						{
+							HideTitle = true
+						};
 
 						question.Inputs.Add(new LabelOnlyInput(session.Title));
 						question.Inputs.Add(new LabelOnlyInput(scenario.Title));
@@ -194,7 +208,10 @@ namespace Sensus.UI.Inputs.MindTrials
 						sessionInputGroups.AddRange(new[] { introduction, puzzle, question });
 					}
 
-					InputGroup score = new InputGroup();
+					InputGroup score = new InputGroup
+					{
+						HideTitle = true
+					};
 
 					score.Inputs.Add(new LabelOnlyInput(session.Title));
 
