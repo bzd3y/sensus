@@ -110,7 +110,8 @@ namespace Sensus.UI.Inputs.MindTrials
 
 						// Introduction page...
 						InputGroup introduction = new InputGroup();
-
+						
+						introduction.Inputs.Add(new LabelOnlyInput(session.Title));
 						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
 						if (string.IsNullOrWhiteSpace(scenario.Image) == false)
@@ -146,6 +147,7 @@ namespace Sensus.UI.Inputs.MindTrials
 						// Puzzle page...
 						InputGroup puzzle = new InputGroup();
 
+						puzzle.Inputs.Add(new LabelOnlyInput(session.Title));
 						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
 						puzzle.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Description });
@@ -167,6 +169,9 @@ namespace Sensus.UI.Inputs.MindTrials
 
 						// Question page...
 						InputGroup question = new InputGroup();
+
+						question.Inputs.Add(new LabelOnlyInput(session.Title));
+						question.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
 						question.Inputs.Add(new ReadOnlyTextInput { Text = scenario.Question });
 
@@ -190,6 +195,8 @@ namespace Sensus.UI.Inputs.MindTrials
 					}
 
 					InputGroup score = new InputGroup();
+
+					score.Inputs.Add(new LabelOnlyInput(session.Title));
 
 					score.Inputs.Add(new ScoreInput
 					{
