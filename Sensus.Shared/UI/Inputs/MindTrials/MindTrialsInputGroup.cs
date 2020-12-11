@@ -209,9 +209,11 @@ namespace Sensus.UI.Inputs.MindTrials
 						score.NextButtonText = $"Start Round {session.Number + 1}";
 					}
 
-					sessionInputGroups.AddRange(score);
+					sessionInputGroups.Add(score);
 
 					domainInputGroups.AddRange(sessionInputGroups);
+
+					InputGroups.AddRange(sessionInputGroups);
 				}
 
 				foreach (Input input in domainInputGroups.SelectMany(x => x.Inputs))
