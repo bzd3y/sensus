@@ -53,26 +53,27 @@ namespace Sensus.UI.Inputs.MindTrials
 
 		private async Task BuildAsync(string json)
 		{
-			List<Domain> domains = JsonConvert.DeserializeObject<List<Domain>>(json, SensusServiceHelper.JSON_SERIALIZER_SETTINGS);
+			List<Domain> model = JsonConvert.DeserializeObject<List<Domain>>(json, SensusServiceHelper.JSON_SERIALIZER_SETTINGS);
 
 			InputGroups.Clear();
 
-			InputGroup domainPage = new InputGroup();
+			InputGroup domains = new InputGroup();
 
 			ButtonGridInput domainButtons = new ButtonGridInput()
 			{
 				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
 			};
 
-			domainPage.ShowNavigationButtons = ShowNavigationOptions.Never;
+			domains.ShowNavigationButtons = ShowNavigationOptions.Never;
 
-			domainPage.Inputs.Add(domainButtons);
+			domains.Inputs.Add(domainButtons);
 
 			domainButtons.Buttons = new List<string>();
+			domainButtons.ColumnCount = 2;
 
-			InputGroups.Add(domainPage);
+			InputGroups.Add(domains);
 
-			foreach (Domain domain in domains)
+			foreach (Domain domain in model)
 			{
 				List<InputGroup> domainInputGroups = new List<InputGroup>();
 				Session lastSession = domain.Sessions.LastOrDefault();
@@ -81,6 +82,8 @@ namespace Sensus.UI.Inputs.MindTrials
 
 				foreach (Session session in domain.Sessions)
 				{
+					List<InputGroup> sessionInputGroups = new List<InputGroup>();
+
 					if (string.IsNullOrWhiteSpace(session.Name))
 					{
 						session.Name = $"Session{session.Number}";
@@ -183,7 +186,7 @@ namespace Sensus.UI.Inputs.MindTrials
 						question.ShowNavigationButtons = ShowNavigationOptions.WhenCorrect;
 						question.HidePreviousButton = true;
 
-						domainInputGroups.AddRange(new[] { introduction, puzzle, question });
+						sessionInputGroups.AddRange(new[] { introduction, puzzle, question });
 					}
 
 					InputGroup score = new InputGroup();
@@ -206,18 +209,18 @@ namespace Sensus.UI.Inputs.MindTrials
 						score.NextButtonText = $"Start Round {session.Number + 1}";
 					}
 
-					domainInputGroups.Add(score);
+					sessionInputGroups.AddRange(score);
 
-					foreach (Input input in domainInputGroups.SelectMany(x => x.Inputs))
-					{
-						InputDisplayCondition condition = new InputDisplayCondition(domainButtons, InputValueCondition.Equals, domain.Name, true);
+					domainInputGroups.AddRange(sessionInputGroups);
+				}
 
-						input.Required = false;
+				foreach (Input input in domainInputGroups.SelectMany(x => x.Inputs))
+				{
+					InputDisplayCondition condition = new InputDisplayCondition(domainButtons, InputValueCondition.Equals, domain.Name, true);
 
-						input.DisplayConditions.Add(condition);
-					}
+					input.Required = false;
 
-					InputGroups.AddRange(domainInputGroups);
+					input.DisplayConditions.Add(condition);
 				}
 			}
 		}
