@@ -122,6 +122,8 @@ namespace Sensus.UI.Inputs.MindTrials
 						introduction.Inputs.Add(new LabelOnlyInput(session.Title));
 						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
+						introduction.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Caption });
+
 						if (string.IsNullOrWhiteSpace(scenario.Image) == false)
 						{
 							MediaInput mediaInput = new MediaInput();
