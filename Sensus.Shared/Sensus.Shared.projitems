@@ -169,7 +169,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\AddProximityTriggerPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\AddScriptTriggerPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\AnonymizerPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UI\DataStorePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ButtonGridView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ButtonGridInput.cs" />
@@ -321,5 +323,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Adaptation\example-aspl-policy.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)UI\App.xaml">
+      <Generator>
+      </Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -12,4 +12,13 @@ because it will be consumed by all other projects in this solution.</Description
   <PropertyGroup />
   <Import Project="Sensus.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
+  <!--<ItemGroup>
+    <EmbeddedResource Include="..\Sensus.Shared\UI\SensusStyles.css">
+      --><!--<Link>SharedResources.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>--><!--
+      <CustomToolNamespace>Sensus.UI</CustomToolNamespace>
+      <LogicalName>Sensus.UI.SensusStyles</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>-->
 </Project>

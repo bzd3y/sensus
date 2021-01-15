@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Sensus.UI.App">
+	<Application.Resources>
+
+		<!--<Style x:Key="LargeLabelStyle"
+			   TargetType="Label">
+			<Setter Property="TextColor"
+					Value="{DynamicResource SecondaryTextColor}" />
+			<Setter Property="FontSize"
+					Value="30" />
+		</Style>
+
+		<Style x:Key="MediumLabelStyle"
+			   TargetType="Label">
+			<Setter Property="TextColor"
+					Value="{DynamicResource PrimaryTextColor}" />
+			<Setter Property="FontSize"
+					Value="25" />
+		</Style>
+
+		<Style x:Key="SmallLabelStyle"
+			   TargetType="Label">
+			<Setter Property="TextColor"
+					Value="{DynamicResource TertiaryTextColor}" />
+			<Setter Property="FontSize"
+					Value="15" />
+		</Style>-->
+
+		<!--<Style TargetType="Page">
+			<Setter Property="BackgroundColor" Value="#ffffff"/>
+		</Style>
+		<Style TargetType="NavigationPage">
+			<Setter Property="BarBackgroundColor" Value="{ DynamicResource ColorPrimary}"/>
+			<Setter Property="BarTextColor" Value="red"/>
+		</Style>-->
+		<Color x:Key="NavigationBarColor">#1976D2</Color>
+		<Color x:Key="NavigationBarTextColor">#ffffff</Color>
+		<Color x:Key="TextColor">#000000</Color>
+		<Color x:Key="ButtonTextColor">#ffffff</Color>
+		<Color x:Key="ButtonColor">#48aadf</Color>
+		<Style TargetType="Page" ApplyToDerivedTypes="True">
+			<Setter Property="BackgroundColor" Value="#ffffff" />
+		</Style>
+		<Style TargetType="{x:Type NavigationPage}">
+			<Setter Property="BarBackgroundColor" Value="{StaticResource NavigationBarColor}" />
+			<Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />
+		</Style>
+		<Style TargetType="{x:Type Label}">
+			<Setter Property="TextColor" Value="{StaticResource TextColor}"/>
+		</Style>
+		<Style TargetType="{x:Type ListView}">
+			<Setter Property="SeparatorColor" Value="{StaticResource ButtonColor}" />
+		</Style>
+		<Style TargetType="{x:Type TextCell}">
+			<Setter Property="TextColor" Value="{StaticResource TextColor}" />
+		</Style>
+		<Style TargetType="{x:Type Button}" ApplyToDerivedTypes="True">
+			<Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
+			<Setter Property="TextColor" Value="{StaticResource ButtonTextColor}" />
+			<Setter Property="BorderRadius" Value="5" />
+			<Setter Property="BorderWidth" Value="5" />
+		</Style>
+	</Application.Resources>
+</Application>
