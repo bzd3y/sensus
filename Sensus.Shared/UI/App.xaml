@@ -3,44 +3,20 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 x:Class="Sensus.UI.App">
 	<Application.Resources>
-
-		<!--<Style x:Key="LargeLabelStyle"
-			   TargetType="Label">
-			<Setter Property="TextColor"
-					Value="{DynamicResource SecondaryTextColor}" />
-			<Setter Property="FontSize"
-					Value="30" />
-		</Style>
-
-		<Style x:Key="MediumLabelStyle"
-			   TargetType="Label">
-			<Setter Property="TextColor"
-					Value="{DynamicResource PrimaryTextColor}" />
-			<Setter Property="FontSize"
-					Value="25" />
-		</Style>
-
-		<Style x:Key="SmallLabelStyle"
-			   TargetType="Label">
-			<Setter Property="TextColor"
-					Value="{DynamicResource TertiaryTextColor}" />
-			<Setter Property="FontSize"
-					Value="15" />
-		</Style>-->
-
-		<!--<Style TargetType="Page">
-			<Setter Property="BackgroundColor" Value="#ffffff"/>
-		</Style>
-		<Style TargetType="NavigationPage">
-			<Setter Property="BarBackgroundColor" Value="{ DynamicResource ColorPrimary}"/>
-			<Setter Property="BarTextColor" Value="red"/>
-		</Style>-->
-		<Color x:Key="NavigationBarColor">#1976D2</Color>
+		<Color x:Key="PageBackgroundColor">White</Color>
+		<Color x:Key="NavigationBarColor">WhiteSmoke</Color>
+		<Color x:Key="PrimaryColor">WhiteSmoke</Color>
+		<Color x:Key="SecondaryColor">Black</Color>
+		<Color x:Key="PrimaryTextColor">Black</Color>
+		<Color x:Key="SecondaryTextColor">White</Color>
+		<Color x:Key="TertiaryTextColor">Gray</Color>
+		<Color x:Key="TransparentColor">Transparent</Color>
+		<!--<Color x:Key="NavigationBarColor">#1976D2</Color>
 		<Color x:Key="NavigationBarTextColor">#ffffff</Color>
 		<Color x:Key="TextColor">#000000</Color>
 		<Color x:Key="ButtonTextColor">#ffffff</Color>
 		<Color x:Key="ButtonColor">#48aadf</Color>
-		<Style TargetType="Page" ApplyToDerivedTypes="True">
+		<Style TargetType="{x:Type Page}" ApplyToDerivedTypes="True">
 			<Setter Property="BackgroundColor" Value="#ffffff" />
 		</Style>
 		<Style TargetType="{x:Type NavigationPage}">
@@ -48,19 +24,24 @@
 			<Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />
 		</Style>
 		<Style TargetType="{x:Type Label}">
-			<Setter Property="TextColor" Value="{StaticResource TextColor}"/>
+			<Setter Property="TextColor" Value="{StaticResource TextColor}" />
+		</Style>
+		<Style TargetType="{x:Type Entry}">
+			<Setter Property="TextColor" Value="{StaticResource TextColor}" />
+			<Setter Property="PlaceholderColor" Value="#5b5b5b" />
 		</Style>
 		<Style TargetType="{x:Type ListView}">
 			<Setter Property="SeparatorColor" Value="{StaticResource ButtonColor}" />
 		</Style>
-		<Style TargetType="{x:Type TextCell}">
+		<Style TargetType="{x:Type TextCell}" CanCascade="True" ApplyToDerivedTypes="True">
 			<Setter Property="TextColor" Value="{StaticResource TextColor}" />
+			<Setter Property="DetailColor" Value="{StaticResource TextColor}" />
 		</Style>
 		<Style TargetType="{x:Type Button}" ApplyToDerivedTypes="True">
 			<Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
 			<Setter Property="TextColor" Value="{StaticResource ButtonTextColor}" />
 			<Setter Property="BorderRadius" Value="5" />
 			<Setter Property="BorderWidth" Value="5" />
-		</Style>
+		</Style>-->
 	</Application.Resources>
 </Application>
