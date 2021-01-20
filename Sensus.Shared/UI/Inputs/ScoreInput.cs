@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Microcharts;
+using Microcharts.Forms;
 using Newtonsoft.Json;
 using Sensus.UI.UiProperties;
+using SkiaSharp;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Xamarin.Forms;
+using Android.Util;
 
 namespace Sensus.UI.Inputs
 {
@@ -26,7 +30,10 @@ namespace Sensus.UI.Inputs
 		private string _definedVariable;
 		private IEnumerable<Input> _inputs = new List<Input>();
 		//private float _maxScore;
-		private Label _scoreLabel;
+		private Span _scoreSpan;
+		private Span _maxScoreSpan;
+		private DonutChart _chart;
+		
 
 		public override object Value
 		{
@@ -91,6 +98,7 @@ namespace Sensus.UI.Inputs
 
 				foreach (Input input in _inputs)
 				{
+
 					input.PropertyChanged += ScoreChanged;
 				}
 
@@ -116,8 +124,20 @@ namespace Sensus.UI.Inputs
 				Complete = true;
 			}
 
-			// if the label has been created, update its text
-			UpdateScoreText();
+			if (_scoreSpan != null)
+			{
+				_scoreSpan.Text = Score.ToString();
+			}
+
+			if (_maxScoreSpan != null)
+			{
+				_maxScoreSpan.Text = CorrectScore.ToString();
+			}
+
+			if (_chart != null)
+			{
+				_chart.Entries = new[] { new ChartEntry(Score), new ChartEntry(CorrectScore - Score) { Color = SKColor.Empty } };
+			}
 		}
 
 		protected override void SetScore(float score)
@@ -133,23 +153,67 @@ namespace Sensus.UI.Inputs
 			}
 		}
 
-		private void UpdateScoreText()
-		{
-			if (_scoreLabel != null)
-			{
-				_scoreLabel.Text = $"{_score}/{CorrectScore}";
-			}
-		}
-
 		public override View GetView(int index)
 		{
 			if (base.GetView(index) == null)
 			{
-				_scoreLabel = CreateLabel(-1);
+				FormattedString scoreString = new FormattedString();
 
-				UpdateScoreText();
+				_scoreSpan = new Span()
+				{
+					Text = Score.ToString(),
+					FontSize = 50
+				};
 
-				base.SetView(_scoreLabel);
+				_maxScoreSpan = new Span()
+				{
+					Text = CorrectScore.ToString(),
+					FontSize = 25
+				};
+
+				scoreString.Spans.Add(_scoreSpan);
+				scoreString.Spans.Add(new Span() { Text = "\n/", FontSize = 25 });
+				scoreString.Spans.Add(_maxScoreSpan);
+
+				Label scoreLabel = new Label()
+				{
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					VerticalOptions = LayoutOptions.FillAndExpand,
+					HorizontalTextAlignment = TextAlignment.Center,
+					VerticalTextAlignment = TextAlignment.Center,
+					FormattedText = scoreString
+				};
+
+				_chart = new DonutChart()
+				{
+					HoleRadius = .6f,
+					BackgroundColor = SKColor.Empty,
+				};
+
+				ChartView chartView = new ChartView()
+				{
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					Chart = _chart,
+				};
+
+				chartView.SizeChanged += (s, e) =>
+				{
+					chartView.HeightRequest = chartView.Width;
+				};
+
+				AbsoluteLayout.SetLayoutBounds(scoreLabel, new Rectangle(0, 0, 1, 1));
+				AbsoluteLayout.SetLayoutFlags(scoreLabel, AbsoluteLayoutFlags.All);
+
+				AbsoluteLayout.SetLayoutBounds(chartView, new Rectangle(0, 0, 1, AbsoluteLayout.AutoSize));
+				AbsoluteLayout.SetLayoutFlags(chartView, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
+
+				AbsoluteLayout layout = new AbsoluteLayout
+				{
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					Children = {  chartView, scoreLabel }
+				};
+
+				base.SetView(layout);
 			}
 
 			return base.GetView(index);
