@@ -101,7 +101,7 @@ namespace Sensus.UI.Inputs
 					HorizontalTextAlignment = TextAlignment.Center
 				};
 
-				_choiceGrid = new ButtonGridView(0, (o, s) =>
+				_choiceGrid = new ButtonGridView(0, (s, e) =>
 				{
 					ButtonWithValue button = (ButtonWithValue)s;
 
@@ -149,7 +149,7 @@ namespace Sensus.UI.Inputs
 
 				foreach(string choice in choices.OrderBy(x => random.Next()))
 				{
-					GridButtons.Add(choiceGrid.AddButton(choice.ToUpper(), choice));
+					GridButtons.Add(_choiceGrid.AddButton(choice.ToUpper(), choice));
 				}
 
 				_choiceGrid.Arrange();
