@@ -119,13 +119,13 @@ namespace Sensus.UI
 			#endregion
 
 			#region required field label
-			if (inputGroup.Inputs.Any(input => input.Display && input.Required))
+			if (inputGroup.HideRequiredFieldLabel == false && inputGroup.Inputs.Any(input => input.Display && input.Required))
 			{
 				contentLayout.Children.Add(new Label
 				{
 					Text = "Required fields are indicated with *",
 					FontSize = 15,
-					TextColor = Color.Red,
+					StyleClass = new[] { "RequiredFieldLabel" },
 					HorizontalOptions = LayoutOptions.Start
 				});
 			}
@@ -165,11 +165,9 @@ namespace Sensus.UI
 						{
 							inputView = new Frame
 							{
+								StyleClass = new List<string> { "InputFrame" },
 								Content = inputView,
-								BorderColor = Color.Accent,
-								BackgroundColor = Color.Transparent,
 								VerticalOptions = LayoutOptions.Start,
-								HasShadow = false,
 								Padding = new Thickness(10)
 							};
 						}
@@ -283,6 +281,7 @@ namespace Sensus.UI
 				{
 					Button previousButton = new Button
 					{
+						StyleClass = new List<string> { "NavigationButton"},
 						HorizontalOptions = LayoutOptions.FillAndExpand,
 						FontSize = 20,
 						Text = "Previous"
@@ -300,6 +299,7 @@ namespace Sensus.UI
 
 				Button nextButton = new Button
 				{
+					StyleClass = new List<string> { "NavigationButton" },
 					HorizontalOptions = LayoutOptions.FillAndExpand,
 					FontSize = 20,
 					Text = "Next"
@@ -341,6 +341,7 @@ namespace Sensus.UI
 				{
 					Button cancelButton = new Button
 					{
+						StyleClass = new List<string> { "NavigationButton" },
 						HorizontalOptions = LayoutOptions.FillAndExpand,
 						FontSize = 20,
 						Text = "Cancel"

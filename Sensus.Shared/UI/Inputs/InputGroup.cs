@@ -126,7 +126,7 @@ namespace Sensus.UI.Inputs
 		[OnOffUiProperty("Shuffle Inputs:", true, 5)]
 		public virtual bool ShuffleInputs { get; set; }
 
-		[OnOffUiProperty("Show Title:", true, 6)]
+		[OnOffUiProperty("Hide Title:", true, 6)]
 		public bool HideTitle { get; set; }
 
 		/// <summary>
@@ -152,6 +152,9 @@ namespace Sensus.UI.Inputs
 		/// </summary>
 		[EntryStringUiProperty("Cancel Button Text:", true, 10, false)]
 		public virtual string CancelButtonText { get; set; }
+
+		[OnOffUiProperty("Hide Required Field Label:", true, 11)]
+		public bool HideRequiredFieldLabel { get; set; }
 
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="InputGroup"/> is valid.

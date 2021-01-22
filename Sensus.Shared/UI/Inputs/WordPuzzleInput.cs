@@ -56,17 +56,21 @@ namespace Sensus.UI.Inputs
 		[HiddenUiProperty]
 		public override object CorrectValue { get; set; }
 
+		public List<ButtonWithValue> GridButtons { get; private set; }
+
 		public override View GetView(int index)
 		{
 			if (base.GetView(index) == null)
 			{
+				GridButtons = new List<ButtonWithValue>();
+
 				Random random = new Random();
 				string word = Words[random.Next(Words.Count)].ToLower();
 
 				int missingLetterIndex = random.Next(word.Length);
 				string missingLetter = "";
 
-				ButtonGridView wordGrid = new ButtonGridView(0, (o, s) => { })
+				ButtonGridView wordGrid = new ButtonGridView(0, (s, e) => { })
 				{
 					HorizontalOptions = LayoutOptions.FillAndExpand
 				};
@@ -77,7 +81,9 @@ namespace Sensus.UI.Inputs
 
 					if (letterIndex == missingLetterIndex)
 					{
-						_correctButton = wordGrid.AddButton("", "", Color.Default);
+						_correctButton = wordGrid.AddButton("", "");
+
+						_correctButton.Style = (Style)Application.Current.Resources["MissingLetterButton"];
 
 						missingLetter = letter;
 					}
@@ -97,17 +103,27 @@ namespace Sensus.UI.Inputs
 
 				_choiceGrid = new ButtonGridView(0, (o, s) =>
 				{
-					if (o is ButtonWithValue button)
+					ButtonWithValue button = (ButtonWithValue)s;
+
+					foreach (ButtonWithValue gridButton in GridButtons)
 					{
-						_value = button.Value;
-
-						if (button.Value == missingLetter)
-						{
-							_correctButton.Text = button.Text;
-
-							button.IsVisible = false;
-						}
+						gridButton.Style = null;
 					}
+
+					if (button.Value == missingLetter)
+					{
+						_correctButton.Text = button.Text;
+
+						_correctButton.Style = (Style)Application.Current.Resources["CorrectAnswerButton"];
+
+						button.IsVisible = false;
+					}
+					else
+					{
+						button.Style = (Style)Application.Current.Resources["IncorrectAnswerButton"];
+					}
+
+					_value = button.Value;
 
 					Complete = true;
 				})
@@ -133,7 +149,7 @@ namespace Sensus.UI.Inputs
 
 				foreach(string choice in choices.OrderBy(x => random.Next()))
 				{
-					_choiceGrid.AddButton(choice.ToUpper(), choice);
+					GridButtons.Add(choiceGrid.AddButton(choice.ToUpper(), choice));
 				}
 
 				_choiceGrid.Arrange();
