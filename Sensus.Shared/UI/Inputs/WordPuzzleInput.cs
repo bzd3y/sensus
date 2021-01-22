@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Newtonsoft.Json;
 using Sensus.UI.UiProperties;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,7 @@ namespace Sensus.UI.Inputs
 		[HiddenUiProperty]
 		public override object CorrectValue { get; set; }
 
+		[JsonIgnore]
 		public List<ButtonWithValue> GridButtons { get; private set; }
 
 		public override View GetView(int index)
