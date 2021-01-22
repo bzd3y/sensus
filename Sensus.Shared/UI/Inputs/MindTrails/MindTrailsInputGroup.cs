@@ -48,7 +48,7 @@ namespace Sensus.UI.Inputs.MindTrails
 
 			InputGroup domains = new InputGroup
 			{
-				HideTitle = true,
+				FreezeHeader = true,
 				ShowNavigationButtons = ShowNavigationOptions.Never
 			};
 
@@ -103,7 +103,7 @@ namespace Sensus.UI.Inputs.MindTrails
 						// Introduction page...
 						InputGroup introduction = new InputGroup
 						{
-							HideTitle = true,
+							FreezeHeader = true,
 							HideRequiredFieldLabel = true
 						};
 
@@ -148,7 +148,7 @@ namespace Sensus.UI.Inputs.MindTrails
 						// Puzzle page...
 						InputGroup puzzle = new InputGroup
 						{
-							HideTitle = true,
+							FreezeHeader = true,
 							HideRequiredFieldLabel = true
 						};
 
@@ -176,7 +176,7 @@ namespace Sensus.UI.Inputs.MindTrails
 						// Question page...
 						InputGroup question = new InputGroup
 						{
-							HideTitle = true,
+							FreezeHeader = true,
 							HideRequiredFieldLabel = true
 						};
 
@@ -207,7 +207,7 @@ namespace Sensus.UI.Inputs.MindTrails
 
 					InputGroup score = new InputGroup
 					{
-						HideTitle = true,
+						FreezeHeader = true,
 						HideRequiredFieldLabel = true
 					};
 
