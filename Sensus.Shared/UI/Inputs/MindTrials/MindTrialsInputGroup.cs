@@ -26,7 +26,7 @@ namespace Sensus.UI.Inputs.MindTrials
 {
 	public class MindTrialsInputGroup : InputGroup, INotifyPropertyChanged
 	{
-		public MindTrialsInputGroup()
+		public MindTrialsInputGroup() : base()
 		{
 			InputGroups = new List<InputGroup>();
 		}
@@ -121,10 +121,9 @@ namespace Sensus.UI.Inputs.MindTrials
 							HideRequiredFieldLabel = true
 						};
 
-						introduction.Inputs.Add(new LabelOnlyInput(session.Title));
-						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
-						//introduction.Inputs.Add(new MindTrialsSessionBanner() { SessionTitle = session.Title });
-						//introduction.Inputs.Add(new MindTrialsScenarioBanner() { ScenarioTitle = scenario.Title });
+						//introduction.Inputs.Add(new LabelOnlyInput(session.Title));
+						//introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
+						introduction.Inputs.Add(new MindTrialsBanner() { SessionTitle = session.Title, ScenarioTitle = scenario.Title });
 
 						//introduction.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Caption });
 

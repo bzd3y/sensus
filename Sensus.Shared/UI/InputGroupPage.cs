@@ -68,7 +68,6 @@ namespace Sensus.UI
 							  bool displayProgress,
 							  string title = "")
 		{
-
 			_inputGroup = inputGroup;
 			_canNavigateBackward = canNavigateBackward && (inputGroup.HidePreviousButton == false);
 			_displayedInputCount = 0;
