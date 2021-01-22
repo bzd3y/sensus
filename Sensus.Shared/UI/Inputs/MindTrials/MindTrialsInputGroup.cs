@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Sensus.UI.Inputs.MindTrials
 {
@@ -116,13 +117,16 @@ namespace Sensus.UI.Inputs.MindTrials
 						// Introduction page...
 						InputGroup introduction = new InputGroup
 						{
-							HideTitle = true
+							HideTitle = true,
+							HideRequiredFieldLabel = true
 						};
 
-						introduction.Inputs.Add(new LabelOnlyInput(session.Title));
-						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
+						introduction.Inputs.Add(new MindTrialsSessionBanner() { SessionTitle = session.Title });
+						introduction.Inputs.Add(new MindTrialsScenarioBanner() { ScenarioTitle = scenario.Title });
 
-						introduction.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Caption });
+						//introduction.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Caption });
+
+						introduction.Inputs.Add(new LabelOnlyInput(scenario.Caption) { Frame = true, LabelFontSize = 30 });
 
 						if (string.IsNullOrWhiteSpace(scenario.Image) == false)
 						{
@@ -157,13 +161,15 @@ namespace Sensus.UI.Inputs.MindTrials
 						// Puzzle page...
 						InputGroup puzzle = new InputGroup
 						{
-							HideTitle = true
+							HideTitle = true,
+							HideRequiredFieldLabel = true
 						};
 
 						puzzle.Inputs.Add(new LabelOnlyInput(session.Title));
 						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
-						puzzle.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Description });
+						//puzzle.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Description });
+						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Description) { Frame = true });
 
 						puzzle.Inputs.Add(new WordPuzzleInput()
 						{
@@ -183,13 +189,15 @@ namespace Sensus.UI.Inputs.MindTrials
 						// Question page...
 						InputGroup question = new InputGroup
 						{
-							HideTitle = true
+							HideTitle = true,
+							HideRequiredFieldLabel = true
 						};
 
 						question.Inputs.Add(new LabelOnlyInput(session.Title));
 						question.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
-						question.Inputs.Add(new ReadOnlyTextInput { Text = scenario.Question });
+						//question.Inputs.Add(new ReadOnlyTextInput { Text = scenario.Question });
+						question.Inputs.Add(new LabelOnlyInput(scenario.Question) { Frame = true });
 
 						question.Inputs.Add(new ButtonGridInput
 						{
@@ -212,13 +220,17 @@ namespace Sensus.UI.Inputs.MindTrials
 
 					InputGroup score = new InputGroup
 					{
-						HideTitle = true
+						HideTitle = true,
+						HideRequiredFieldLabel = true
 					};
 
 					score.Inputs.Add(new LabelOnlyInput(session.Title));
 
 					score.Inputs.Add(new ScoreInput
 					{
+						LabelText = "Congratulations!",
+						LabelFontAttributes = FontAttributes.Bold,
+						LabelTextAlignment = TextAlignment.Center,
 						ScoreGroup = scoreGroup
 					});
 
