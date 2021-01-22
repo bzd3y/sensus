@@ -50,7 +50,7 @@ using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Plugin.ContactService.Shared;
 using System.Text.RegularExpressions;
-using Sensus.UI.Inputs.MindTrials;
+using Sensus.UI.Inputs.MindTrails;
 
 namespace Sensus
 {

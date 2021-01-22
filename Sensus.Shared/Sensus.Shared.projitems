@@ -175,9 +175,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ButtonGridInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ButtonWithValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\InputFeedbackView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrials\MindTrialsInputGroup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrials\MindTrialsBanner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrials\MindTrialsTrainingModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrails\MindTrailsInputGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrails\MindTrailsHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\MindTrails\MindTrailsTrainingModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ScoreInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\ReadOnlyTextInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Inputs\HyperlinkInput.cs" />

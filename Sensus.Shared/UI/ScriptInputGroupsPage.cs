@@ -18,7 +18,7 @@ using Sensus.Probes.User.Scripts;
 using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
-using Sensus.UI.Inputs.MindTrials;
+using Sensus.UI.Inputs.MindTrails;
 using System;
 
 namespace Sensus.UI

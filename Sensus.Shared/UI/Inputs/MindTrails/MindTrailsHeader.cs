@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
-namespace Sensus.UI.Inputs.MindTrials
+namespace Sensus.UI.Inputs.MindTrails
 {
-	public class MindTrialsBanner : Input
+	public class MindTrailsHeader : Input
 	{
 		public override object Value => null;
 
