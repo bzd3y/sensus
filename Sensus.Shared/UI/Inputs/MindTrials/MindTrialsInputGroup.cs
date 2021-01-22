@@ -121,8 +121,10 @@ namespace Sensus.UI.Inputs.MindTrials
 							HideRequiredFieldLabel = true
 						};
 
-						introduction.Inputs.Add(new MindTrialsSessionBanner() { SessionTitle = session.Title });
-						introduction.Inputs.Add(new MindTrialsScenarioBanner() { ScenarioTitle = scenario.Title });
+						introduction.Inputs.Add(new LabelOnlyInput(session.Title));
+						introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
+						//introduction.Inputs.Add(new MindTrialsSessionBanner() { SessionTitle = session.Title });
+						//introduction.Inputs.Add(new MindTrialsScenarioBanner() { ScenarioTitle = scenario.Title });
 
 						//introduction.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Caption });
 
@@ -226,11 +228,14 @@ namespace Sensus.UI.Inputs.MindTrials
 
 					score.Inputs.Add(new LabelOnlyInput(session.Title));
 
-					score.Inputs.Add(new ScoreInput
+					score.Inputs.Add(new LabelOnlyInput("Congratulations!")
 					{
-						LabelText = "Congratulations!",
 						LabelFontAttributes = FontAttributes.Bold,
 						LabelTextAlignment = TextAlignment.Center,
+					});
+
+					score.Inputs.Add(new ScoreInput
+					{
 						ScoreGroup = scoreGroup
 					});
 
