@@ -19,7 +19,7 @@ namespace Sensus.UI.Inputs.MindTrails
 
 		[OnOffUiProperty("Update Automatically:", true, 1)]
 		public bool UpdateAutomatically { get; set; } = true;
-		
+
 		public string Url { get; set; }
 		public string Hash { get; set; }
 		public List<InputGroup> InputGroups { get; set; }
@@ -48,14 +48,16 @@ namespace Sensus.UI.Inputs.MindTrails
 
 			InputGroup domains = new InputGroup
 			{
+				Header = new MindTrailsHeader() { SessionTitle = "MindTrails" },
 				FreezeHeader = true,
+				HideProgress = true,
+				HideRequiredFieldLabel = true,
 				ShowNavigationButtons = ShowNavigationOptions.Never
 			};
 
 			ButtonGridInput domainButtons = new ButtonGridInput()
 			{
-				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward,
-				Required = false
+				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
 			};
 
 			domains.Inputs.Add(domainButtons);
@@ -103,15 +105,11 @@ namespace Sensus.UI.Inputs.MindTrails
 						// Introduction page...
 						InputGroup introduction = new InputGroup
 						{
+							Header = new MindTrailsHeader() { SessionTitle = session.Title, ScenarioTitle = scenario.Title },
 							FreezeHeader = true,
+							HideProgress = true,
 							HideRequiredFieldLabel = true
 						};
-
-						//introduction.Inputs.Add(new LabelOnlyInput(session.Title));
-						//introduction.Inputs.Add(new LabelOnlyInput(scenario.Title));
-						introduction.Inputs.Add(new MindTrailsHeader() { SessionTitle = session.Title, ScenarioTitle = scenario.Title });
-
-						//introduction.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Caption });
 
 						introduction.Inputs.Add(new LabelOnlyInput(scenario.Caption) { Frame = true, LabelFontSize = 30 });
 
@@ -148,12 +146,11 @@ namespace Sensus.UI.Inputs.MindTrails
 						// Puzzle page...
 						InputGroup puzzle = new InputGroup
 						{
+							Header = new MindTrailsHeader() { SessionTitle = session.Title, ScenarioTitle = scenario.Title },
 							FreezeHeader = true,
+							HideProgress = true,
 							HideRequiredFieldLabel = true
 						};
-
-						puzzle.Inputs.Add(new LabelOnlyInput(session.Title));
-						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
 						//puzzle.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Description });
 						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Description) { Frame = true });
@@ -176,12 +173,11 @@ namespace Sensus.UI.Inputs.MindTrails
 						// Question page...
 						InputGroup question = new InputGroup
 						{
+							Header = new MindTrailsHeader() { SessionTitle = session.Title, ScenarioTitle = scenario.Title },
 							FreezeHeader = true,
+							HideProgress = true,
 							HideRequiredFieldLabel = true
 						};
-
-						question.Inputs.Add(new LabelOnlyInput(session.Title));
-						question.Inputs.Add(new LabelOnlyInput(scenario.Title));
 
 						//question.Inputs.Add(new ReadOnlyTextInput { Text = scenario.Question });
 						question.Inputs.Add(new LabelOnlyInput(scenario.Question) { Frame = true });
@@ -207,11 +203,11 @@ namespace Sensus.UI.Inputs.MindTrails
 
 					InputGroup score = new InputGroup
 					{
+						Header = new MindTrailsHeader() { SessionTitle = session.Title },
 						FreezeHeader = true,
+						HideProgress = true,
 						HideRequiredFieldLabel = true
 					};
-
-					score.Inputs.Add(new LabelOnlyInput(session.Title));
 
 					score.Inputs.Add(new LabelOnlyInput("Congratulations!")
 					{

@@ -17,63 +17,69 @@ namespace Sensus.UI.Inputs.MindTrails
 		{
 			if (base.GetView(index) == null)
 			{
-				Image logoImage = new Image
-				{
-					Source = "logo.png",
-					WidthRequest = 20
-				};
-
-				Label sessionLabel = new Label
-				{
-					Text = SessionTitle,
-					TextColor = (Color)Application.Current.Resources["NavigationBarTextColor"],
-					FontSize = 30,
-					Margin = new Thickness(20, 0, 0, 0)
-				};
-
-				StackLayout sessionLayout = new StackLayout()
-				{
-					Orientation = StackOrientation.Horizontal,
-					HorizontalOptions = LayoutOptions.FillAndExpand,
-					BackgroundColor = (Color)Application.Current.Resources["NavigationBarColor"],
-					Children = { logoImage, sessionLabel },
-					Padding = new Thickness(20)
-				};
-
-				Image pencilImage = new Image
-				{
-					Source = "pencil.png",
-					WidthRequest = 15
-				};
-
-				Label scenarioLabel = new Label
-				{
-					Text = ScenarioTitle,
-					FontSize = 20,
-					Margin = new Thickness(15, 0, 0, 0)
-				};
-
-				StackLayout scenarioLayout = new StackLayout()
-				{
-					Orientation = StackOrientation.Horizontal,
-					HorizontalOptions = LayoutOptions.CenterAndExpand,
-					Children = { pencilImage, scenarioLabel },
-					Padding = new Thickness(15)
-				};
-
 				StackLayout layout = new StackLayout()
 				{
-					Children = { sessionLayout, scenarioLayout },
-					Padding = new Thickness(-10)
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					Orientation = StackOrientation.Vertical
 				};
 
-				RelativeLayout bannerLayout = new RelativeLayout();
+				if (string.IsNullOrWhiteSpace(SessionTitle) == false)
+				{
+					Image logoImage = new Image
+					{
+						Source = "logo.png",
+						WidthRequest = 48
+					};
 
-				bannerLayout.Children.Add(layout, Constraint.Constant(-10));
+					Label sessionLabel = new Label
+					{
+						Text = SessionTitle,
+						TextColor = (Color)Application.Current.Resources["NavigationBarTextColor"],
+						FontSize = 30,
+						Margin = new Thickness(8, 0, 0, 0)
+					};
+
+					StackLayout sessionLayout = new StackLayout()
+					{
+						Orientation = StackOrientation.Horizontal,
+						HorizontalOptions = LayoutOptions.FillAndExpand,
+						BackgroundColor = (Color)Application.Current.Resources["NavigationBarColor"],
+						Children = { logoImage, sessionLabel },
+						Padding = new Thickness(12)
+					};
+
+					layout.Children.Add(sessionLayout);
+				}
+
+				if (string.IsNullOrWhiteSpace(ScenarioTitle) == false)
+				{
+					Image scenarioImage = new Image
+					{
+						Source = "pencil.png",
+						HeightRequest = 24
+					};
+
+					Label scenarioLabel = new Label
+					{
+						Text = ScenarioTitle,
+						FontSize = 20,
+						Margin = new Thickness(6, 0, 0, 0)
+					};
+
+					StackLayout scenarioLayout = new StackLayout()
+					{
+						Orientation = StackOrientation.Horizontal,
+						HorizontalOptions = LayoutOptions.FillAndExpand,
+						Children = { scenarioImage, scenarioLabel },
+						Padding = new Thickness(14, 6, 14, 6)
+					};
+
+					layout.Children.Add(scenarioLayout);
+				}
 
 				Frame = false;
 
-				base.SetView(bannerLayout);
+				base.SetView(layout);
 			}
 
 			return base.GetView(index);
