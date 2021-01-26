@@ -57,7 +57,8 @@ namespace Sensus.UI.Inputs.MindTrails
 
 			ButtonGridInput domainButtons = new ButtonGridInput()
 			{
-				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
+				NavigationOnCorrect = InputGroupPage.NavigationResult.Forward,
+				Frame = false
 			};
 
 			domains.Inputs.Add(domainButtons);
@@ -115,7 +116,10 @@ namespace Sensus.UI.Inputs.MindTrails
 
 						if (string.IsNullOrWhiteSpace(scenario.Image) == false)
 						{
-							MediaInput mediaInput = new MediaInput();
+							MediaInput mediaInput = new MediaInput()
+							{
+								Frame = false
+							};
 
 							if (scenario.ImageFromUrl)
 							{
@@ -152,8 +156,7 @@ namespace Sensus.UI.Inputs.MindTrails
 							HideRequiredFieldLabel = true
 						};
 
-						//puzzle.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Description });
-						puzzle.Inputs.Add(new LabelOnlyInput(scenario.Description) { Frame = true });
+						puzzle.Inputs.Add(new ReadOnlyTextInput() { Text = scenario.Description, Frame = true, FontSize = 18 });
 
 						puzzle.Inputs.Add(new WordPuzzleInput()
 						{
@@ -164,7 +167,8 @@ namespace Sensus.UI.Inputs.MindTrails
 							IncorrectDelay = 5000,
 							CorrectFeedbackMessage = scenario.CorrectFeedback,
 							IncorrectFeedbackMessage = scenario.IncorrectFeedback,
-							NavigationOnCorrect = InputGroupPage.NavigationResult.Forward
+							NavigationOnCorrect = InputGroupPage.NavigationResult.Forward,
+							Frame = false
 						});
 
 						puzzle.ShowNavigationButtons = ShowNavigationOptions.Never;
@@ -179,8 +183,7 @@ namespace Sensus.UI.Inputs.MindTrails
 							HideRequiredFieldLabel = true
 						};
 
-						//question.Inputs.Add(new ReadOnlyTextInput { Text = scenario.Question });
-						question.Inputs.Add(new LabelOnlyInput(scenario.Question) { Frame = true });
+						question.Inputs.Add(new ReadOnlyTextInput { Text = scenario.Question, Frame = true, FontSize = 18 });
 
 						question.Inputs.Add(new ButtonGridInput
 						{
@@ -191,7 +194,8 @@ namespace Sensus.UI.Inputs.MindTrails
 							CorrectScore = 0.5f,
 							IncorrectDelay = 5000,
 							CorrectFeedbackMessage = scenario.CorrectFeedback,
-							IncorrectFeedbackMessage = scenario.IncorrectFeedback
+							IncorrectFeedbackMessage = scenario.IncorrectFeedback,
+							Frame = false
 						});
 
 						question.NextButtonText = "Next";
@@ -217,7 +221,8 @@ namespace Sensus.UI.Inputs.MindTrails
 
 					score.Inputs.Add(new ScoreInput
 					{
-						ScoreGroup = scoreGroup
+						ScoreGroup = scoreGroup,
+						Frame = false
 					});
 
 					score.ShowNavigationButtons = ShowNavigationOptions.Always;
@@ -279,6 +284,12 @@ namespace Sensus.UI.Inputs.MindTrails
 
 				await BuildAsync(json);
 			}
+#if DEBUG // always re-build when running in debug
+			else
+			{
+				await BuildAsync(json);
+			}
+#endif
 		}
 
 		/// <summary>

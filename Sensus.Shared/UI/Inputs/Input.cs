@@ -705,6 +705,7 @@ namespace Sensus.UI.Inputs
 			_completionRecords = new List<InputCompletionRecord>();
 			_submissionTimestamp = null;
 
+			Enabled = true;
 			StoreCompletionRecords = true;
 		}
 
@@ -733,19 +734,24 @@ namespace Sensus.UI.Inputs
 				return new Label { IsVisible = false };
 			}
 
-			return new Label
+			Label label = new Label
 			{
 				Text = GetLabelText(index),
 				FontSize = _labelFontSize,
 				FontAttributes = LabelFontAttributes,
-				TextColor = LabelTextColor,
-				HorizontalTextAlignment = LabelTextAlignment
-
-				// set the style ID on the label so that we can retrieve it when UI testing
+				HorizontalTextAlignment = LabelTextAlignment,
+			// set the style ID on the label so that we can retrieve it when UI testing
 #if UI_TESTING
                 , StyleId = Name + " Label"
 #endif
-			};
+		};
+
+			if (LabelTextColor != Color.Default)
+			{
+				label.TextColor = LabelTextColor;
+			}
+
+			return label;
 		}
 
 		protected string GetLabelText(int index)

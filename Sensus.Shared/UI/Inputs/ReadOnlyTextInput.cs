@@ -19,6 +19,8 @@ namespace Sensus.UI.Inputs
 {
 	public class ReadOnlyTextInput : Input
 	{
+		private Label _label;
+
 		public ReadOnlyTextInput()
 		{
 
@@ -39,19 +41,48 @@ namespace Sensus.UI.Inputs
 		[EditorUiProperty("Text", true, 2, true)]
 		public string Text { get; set; }
 
+		public int FontSize { get; set; }
+
+		public FontAttributes FontAttributes { get; set; }
+
+		public Color TextColor { get; set; }
+
+		public TextAlignment TextAlignment { get; set; }
+
 		public override View GetView(int index)
 		{
 			if (base.GetView(index) == null)
 			{
-				Label label = CreateLabel(-1);
+				_label = CreateLabel(-1);
 
-				label.Text = Text;
+				_label.Text = Text;
 
 				StoreCompletionRecords = false;
 				Complete = true;
 				Required = false;
 
-				base.SetView(label);
+				Label textLabel = new Label
+				{
+					Text = Text,
+					FontAttributes = FontAttributes,
+					HorizontalTextAlignment = TextAlignment
+				};
+
+				if (FontSize > 0)
+				{
+					textLabel.FontSize = FontSize;
+				}
+
+				if (TextColor != Color.Default)
+				{
+					textLabel.TextColor = TextColor;
+				}
+
+				base.SetView(new StackLayout
+				{
+					Orientation = StackOrientation.Vertical,
+					Children = { _label, textLabel }
+				});
 			}
 
 			return base.GetView(index);
