@@ -1364,7 +1364,14 @@ namespace Sensus
 							INavigation navigation = (Application.Current as App).DetailPage.Navigation;
 
 							// display page. only animate the display for the first page.
-							await navigation.PushModalAsync(inputGroupPage, firstPageDisplay);
+							if (inputGroup.TitleViewBuilder != null)
+							{
+								await navigation.PushModalAsync(new NavigationPage(inputGroupPage), firstPageDisplay);
+							}
+							else
+							{
+								await navigation.PushModalAsync(inputGroupPage, firstPageDisplay);
+							}
 
 							// only run the post-display callback the first time a page is displayed. the caller expects the callback
 							// to fire only once upon first display.

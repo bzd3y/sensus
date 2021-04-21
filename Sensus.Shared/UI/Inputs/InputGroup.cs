@@ -30,7 +30,7 @@ namespace Sensus.UI.Inputs
 		private string _description;
 
 		public string Id { get; set; }
-		public Input Header { get; set; }
+		public ITitleViewBuilder TitleViewBuilder { get; set; }
 		public ObservableCollection<Input> Inputs { get; }
 
 		public virtual bool HasInputs => Inputs.Any();
@@ -131,7 +131,7 @@ namespace Sensus.UI.Inputs
 		//public bool HideTitle { get; set; }
 		
 		[OnOffUiProperty("Freeze Header:", true, 6)]
-		public bool FreezeHeader { get; set; }
+		public bool FreezeTitle { get; set; }
 
 		[OnOffUiProperty("Hide Progress:", true, 7)]
 		public bool HideProgress { get; set; }

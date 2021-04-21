@@ -101,29 +101,35 @@ namespace Sensus.UI
 				HorizontalOptions = LayoutOptions.FillAndExpand
 			};
 
-			if (inputGroup.Header == null)
+			if (inputGroup.TitleViewBuilder != null)
 			{
-				if (inputGroup.FreezeHeader)
-				{
-					headerLayout.Padding = new Thickness(10 + scrollView.Margin.Left, 20, 10 + scrollView.Margin.Right, 0);
-				}
+				headerLayout.Children.Add(inputGroup.TitleViewBuilder.GetTitleView());
 
-				if (string.IsNullOrWhiteSpace(inputGroup.Name) == false)
-				{
-					headerLayout.Children.Add(new Label
-					{
-						Text = inputGroup.Name,
-						FontSize = 20,
-						HorizontalOptions = LayoutOptions.CenterAndExpand
-					});
-				}
+				NavigationPage.SetTitleView(this, headerLayout);
 			}
 			else
 			{
-				// if there is a header provided let it handle the padding
-				contentLayout.Padding = new Thickness(10, 0, 10, 20);
+				headerLayout.Children.Add(new Label
+				{
+					Text = inputGroup.Name,
+					FontSize = 20,
+					HorizontalOptions = LayoutOptions.CenterAndExpand
+				});
 
-				headerLayout.Children.Add(inputGroup.Header.GetView(1));
+				if (inputGroup.FreezeTitle)
+				{
+					Content = new StackLayout()
+					{
+						Orientation = StackOrientation.Vertical,
+						Children = { headerLayout, scrollView }
+					};
+				}
+				else
+				{
+					contentLayout.Children.Insert(0, headerLayout);
+
+					Content = scrollView;
+				}
 			}
 
 			#region progress bar
@@ -420,27 +426,27 @@ namespace Sensus.UI
 				}
 			};
 
-			if (headerLayout.Children.Count > 0)
-			{
-				if (inputGroup.FreezeHeader)
-				{
-					Content = new StackLayout()
-					{
-						Orientation = StackOrientation.Vertical,
-						Children = { headerLayout, scrollView }
-					};
-				}
-				else
-				{
-					contentLayout.Children.Insert(0, headerLayout);
+			//if (headerLayout.Children.Count > 0)
+			//{
+			//	if (inputGroup.FreezeHeader)
+			//	{
+			//		Content = new StackLayout()
+			//		{
+			//			Orientation = StackOrientation.Vertical,
+			//			Children = { headerLayout, scrollView }
+			//		};
+			//	}
+			//	else
+			//	{
+			//		contentLayout.Children.Insert(0, headerLayout);
 
-					Content = scrollView;
-				}
-			}
-			else
-			{
-				Content = scrollView;
-			}
+			//		Content = scrollView;
+			//	}
+			//}
+			//else
+			//{
+			//	Content = scrollView;
+			//}
 		}
 
 		protected EventHandler _cancelHandler;
